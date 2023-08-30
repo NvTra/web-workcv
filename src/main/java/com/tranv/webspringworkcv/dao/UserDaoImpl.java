@@ -38,6 +38,8 @@ public class UserDaoImpl implements UserDAO {
 	public void saveUser(User theUser) {
 		Role role = roleService.getRolebyRoleId(theUser.getRole().getId());
 		Session currentSession = sessionFactory.getCurrentSession();
+		String pass = theUser.getPassword();
+		theUser.setPassword("{noop}" + pass);
 		theUser.setRole(role);
 		theUser.setStatus(1);
 		currentSession.save(theUser);

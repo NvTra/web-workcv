@@ -17,6 +17,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
@@ -27,7 +28,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 @ComponentScan(basePackages = "com.tranv.webspringworkcv")
 @PropertySource("classPath:persistence-mysql.properties")
 @EnableTransactionManagement
-public class AppConfig {
+public class AppConfig implements WebMvcConfigurer {
 	@Autowired
 	private Environment env;
 	@Autowired
@@ -111,6 +112,11 @@ public class AppConfig {
 		HibernateTransactionManager transactionManager = new HibernateTransactionManager();
 		transactionManager.setSessionFactory(sessionFactory().getObject());
 		return transactionManager;
+	}
+
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 	}
 
 }

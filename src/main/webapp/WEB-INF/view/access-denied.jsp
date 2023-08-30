@@ -7,10 +7,12 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Access Denied</title>
 </head>
 <body>
-	<a href="<c:url value="/login" />">Link</a>
+	<h1 style="color: red">Truy cập bị từ chối- Bạn không được phép
+		truy cập trang này</h1>
 
+	<a href="${pageContext.request.contextPath }/">Quay lại</a>
 </body>
 </html>
