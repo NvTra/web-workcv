@@ -1,4 +1,4 @@
-package com.tranv.webspringworkcv.security;
+package com.tranv.webspringworkcv.service;
 
 import java.util.List;
 
@@ -14,4 +14,6 @@ public interface UserService {
 	public void update(User theUser);
 
 	public void deleteUser(int theId);
+
+	public User findByEmail(String email);
 }

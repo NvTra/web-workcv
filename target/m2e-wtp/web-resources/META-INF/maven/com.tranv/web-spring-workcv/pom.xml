@@ -57,12 +57,7 @@
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
 		</dependency>
-		<dependency>
-			<groupId>jakarta.servlet</groupId>
-			<artifactId>jakarta.servlet-api</artifactId>
-			<version>6.0.0</version>
-			<scope>provided</scope>
-		</dependency>
+
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>javax.servlet.jsp-api</artifactId>
@@ -106,6 +101,11 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.luv2code</groupId>
+			<artifactId>spring-security-demo</artifactId>
+			<version>1.0</version>
+		</dependency>
 	</dependencies>
 
 	<!-- TO DO: Add support for Maven WAR Plugin -->

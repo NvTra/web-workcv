@@ -41,7 +41,7 @@
 				<div class="row form-group">
 					<div class="col-md-12 mb-3 mb-md-0">
 						<label class="text-black" for="fname">Họ và tên</label> <input
-							type="text" id="email" name="fullName" class="form-control"
+							type="text" id="fullName" name="fullName" class="form-control"
 							placeholder="Họ và tên" required>
 					</div>
 				</div>

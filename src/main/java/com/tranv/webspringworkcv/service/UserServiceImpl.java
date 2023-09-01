@@ -1,8 +1,9 @@
-package com.tranv.webspringworkcv.security;
+package com.tranv.webspringworkcv.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,6 +46,13 @@ public class UserServiceImpl implements UserService {
 	public void deleteUser(int theId) {
 		userDAO.deleteUser(theId);
 
+	}
+
+	@Override
+	@Transactional
+	public User findByEmail(String email) {
+		// TODO Auto-generated method stub
+		return userDAO.findByEmail(email);
 	}
 
 }

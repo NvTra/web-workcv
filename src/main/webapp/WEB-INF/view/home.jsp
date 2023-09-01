@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="security"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -102,36 +104,63 @@
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item active"><a href="/" class="nav-link">Trang
+					<li class="nav-item active"><a
+						href="${pageContext.request.contextPath }/" class="nav-link">Trang
 							chủ</a></li>
 					<li class="'nav-item"><a href="/" class="nav-link">Công
 							việc</a></li>
 					<li class="nav-item"><a href="/" class="nav-link">Ứng cử
 							viên</a></li>
-
+					
 					<c:if test="${not empty pageContext.request.remoteUser}">
-						<li class="nav-item dropdown"><a style="color: white;"
-							class="nav-link dropdown-toggle" href="#"
-							id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
-							aria-expanded="false"> Đăng tuyển</a>
-							<ul class="dropdown-menu"
-								aria-labelledby="navbarDropdownMenuLink">
 
-								<li><a class="dropdown-item" href="/">Hồ Sơ</a></li>
-								<li><a class="dropdown-item" href="/save-job/get-list">Công
-										việc đã lưu</a></li>
-								<li><a class="dropdown-item" href="/user/list-post">Danh
-										sách bài đăng</a></li>
-								<li><a class="dropdown-item" href="/user/get-list-apply">Công
-										việc đã ứng tuyển</a></li>
-								<li><a href="/user/get-list-company">Công ty đã theo
-										dõi</a></li>
+						<security:authorize access="hasRole('EMPLOYER')">
+							<security:authentication property="principal" var="user" />
 
-							<!-- <p>Xin chào, ${pageContext.request.remoteUser}!</p> -->	
-								<li><a href="<c:url value='/logout' />">Đăng xuất</a></li>
+							<c:set var="sessionId" value="${pageContext.session.id}" />
+							<c:set var="username"
+								value="${pageContext.request.userPrincipal.name}" />
+							<li class="nav-item dropdown"><a style="color: white;"
+								class="nav-link dropdown-toggle" href="#"
+								id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+								aria-expanded="false"> Đăng tuyển</a>
 
-							</ul></li>
+								<ul class="dropdown-menu"
+									aria-labelledby="navbarDropdownMenuLink">
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/detail">Hồ Sơ</a></li>
+
+									<li><a class="dropdown-item" href="/user/list-post">Danh
+											sách bài đăng</a></li>
+
+
+									<li><a class="dropdown-item"
+										href="<c:url value='/logout' />">Đăng xuất</a></li>
+
+								</ul></li>
+
+						</security:authorize>
+
+						<security:authorize access="hasRole('CANDIDATE')">
+							<li class="nav-item dropdown"><a style="color: white;"
+								class="nav-link dropdown-toggle" href="#"
+								id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+								aria-expanded="false"> Hồ sơ</a>
+
+								<ul class="dropdown-menu"
+									aria-labelledby="navbarDropdownMenuLink">
+
+									<li><a class="dropdown-item" href="/save-job/get-list">Công
+											việc đã lưu</a></li>
+									<li><a class="dropdown-item" href="/user/get-list-apply">Công
+											việc đã ứng tuyển</a></li>
+									<li><a class="dropdown-item"
+										href="<c:url value='/logout' />">Đăng xuất</a></li>
+								</ul></li>
+
+						</security:authorize>
 					</c:if>
+
 					<li><c:if test="${empty pageContext.request.remoteUser}">
 							<li class="nav-item cta cta-colored"><a
 								href="<c:url value='/sign-up' />" class="nav-link">Đăng ký</a></li>
@@ -162,7 +191,7 @@
 	</c:if>
 
 	<div class="hero-wrap img"
-		style="background-image: url(/resources/static/images/bg_1.jpg);">
+		style="background-image:<c:url value='/resources/static/images/bg_1.jpg' />">
 		<div class="overlay"></div>
 		<div class="container">
 			<div

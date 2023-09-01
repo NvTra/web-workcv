@@ -1,10 +1,14 @@
 package com.tranv.webspringworkcv.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -21,6 +25,10 @@ public class Category {
 	@Column(name = "number_choose")
 	private String numberChoose;
 
+	@OneToMany(mappedBy = "category", cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE,
+			CascadeType.REFRESH })
+	private List<Recruitment> recruitments;
+
 	// constructor
 	public Category() {
 	}
@@ -29,7 +37,15 @@ public class Category {
 		this.name = name;
 		this.numberChoose = numberChoose;
 	}
+
 	// getter and setter
+	public List<Recruitment> getRecruitments() {
+		return recruitments;
+	}
+
+	public void setRecruitments(List<Recruitment> recruitments) {
+		this.recruitments = recruitments;
+	}
 
 	public int getId() {
 		return id;

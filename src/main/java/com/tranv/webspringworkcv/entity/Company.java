@@ -1,10 +1,13 @@
 package com.tranv.webspringworkcv.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -34,7 +37,12 @@ public class Company {
 	private String logo;
 
 	@Column(name = "status")
-	private String status;
+	private int status;
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id")
+	private User user;
+
 	// constructor
 
 	public Company() {
@@ -42,7 +50,6 @@ public class Company {
 
 	public Company(String nameCompany, String phoneNumber, String email, String address, String description,
 			String logo) {
-		super();
 		this.nameCompany = nameCompany;
 		this.phoneNumber = phoneNumber;
 		this.email = email;
@@ -51,6 +58,14 @@ public class Company {
 		this.logo = logo;
 	}
 	// setter and getter
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	public int getId() {
 		return id;
@@ -108,12 +123,14 @@ public class Company {
 		this.logo = logo;
 	}
 
-	public String getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
+
+
 
 }

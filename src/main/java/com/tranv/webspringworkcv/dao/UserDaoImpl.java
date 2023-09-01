@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.tranv.webspringworkcv.entity.Role;
 import com.tranv.webspringworkcv.entity.User;
-import com.tranv.webspringworkcv.security.RoleService;
+import com.tranv.webspringworkcv.service.RoleService;
 
 @Repository
 public class UserDaoImpl implements UserDAO {
@@ -60,6 +60,16 @@ public class UserDaoImpl implements UserDAO {
 		theQuery.setParameter("userId", theId);
 		theQuery.executeUpdate();
 
+	}
+
+	@Override
+	public User findByEmail(String email) {
+
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<User> theQuery = currentSession.createQuery("from User where email = :email", User.class);
+		theQuery.setParameter("email", email);
+		User user = theQuery.getSingleResult();
+		return user;
 	}
 
 }

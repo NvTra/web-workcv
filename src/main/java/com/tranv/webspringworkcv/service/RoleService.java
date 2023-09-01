@@ -1,4 +1,4 @@
-package com.tranv.webspringworkcv.security;
+package com.tranv.webspringworkcv.service;
 
 import com.tranv.webspringworkcv.entity.Role;
 
