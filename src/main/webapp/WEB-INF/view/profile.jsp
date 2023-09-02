@@ -139,10 +139,6 @@
 					</li>
 				</security:authorize>
 
-
-
-
-
 			</div>
 		</div>
 	</nav>
@@ -167,7 +163,7 @@
 					<div style="margin-left: 0px" id="divImage">
 						<img id="avatar" height="100" width="100"
 							style="border-radius: 50px"
-							th:src="${user.image != null ? user.image : 'https://st.quantrimang.com/photos/image/072015/22/avatar.jpg'}">
+							src="${user.image != null ? user.image : 'https://st.quantrimang.com/photos/image/072015/22/avatar.jpg'}">
 					</div>
 				</div>
 			</div>
@@ -177,51 +173,11 @@
 	<!-- Người ứng tuyển -->
 	<security:authorize access="hasRole('CANDIDATE')">
 		<!-- HOME -->
-		<div th:if="${user.status == 0}" class="container-fluid"
-			style="text-align: center">
-			<p
-				style="font-size: 20px; font-weight: bold; color: #aaa; margin-top: 10px">Xác
-				thực email đăng nhập</p>
-			<div
-				style="width: 600px; height: 400px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 10px; margin: 20px auto; padding: 15px">
-				<p style="line-height: 35px; font-size: 16px">
-					Xin chào, <span th:text="${user.fullName}"></span> và làm theo
-					hướng dẫn trong email. Trường hợp không nhận được email, bạn vui
-					lòng bấm nút Nhận email xác thực dưới đây.
-				</p>
-				<div class="row form-group">
-					<form action="/user/confirm-account" method="post"
-						class="col-md-12">
-						<input type="hidden" value="${user.email}" name="email"
-							class="btn px-4 btn-primary text-white"> <input
-							type="submit" value="Nhận email xác thực"
-							class="btn px-4 btn-primary text-white">
-					</form>
-				</div>
-				<p>
-					Mọi thắc mắc vui lòng liên hệ bộ phận CSKH của WorkCV:<br>
-				</p>
-				- Điện thoại:<span style="color: #5f80ec">(024) 6680 5588</span><br>
-				- Email: <a href="#" style="color: #5f80ec"> hotro@workcv.vn</a>
-			</div>
-			<div th:if="${comfirm_await}"
-				style="width: 600px; height: 400px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 10px; margin: 20px auto; padding: 15px">
-				<p style="line-height: 35px; font-size: 16px">
-					Xin chào, <span th:text="${user.fullName}"></span> .Bạn đã gửi yêu
-					cầu xác thực thành công, vui lòng kiểm tra mail để xác thực.Cảm ơn
-					bạn!!!
-				</p>
-				<p>
-					Mọi thắc mắc vui lòng liên hệ bộ phận CSKH của WorkCV:<br>
-				</p>
-				- Điện thoại:<span style="color: #5f80ec">(024) 6680 5588</span><br>
-				- Email: <a href="#" style="color: #5f80ec"> hotro@workcv.vn</a>
-			</div>
-		</div>
+
 		<section th:if="${user.status == 1 && user.role.id == 1}"
 			class="site-section" style="margin-top: 10px">
 			<div class="container">
-				<form enctype="multipart/form-data">
+				<form>
 					<div class="row align-items-center mb-5">
 						<div class="col-lg-8 ">
 							<div class="d-flex align-items-center">
@@ -232,92 +188,79 @@
 									</label>
 								</div>
 							</div>
-							<p id="cvName" th:if="${Cv != null}"
-								th:text="${Cv != null ? Cv.fileName :'Chưa cập nhập'}"></p>
-							<p id="cvName" th:if="${Cv == null}"></p>
+							<p id="cvName" th:if="${Cv != null}">${Cv != null ? Cv.fileName :'Chưa cập nhập'}</p>
+							<p id="cvName">${Cv == null}</p>
 							<a id="nameCv" th:if="${Cv !=null}"
-								th:href="${'http://localhost:8080/resources/uploads/'} +${Cv.fileName}">Xem
+								href="${'http://localhost:8080/resources/uploads/'} +${Cv.fileName}">Xem
 								cv</a> <a id="nameCv"
-								th:href="${'http://localhost:8080/resources/uploads/'}"></a> <a
-								style="color: red; margin-left: 20px" th:if="${Cv !=null}"
+								href="${'http://localhost:8080/resources/uploads/'}"></a> <a
+								style="color: red; margin-left: 20px" if="${Cv !=null}"
 								data-toggle="modal" data-target="#exampleModal">Xóa cv</a> <a
-								style="color: red; margin-left: 20px" th:if="${Cv ==null}"
-								id="xoa" data-toggle="modal" data-target="#exampleModal"></a>
-						</div>
-
-						<div class="col-lg-4">
-							<div class="row">
-								<!--                        <div class="col-6">-->
-								<!--                            <button type="submit" id="myBtn" class="btn btn-block btn-light btn-md"><span class="icon-open_in_new mr-2"></span>Cập nhật cv</button>-->
-								<!--                        </div>-->
-							</div>
-						</div>
-					</div>
-				</form>
-
-				<form action="/user/update-profile" method="post">
-					<div class="row align-items-center mb-5">
-						<div class="col-lg-8 mb-4 mb-lg-0">
-							<div class="d-flex align-items-center">
-								<div>
-									<h2>Cập nhật thông tin</h2>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4">
-							<div class="row">
-
-								<div class="col-6">
-									<button type="submit" class="btn btn-block btn-primary btn-md">Lưu
-										thông tin</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row mb-5">
-						<div class="col-lg-12">
-							<div class="p-4 p-md-5 border rounded" method="post">
-								<h3 class="text-black mb-5 border-bottom pb-2">Thông tin
-									chi tiết</h3>
-								<div class="form-group">
-									<label for="email">Email</label> <input type="email"
-										class="form-control" id="email" name="email"
-										value="${user.email != null ? user.email : null}" required
-										placeholder="you@yourdomain.com">
-								</div>
-								<div class="form-group">
-									<label for="job-title">Full name</label> <input type="text"
-										class="form-control" name="fullName"
-										value="${user.fullName != null ? user.fullName : null}"
-										required id="job-title" placeholder="Full name">
-								</div>
-								<div class="form-group">
-									<label for="job-location">Địa chỉ</label> <input type="text"
-										name="address"
-										value="${user.address != null ? user.address : null}"
-										class="form-control" id="job-location" required
-										placeholder="e.g. New York">
-								</div>
-								<div class="form-group">
-									<label for="job-location">Số điện thoại</label> <input
-										type="text" name="phoneNumber"
-										value="${user.phoneNumber != null ? user.phoneNumber : null}"
-										class="form-control" id="job-location" required
-										placeholder="+ 84">
-								</div>
-								<div class="form-group">
-									<label for="job-location">Mô tả bản thân</label>
-									<textarea name="description"
-										text="${user.description != null ? user.description : null}"
-										class="form-control" id="editor" placeholder="Mô tả"></textarea>
-								</div>
-
-							</div>
-
+								style="color: red; margin-left: 20px" if="${Cv ==null}" id="xoa"
+								data-toggle="modal" data-target="#exampleModal"></a>
 						</div>
 
 					</div>
 				</form>
+				<!-- thông tin cá nhân -->
+				<div class="col-lg-6 mb-5">
+					<h2 class="mb-4">Thông tin cá nhân</h2>
+
+					<form:form modelAttribute="user"
+						action="${pageContext.request.contextPath }/user/update-profile"
+						method="post">
+						<div class="row mb-5">
+							<div class="col-lg-12">
+								<div class="p-4 p-md-5 border rounded">
+									<input type="hidden" id="id" name="id" value="${user.id }">
+									<input type="hidden" id="password" name="password"
+										value="${user.password }"> <input type="hidden"
+										id="status" name="status" value="${user.status }"> <input
+										type="hidden" id="role.id" name="role.id"
+										value="${user.role.id }">
+									<div class="form-group">
+										<label for="email">Email</label> <input type="email"
+											class="form-control" id="email" name="email"
+											value="${user.email}" required
+											placeholder="you@yourdomain.com">
+									</div>
+									<div class="form-group">
+										<label for="job-title">Họ và tên</label> <input type="text"
+											class="form-control" name="fullName" value="${user.fullName}"
+											id="job-title" required placeholder="Full name">
+									</div>
+									<div class="form-group">
+										<label for="job-location">Địa chỉ</label> <input type="text"
+											name="address"
+											value="${user.address != null ? user.address : null}"
+											required class="form-control" id="job-location"
+											placeholder="e.g. New York">
+									</div>
+									<div class="form-group">
+										<label for="job-location">Số điện thoại</label> <input
+											type="text" name="phoneNumber"
+											value="${user.phoneNumber != null ? user.phoneNumber : null}"
+											required class="form-control" id="job-location"
+											placeholder="+ 84">
+									</div>
+									<div class="form-group">
+										<label for="job-location">Mô tả bản thân</label>
+										<textarea name="description" class="form-control" id="editor"
+											placeholder="Mô tả"> ${user.description != null ? user.description : ""}</textarea>
+									</div>
+									<div class="row form-group">
+										<div class="col-md-12">
+											<input type="submit" value="Lưu thông tin"
+												class="btn px-4 btn-primary text-white">
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+					</form:form>
+				</div>
 			</div>
 		</section>
 		<!-- Modal -->
@@ -356,15 +299,59 @@
 
 	<!-- Doanh Nghiệp -->
 	<security:authorize access="hasRole('EMPLOYER')">
+
+		<!-- xác nhận email -->
+		<div th:if="${user.status == 0}" class="container-fluid"
+			style="text-align: center">
+			<p
+				style="font-size: 20px; font-weight: bold; color: #aaa; margin-top: 10px">Xác
+				thực email đăng nhập</p>
+			<div
+				style="width: 600px; height: 400px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 10px; margin: 20px auto; padding: 15px">
+				<p style="line-height: 35px; font-size: 16px">
+					Xin chào, <span>${user.fullName}</span> và làm theo hướng dẫn trong
+					email. Trường hợp không nhận được email, bạn vui lòng bấm nút Nhận
+					email xác thực dưới đây.
+				</p>
+				<div class="row form-group">
+					<form action="/user/confirm-account" method="post"
+						class="col-md-12">
+						<input type="hidden" value="${user.email}" name="email"
+							class="btn px-4 btn-primary text-white"> <input
+							type="submit" value="Nhận email xác thực"
+							class="btn px-4 btn-primary text-white">
+					</form>
+				</div>
+				<p>
+					Mọi thắc mắc vui lòng liên hệ bộ phận CSKH của WorkCV:<br>
+				</p>
+				- Điện thoại:<span style="color: #5f80ec">(024) 6680 5588</span><br>
+				- Email: <a href="#" style="color: #5f80ec"> hotro@workcv.vn</a>
+			</div>
+			<div th:if="${comfirm_await}"
+				style="width: 600px; height: 400px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 10px; margin: 20px auto; padding: 15px">
+				<p style="line-height: 35px; font-size: 16px">
+					Xin chào, <span th:text="${user.fullName}"></span> .Bạn đã gửi yêu
+					cầu xác thực thành công, vui lòng kiểm tra mail để xác thực.Cảm ơn
+					bạn!!!
+				</p>
+				<p>
+					Mọi thắc mắc vui lòng liên hệ bộ phận CSKH của WorkCV:<br>
+				</p>
+				- Điện thoại:<span style="color: #5f80ec">(024) 6680 5588</span><br>
+				- Email: <a href="#" style="color: #5f80ec"> hotro@workcv.vn</a>
+			</div>
+		</div>
+
+
+
 		<section th:if="${user.status == 1 && user.role.id == 2}"
 			class="site-section" style="margin-top: 10px">
 			<div class="container">
 				<div class="row">
-
 					<!-- thông tin cá nhân -->
 					<div class="col-lg-6 mb-5">
 						<h2 class="mb-4">Thông tin cá nhân</h2>
-
 						<form:form modelAttribute="user"
 							action="${pageContext.request.contextPath }/user/update-profile"
 							method="post">
@@ -484,8 +471,7 @@
 												id="editorN" placeholder="Mô tả">${company.description != null ? company.description : null}</textarea>
 										</div>
 
-										<div style="margin-left: 0px" id="divImag1"
-											>
+										<div style="margin-left: 0px" id="divImag1">
 											<c:if test="${company.logo != null}">
 												<img id="avatar" height="100" width="100"
 													style="border-radius: 50px; margin-bottom: 15px"

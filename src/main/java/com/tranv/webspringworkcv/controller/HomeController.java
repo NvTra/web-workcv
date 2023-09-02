@@ -48,7 +48,7 @@ public class HomeController {
 		Company theCompany = companyService.getCompanyByUserId(userId);
 		theModel.addAttribute("user", theUser);
 		theModel.addAttribute("company", theCompany);
-		return "detail";
+		return "profile";
 	}
 
 	

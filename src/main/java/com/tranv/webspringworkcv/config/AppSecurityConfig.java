@@ -42,7 +42,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.antMatchers("/user/addUser").permitAll()
 				.antMatchers("/user/**").hasRole("EMPLOYER")
-
+				.antMatchers("/user/**").hasRole("CANDIDATE")
 				.antMatchers("/**").permitAll()
 
 				.antMatchers("/css/**").permitAll()
@@ -64,12 +64,21 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful").permitAll()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET")).deleteCookies("JSESSIONID").and()
 				.exceptionHandling().accessDeniedPage("/access-denied")
-
 				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS).and().rememberMe();
 		;
 
 	}
-
+//	security
+//	 @Override
+//	    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//	        auth.userDetailsService(applicationUserService).passwordEncoder(passwordEncoder());
+//	    }
+//
+//
+//	    @Bean
+//	    public PasswordEncoder passwordEncoder() {
+//	        return new BCryptPasswordEncoder();
+//	    }
 
 
 	@Bean

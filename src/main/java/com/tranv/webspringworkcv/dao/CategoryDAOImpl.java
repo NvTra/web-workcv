@@ -24,7 +24,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 	}
 
 	@Override
-	public Category getCategorybayId(int theId) {
+	public Category getCategoryById(int theId) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Category category = currentSession.get(Category.class, theId);
 		return category;

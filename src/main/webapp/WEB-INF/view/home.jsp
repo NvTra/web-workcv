@@ -100,7 +100,7 @@
 
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container-fluid px-md-4	">
-			<a class="navbar-brand" href="/">Work CV</a>
+			<a class="navbar-brand" href="${pageContext.request.contextPath }/">Work CV</a>
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
@@ -111,7 +111,7 @@
 							việc</a></li>
 					<li class="nav-item"><a href="/" class="nav-link">Ứng cử
 							viên</a></li>
-					
+
 					<c:if test="${not empty pageContext.request.remoteUser}">
 
 						<security:authorize access="hasRole('EMPLOYER')">
@@ -130,7 +130,8 @@
 									<li><a class="dropdown-item"
 										href="${pageContext.request.contextPath }/detail">Hồ Sơ</a></li>
 
-									<li><a class="dropdown-item" href="/user/list-post">Danh
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/recruitment/list-post">Danh
 											sách bài đăng</a></li>
 
 
@@ -150,8 +151,7 @@
 								<ul class="dropdown-menu"
 									aria-labelledby="navbarDropdownMenuLink">
 
-									<li><a class="dropdown-item" href="/save-job/get-list">Công
-											việc đã lưu</a></li>
+									<li><a class="dropdown-item" href="${pageContext.request.contextPath }/detail">Hồ sơ</a></li>
 									<li><a class="dropdown-item" href="/user/get-list-apply">Công
 											việc đã ứng tuyển</a></li>
 									<li><a class="dropdown-item"

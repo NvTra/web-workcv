@@ -22,8 +22,8 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	@Transactional
-	public Category getCategorybayId(int theId) {
-		return categoryDAO.getCategorybayId(theId);
+	public Category getCategoryById(int theId) {
+		return categoryDAO.getCategoryById(theId);
 	}
 
 }
