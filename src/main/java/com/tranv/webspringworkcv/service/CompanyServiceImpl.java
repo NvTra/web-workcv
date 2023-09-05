@@ -22,6 +22,12 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	@Transactional
+	public Company getCompanyById(int theId) {
+		return companyDAO.getCompanyById(theId);
+	}
+
+	@Override
+	@Transactional
 	public Company getCompanyByUserId(int theId) {
 		return companyDAO.getCompanyByUserId(theId);
 	}

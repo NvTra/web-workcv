@@ -3,10 +3,12 @@ package com.tranv.webspringworkcv.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
+import javax.jws.soap.SOAPBinding.Use;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
@@ -16,19 +18,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.tranv.webspringworkcv.entity.Company;
 
 @Controller
 
 public class UploadFileController {
 
-	private static final String UPLOAD_DIRECTORY = "/image";
-	private static final String UPLOAD_DIRECTORY_CV = "/Cv";
 	private static final int THRESHOLD_SIZE = 1024 * 1024 * 3; // 3MB
 
 	@RequestMapping("uploadform")
@@ -36,10 +40,12 @@ public class UploadFileController {
 		return new ModelAndView("uploadform");
 	}
 
+
+
 //	@RequestMapping(value = "savefile", method = RequestMethod.POST)
 	@PostMapping("saveCvFile")
 	public ModelAndView saveimage(@RequestParam CommonsMultipartFile file, HttpSession session) throws Exception {
-		
+
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		factory.setSizeThreshold(THRESHOLD_SIZE);
 		File f = new File(System.getProperty("user.dir"));
@@ -56,8 +62,8 @@ public class UploadFileController {
 
 		String helper = session.getServletContext().getRealPath("/");
 		List y = Arrays.asList(helper.split("\\\\"));
-		String rootDir = y.get(0) + java.io.File.separator + y.get(1) + java.io.File.separator + y.get(y.size() -1) + 
-				java.io.File.separator + "src\\main\\webapp\\image";
+		String rootDir = y.get(0) + java.io.File.separator + y.get(1) + java.io.File.separator + y.get(y.size() - 1)
+				+ java.io.File.separator + "src\\main\\webapp\\image";
 		String path = rootDir + File.separator + file.getOriginalFilename();
 		;
 		System.out.println(path);

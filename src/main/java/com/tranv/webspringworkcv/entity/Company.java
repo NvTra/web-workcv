@@ -1,6 +1,5 @@
 package com.tranv.webspringworkcv.entity;
 
-import java.util.Base64;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,15 +9,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "company")
 public class Company {
-	private String base64Image;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,12 +38,9 @@ public class Company {
 	@Column(name = "description")
 	private String description;
 
+	@Lob
+	@Column(name = "logo", columnDefinition = "MEDIUMBLOB")
 	private byte[] logo;
-
-	@Column(name = "logo")
-	public byte[] getLogo() {
-		return this.logo;
-	}
 
 	@Column(name = "status")
 	private int status;
@@ -68,21 +63,23 @@ public class Company {
 		this.email = email;
 		this.address = address;
 		this.description = description;
+
 	}
 
 	// setter and getter
+	
+	
+	
 	public List<Recruitment> getRecruitments() {
 		return recruitments;
 	}
 
-	@Transient
-	public String getBase64Image() {
-		base64Image = Base64.getEncoder().encodeToString(this.logo);
-		return base64Image;
+	public byte[] getLogo() {
+		return logo;
 	}
 
-	public void setBase64Image(String base64Image) {
-		this.base64Image = base64Image;
+	public void setLogo(byte[] logo) {
+		this.logo = logo;
 	}
 
 	public void setRecruitments(List<Recruitment> recruitments) {

@@ -9,6 +9,8 @@ public interface CompanyService {
 
 	public Company getCompanyByUserId(int theId);
 
+	public Company getCompanyById(int theId);
+
 	public void saveOrUpdateCompany(Company theCompany);
 
 }

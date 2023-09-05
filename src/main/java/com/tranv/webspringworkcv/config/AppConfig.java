@@ -117,7 +117,9 @@ public class AppConfig implements WebMvcConfigurer {
 
 	@Bean
 	public CommonsMultipartResolver multipartResolver() {
-		return new CommonsMultipartResolver();
+	    CommonsMultipartResolver resolver=new CommonsMultipartResolver();
+	    resolver.setDefaultEncoding("utf-8");
+	    return resolver;
 	}
 
 	@Override

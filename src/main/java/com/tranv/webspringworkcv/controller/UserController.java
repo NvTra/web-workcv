@@ -1,10 +1,13 @@
 package com.tranv.webspringworkcv.controller;
 
+import java.io.IOException;
+
+import javax.servlet.annotation.MultipartConfig;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,12 +41,21 @@ public class UserController {
 		return "redirect:/detail";
 	}
 
+//	@GetMapping("/update-logo-company")
+//	public String updateLogoCompany(@RequestParam("id") int theId,
+//			@RequestParam("logoCompany") MultipartFile multipartFile) throws IOException {
+//		Company company = companyService.getCompanyById(theId);
+//		byte[] logo = multipartFile.getBytes();
+//		company.setLogo(logo);
+//		companyService.saveOrUpdateCompany(company);
+//		return "redirect:/detail";
+//	}
+
 	@PostMapping("/update-company")
 	public String updateCompany(@ModelAttribute("company") Company theCompany) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String email = authentication.getName();
 		User theUser = userService.findByEmail(email);
-
 		theCompany.setStatus(1);
 		theCompany.setUser(theUser);
 		companyService.saveOrUpdateCompany(theCompany);
@@ -67,6 +79,5 @@ public class UserController {
 
 		return "redirect:/detail";
 	}
-
 
 }

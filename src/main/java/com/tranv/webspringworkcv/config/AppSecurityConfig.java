@@ -35,7 +35,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.addFilterBefore(characterEncodingFilter(), CsrfFilter.class);
-		http.authorizeRequests()
+		http.csrf().disable().authorizeRequests()
 
 				.antMatchers("/", "/sign-up").permitAll()
 
@@ -61,8 +61,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful").permitAll()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET")).deleteCookies("JSESSIONID").and()
-				.exceptionHandling().accessDeniedPage("/access-denied").and().sessionManagement()
-		;
+				.exceptionHandling().accessDeniedPage("/access-denied").and().sessionManagement();
 
 	}
 //	security

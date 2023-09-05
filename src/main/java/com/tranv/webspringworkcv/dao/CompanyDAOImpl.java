@@ -8,6 +8,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.mysql.cj.jdbc.Blob;
 import com.tranv.webspringworkcv.entity.Company;
 
 @Repository
@@ -29,9 +30,15 @@ public class CompanyDAOImpl implements CompanyDAO {
 		Query<Company> theQuery = currentSession
 				.createQuery("SELECT c FROM Company c JOIN c.user u WHERE u.id = :theId", Company.class);
 		theQuery.setParameter("theId", theId);
-		
-		
+
 		Company company = theQuery.getSingleResult();
+		return company;
+	}
+
+	@Override
+	public Company getCompanyById(int theId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Company company = currentSession.get(Company.class, theId);
 		return company;
 	}
 
