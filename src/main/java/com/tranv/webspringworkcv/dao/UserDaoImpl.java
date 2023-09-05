@@ -41,7 +41,12 @@ public class UserDaoImpl implements UserDAO {
 		String pass = theUser.getPassword();
 		theUser.setPassword("{noop}" + pass);
 		theUser.setRole(role);
-		theUser.setStatus(1);
+		if (theUser.getRole().getId() == 2) {
+			theUser.setStatus(1);
+		} else {
+			theUser.setStatus(0);
+		}
+
 		currentSession.save(theUser);
 
 	}
@@ -72,4 +77,14 @@ public class UserDaoImpl implements UserDAO {
 		return user;
 	}
 
+	@Override
+	public User lockUser(int theId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		User theUser = currentSession.get(User.class, theId);
+
+		theUser.setStatus(1);
+
+		currentSession.update(theUser);
+		return theUser;
+	}
 }

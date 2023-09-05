@@ -297,7 +297,7 @@
 								style="box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 10px; margin: 20px auto;">
 								<div class="team d-md-flex p-4 bg-white">
 									<IMG class="img"
-										th:src="${applyPost.user.image != null ? applyPost.user.image : 'https://st.quantrimang.com/photos/image/072015/22/avatar.jpg'}"></IMG>
+										src="${applyPost.user.image != null ? applyPost.user.image : 'https://st.quantrimang.com/photos/image/072015/22/avatar.jpg'}"></IMG>
 									<div class="text pl-md-4">
 										<H5 class="location mb-0" th:text="${applyPost.user.fullName}"></H5>
 										<p style="display: block; color: black"

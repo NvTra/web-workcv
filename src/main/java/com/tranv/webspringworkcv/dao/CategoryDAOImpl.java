@@ -30,4 +30,13 @@ public class CategoryDAOImpl implements CategoryDAO {
 		return category;
 	}
 
+	@Override
+	public List<Category> getTop4Categorys() {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<Category> theQuerry = currentSession.createQuery("SELECT c FROM Category c ORDER BY c.numberChoose DESC",
+				Category.class);
+		theQuerry.setMaxResults(4);
+		List<Category> Categorys = theQuerry.getResultList();
+		return Categorys;
+	}
 }

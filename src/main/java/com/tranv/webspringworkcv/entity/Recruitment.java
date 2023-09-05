@@ -1,5 +1,7 @@
 package com.tranv.webspringworkcv.entity;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -62,7 +65,25 @@ public class Recruitment {
 	@JoinColumn(name = "company_id")
 	private Company company;
 
+	@OneToMany(mappedBy = "recruitment", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
+			CascadeType.REFRESH })
+	private List<ApplyPost> applyPosts;
 
+	public List<ApplyPost> getApplyPosts() {
+		return applyPosts;
+	}
+
+	public void setApplyPosts(List<ApplyPost> applyPosts) {
+		this.applyPosts = applyPosts;
+	}
+
+	public String getDeadline() {
+		return deadline;
+	}
+
+	public void setDeadline(String deadline) {
+		this.deadline = deadline;
+	}
 
 	// constructor
 	public Recruitment() {
@@ -87,7 +108,7 @@ public class Recruitment {
 	}
 
 	// getter and setter
-	
+
 	public Company getCompany() {
 		return company;
 	}
@@ -95,6 +116,7 @@ public class Recruitment {
 	public void setCompany(Company company) {
 		this.company = company;
 	}
+
 	public int getId() {
 		return id;
 	}

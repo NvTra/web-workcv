@@ -26,4 +26,10 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryDAO.getCategoryById(theId);
 	}
 
+	@Override
+	@Transactional
+	public List<Category> getTop4Categorys() {
+		return categoryDAO.getTop4Categorys();
+	}
+
 }

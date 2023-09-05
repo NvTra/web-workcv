@@ -16,4 +16,6 @@ public interface UserService {
 	public void deleteUser(int theId);
 
 	public User findByEmail(String email);
+
+	User lockUser(int theId);
 }

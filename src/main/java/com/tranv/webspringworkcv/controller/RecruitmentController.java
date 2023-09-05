@@ -97,4 +97,25 @@ public class RecruitmentController {
 		recruitmentService.deleteRecruitment(theId);
 		return "redirect:/recruitment/list-post";
 	}
+
+	@GetMapping("/search")
+	public String searchRecruitment(@RequestParam("keySearch") String searchTerm, Model theModel) {
+		List<Recruitment> recruitments = recruitmentService.getResultRecruitment(searchTerm);
+		theModel.addAttribute("recruitment", recruitments);
+		return "result-search";
+	}
+
+	@GetMapping("/searchaddress")
+	public String searchAdress(@RequestParam("keySearch") String searchTerm, Model theModel) {
+		List<Recruitment> recruitments = recruitmentService.getResultAdress(searchTerm);
+		theModel.addAttribute("recruitment", recruitments);
+		return "result-search-address";
+	}
+	
+	@GetMapping("/searchcompany")
+	public String searchCompany(@RequestParam("keySearch") String searchTerm, Model theModel) {
+		List<Recruitment> recruitments = recruitmentService.getResultCompany(searchTerm);
+		theModel.addAttribute("recruitment", recruitments);
+		return "result-search-address";
+	}
 }

@@ -47,4 +47,23 @@ public class RecruitmentServiceImpl implements RecruitmentService {
 
 	}
 
+	@Override
+	@Transactional
+	public List<Recruitment> getResultRecruitment(String searchTerm) {
+		return recruitmentDAO.getResultRecruitment(searchTerm);
+	}
+
+	@Override
+	@Transactional
+	public List<Recruitment> getResultAdress(String searchTerm) {
+		return recruitmentDAO.getResultAdress(searchTerm);
+	}
+
+	@Override
+	@Transactional
+	public List<Recruitment> getResultCompany(String searchTerm) {
+
+		return recruitmentDAO.getResultCompany(searchTerm);
+	}
+
 }

@@ -1,18 +1,23 @@
 package com.tranv.webspringworkcv.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import com.tranv.webspringworkcv.entity.Category;
 import com.tranv.webspringworkcv.entity.Company;
+import com.tranv.webspringworkcv.entity.Recruitment;
 import com.tranv.webspringworkcv.entity.User;
+import com.tranv.webspringworkcv.service.CategoryService;
 import com.tranv.webspringworkcv.service.CompanyService;
+import com.tranv.webspringworkcv.service.RecruitmentService;
 import com.tranv.webspringworkcv.service.UserService;
 
 @Controller
@@ -23,9 +28,18 @@ public class HomeController {
 
 	@Autowired
 	private CompanyService companyService;
+	@Autowired
+	private RecruitmentService recruitmentService;
+	@Autowired
+	private CategoryService categoryService;
 
 	@GetMapping("/")
-	public String showHome() {
+	public String showHome(HttpServletRequest request, Model theModel) {
+		request.setAttribute("msg_register_success", "done");
+		List<Category> categories = categoryService.getTop4Categorys();
+		theModel.addAttribute("categories", categories);
+		List<Recruitment> recruitment = recruitmentService.getListRecruitments();
+		theModel.addAttribute("recruitments", recruitment);
 		return "home";
 	}
 
@@ -51,5 +65,4 @@ public class HomeController {
 		return "profile";
 	}
 
-	
 }

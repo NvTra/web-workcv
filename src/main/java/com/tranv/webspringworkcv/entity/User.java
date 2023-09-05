@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -54,7 +53,23 @@ public class User {
 			CascadeType.REFRESH })
 	private List<Company> company;
 
+	@OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
+			CascadeType.REFRESH })
+	private List<Cv> cv;
+
+	@OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
+			CascadeType.REFRESH })
+	private List<ApplyPost> applyPosts;
+
 	// contructor
+
+	public List<ApplyPost> getApplyPosts() {
+		return applyPosts;
+	}
+
+	public void setApplyPosts(List<ApplyPost> applyPosts) {
+		this.applyPosts = applyPosts;
+	}
 
 	public User() {
 	}
@@ -72,6 +87,13 @@ public class User {
 //method
 
 	// geter and setter
+	public List<Cv> getCv() {
+		return cv;
+	}
+
+	public void setCv(List<Cv> cv) {
+		this.cv = cv;
+	}
 
 	public List<Company> getCompany() {
 		return company;

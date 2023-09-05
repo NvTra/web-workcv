@@ -15,4 +15,9 @@ public interface RecruitmentDAO {
 
 	public void deleteRecruitment(int theId);
 
+	public List<Recruitment> getResultRecruitment(String searchTerm);
+
+	public List<Recruitment> getResultAdress(String searchTerm);
+
+	public List<Recruitment> getResultCompany(String searchTerm);
 }

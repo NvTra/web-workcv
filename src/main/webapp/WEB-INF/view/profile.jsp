@@ -6,7 +6,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html lang="en">
-<head">
+<head>
 <title>Work CV</title>
 <meta charset="utf-8">
 <meta name="viewport"
@@ -157,7 +157,7 @@
 					<h1 class="mb-3 bread">Hồ sơ</h1>
 					<div class="form-group">
 						<label class="btn btn-primary btn-md btn-file"> Chọn ảnh<input
-							type="file" name="file" id="fileUpload" hidden>
+							type="file" name="file" id="fileUpload">
 						</label>
 					</div>
 					<div style="margin-left: 0px" id="divImage">
@@ -177,21 +177,25 @@
 		<section th:if="${user.status == 1 && user.role.id == 1}"
 			class="site-section" style="margin-top: 10px">
 			<div class="container">
-				<form>
+				<h3 style="color: red">${filesuccess}</h3>
+				<form method="post"
+					action="saveCvFile?${_csrf.parameterName}=${_csrf.token}"
+					enctype="multipart/form-data">
 					<div class="row align-items-center mb-5">
 						<div class="col-lg-8 ">
 							<div class="d-flex align-items-center">
 								<div class="form-group" style="margin-top: 15px">
 									<label class="btn btn-primary btn-md btn-file"> Chọn cv
-										(pdf)<input type="file" name="file" id="fileUpload1" required
-										hidden>
+										(pdf)<input name="file" id="fileToUpload" type="file" />
 									</label>
 								</div>
 							</div>
 							<p id="cvName" th:if="${Cv != null}">${Cv != null ? Cv.fileName :'Chưa cập nhập'}</p>
 							<p id="cvName">${Cv == null}</p>
-							<a id="nameCv" th:if="${Cv !=null}"
-								href="${'http://localhost:8080/resources/uploads/'} +${Cv.fileName}">Xem
+							<img alt="" src=""${pageContext/request/contextPath}/image/logo-fpt-inkythuatso-1-01-01-14-33-35.jpg"">
+							<a id="nameCv"
+								
+								href="${pageContext/request/contextPath}/image/logo-fpt-inkythuatso-1-01-01-14-33-35.jpg">Xem
 								cv</a> <a id="nameCv"
 								href="${'http://localhost:8080/resources/uploads/'}"></a> <a
 								style="color: red; margin-left: 20px" if="${Cv !=null}"
@@ -201,67 +205,89 @@
 						</div>
 
 					</div>
-				</form>
-				<!-- thông tin cá nhân -->
-				<div class="col-lg-6 mb-5">
-					<h2 class="mb-4">Thông tin cá nhân</h2>
 
-					<form:form modelAttribute="user"
-						action="${pageContext.request.contextPath }/user/update-profile"
-						method="post">
-						<div class="row mb-5">
-							<div class="col-lg-12">
-								<div class="p-4 p-md-5 border rounded">
+					<p>
+						<input type="submit" value="Upload">
+					</p>
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}">
+				</form>
+
+				<!-- thông tin cá nhân -->
+
+				<h2 class="mb-4">Thông tin cá nhân</h2>
+
+				<form:form modelAttribute="user"
+					action="${pageContext.request.contextPath }/user/update-profile"
+					method="post">
+					<div class="row align-items-center mb-5">
+						<div class="col-lg-8 mb-4 mb-lg-0">
+							<div class="d-flex align-items-center">
+								<div>
+									<h2>Cập nhật thông tin</h2>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4">
+							<div class="row">
+
+								<div class="col-6">
+									<button type="submit" class="btn btn-block btn-primary btn-md">Lưu
+										thông tin</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row mb-5">
+						<div class="col-lg-12">
+							<div class="p-4 p-md-5 border rounded">
+								<h3 class="text-black mb-5 border-bottom pb-2">Thông tin
+									chi tiết</h3>
+								<div class="form-group">
 									<input type="hidden" id="id" name="id" value="${user.id }">
 									<input type="hidden" id="password" name="password"
 										value="${user.password }"> <input type="hidden"
 										id="status" name="status" value="${user.status }"> <input
 										type="hidden" id="role.id" name="role.id"
-										value="${user.role.id }">
-									<div class="form-group">
-										<label for="email">Email</label> <input type="email"
-											class="form-control" id="email" name="email"
-											value="${user.email}" required
-											placeholder="you@yourdomain.com">
-									</div>
-									<div class="form-group">
-										<label for="job-title">Họ và tên</label> <input type="text"
-											class="form-control" name="fullName" value="${user.fullName}"
-											id="job-title" required placeholder="Full name">
-									</div>
-									<div class="form-group">
-										<label for="job-location">Địa chỉ</label> <input type="text"
-											name="address"
-											value="${user.address != null ? user.address : null}"
-											required class="form-control" id="job-location"
-											placeholder="e.g. New York">
-									</div>
-									<div class="form-group">
-										<label for="job-location">Số điện thoại</label> <input
-											type="text" name="phoneNumber"
-											value="${user.phoneNumber != null ? user.phoneNumber : null}"
-											required class="form-control" id="job-location"
-											placeholder="+ 84">
-									</div>
-									<div class="form-group">
-										<label for="job-location">Mô tả bản thân</label>
-										<textarea name="description" class="form-control" id="editor"
-											placeholder="Mô tả"> ${user.description != null ? user.description : ""}</textarea>
-									</div>
-									<div class="row form-group">
-										<div class="col-md-12">
-											<input type="submit" value="Lưu thông tin"
-												class="btn px-4 btn-primary text-white">
-										</div>
-									</div>
+										value="${user.role.id }"> <label for="email">Email</label>
+									<input type="email" class="form-control" id="email"
+										name="email" value="${user.email != null ? user.email : null}"
+										required placeholder="you@yourdomain.com">
+								</div>
+								<div class="form-group">
+									<label for="job-title">Full name</label> <input type="text"
+										class="form-control" name="fullName"
+										value="${user.fullName != null ? user.fullName : null}"
+										required id="job-title" placeholder="Full name">
+								</div>
+								<div class="form-group">
+									<label for="job-location">Địa chỉ</label> <input type="text"
+										name="address"
+										value="${user.address != null ? user.address : null}"
+										class="form-control" id="job-location" required
+										placeholder="e.g. New York">
+								</div>
+								<div class="form-group">
+									<label for="job-location">Số điện thoại</label> <input
+										type="text" name="phoneNumber"
+										value="${user.phoneNumber != null ? user.phoneNumber : null}"
+										class="form-control" id="job-location" required
+										placeholder="+ 84">
+								</div>
+								<div class="form-group">
+									<label for="job-location">Mô tả bản thân</label>
+									<textarea name="description" class="form-control" id="editor"
+										placeholder="Mô tả">${user.description != null ? user.description : null}</textarea>
 								</div>
 
 							</div>
 
 						</div>
-					</form:form>
-				</div>
+
+					</div>
+				</form:form>
 			</div>
+
 		</section>
 		<!-- Modal -->
 		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
@@ -301,199 +327,217 @@
 	<security:authorize access="hasRole('EMPLOYER')">
 
 		<!-- xác nhận email -->
-		<div th:if="${user.status == 0}" class="container-fluid"
-			style="text-align: center">
-			<p
-				style="font-size: 20px; font-weight: bold; color: #aaa; margin-top: 10px">Xác
-				thực email đăng nhập</p>
-			<div
-				style="width: 600px; height: 400px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 10px; margin: 20px auto; padding: 15px">
-				<p style="line-height: 35px; font-size: 16px">
-					Xin chào, <span>${user.fullName}</span> và làm theo hướng dẫn trong
-					email. Trường hợp không nhận được email, bạn vui lòng bấm nút Nhận
-					email xác thực dưới đây.
-				</p>
-				<div class="row form-group">
-					<form action="/user/confirm-account" method="post"
-						class="col-md-12">
-						<input type="hidden" value="${user.email}" name="email"
-							class="btn px-4 btn-primary text-white"> <input
-							type="submit" value="Nhận email xác thực"
-							class="btn px-4 btn-primary text-white">
-					</form>
+		<c:if test="${user.status == 0}">
+			<c:url var="lockLink" value="/user/confirm-account">
+				<c:param name="userId" value="${user.id }"></c:param>
+			</c:url>
+			<div class="container-fluid" style="text-align: center">
+				<p
+					style="font-size: 20px; font-weight: bold; color: #aaa; margin-top: 10px">Xác
+					thực email đăng nhập</p>
+				<div
+					style="width: 600px; height: 400px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 10px; margin: 20px auto; padding: 15px">
+					<p style="line-height: 35px; font-size: 16px">
+						Xin chào, <span>${user.fullName}</span> và làm theo hướng dẫn
+						trong email. Trường hợp không nhận được email, bạn vui lòng bấm
+						nút Nhận email xác thực dưới đây.
+					</p>
+					<div class="row form-group">
+						<form action="" method="post" class="col-md-12">
+							<input type="hidden" value="${user.email}" name="email"
+								class="btn px-4 btn-primary text-white">
+							<button type="button" style="width: 250px"
+								class="btn px-4 btn-primary text-white" data-toggle="modal"
+								data-target="#confirm${user.id}">Nhận email xác thực</button>
+						</form>
+					</div>
+					<p>
+						Mọi thắc mắc vui lòng liên hệ bộ phận CSKH của WorkCV:<br>
+					</p>
+					- Điện thoại:<span style="color: #5f80ec">(024) 6680 5588</span><br>
+					- Email: <a href="#" style="color: #5f80ec"> hotro@workcv.vn</a>
 				</div>
-				<p>
-					Mọi thắc mắc vui lòng liên hệ bộ phận CSKH của WorkCV:<br>
-				</p>
-				- Điện thoại:<span style="color: #5f80ec">(024) 6680 5588</span><br>
-				- Email: <a href="#" style="color: #5f80ec"> hotro@workcv.vn</a>
+
+				<!-- model -->
+				<div
+					style="width: 600px; height: 400px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 10px; margin: 20px auto; padding: 30px">
+
+					<div class="modal fade" id="confirm${user.id}" tabindex="-1"
+						role="dialog" aria-labelledby="confirmModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<p style="line-height: 35px; font-size: 16px">
+									Xin chào, <span>${user.fullName}</span> .Bạn đã gửi yêu cầu xác
+									thực thành công, vui lòng kiểm tra mail để xác thực.Cảm ơn
+									bạn!!!
+								</p>
+								<p>
+									Mọi thắc mắc vui lòng liên hệ bộ phận CSKH của WorkCV:<br>
+								</p>
+								- Điện thoại:<span style="color: #5f80ec">(024) 6680 5588</span><br>
+								- Email: <a href="#" style="color: #5f80ec"> hotro@workcv.vn</a>
+								<button type="button" class="btn btn-danger"
+									onclick="window.location.href='${lockLink}'">Xác nhận</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div th:if="${comfirm_await}"
-				style="width: 600px; height: 400px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 10px; margin: 20px auto; padding: 15px">
-				<p style="line-height: 35px; font-size: 16px">
-					Xin chào, <span th:text="${user.fullName}"></span> .Bạn đã gửi yêu
-					cầu xác thực thành công, vui lòng kiểm tra mail để xác thực.Cảm ơn
-					bạn!!!
-				</p>
-				<p>
-					Mọi thắc mắc vui lòng liên hệ bộ phận CSKH của WorkCV:<br>
-				</p>
-				- Điện thoại:<span style="color: #5f80ec">(024) 6680 5588</span><br>
-				- Email: <a href="#" style="color: #5f80ec"> hotro@workcv.vn</a>
-			</div>
-		</div>
 
 
+		</c:if>
 
-		<section th:if="${user.status == 1 && user.role.id == 2}"
-			class="site-section" style="margin-top: 10px">
-			<div class="container">
-				<div class="row">
-					<!-- thông tin cá nhân -->
-					<div class="col-lg-6 mb-5">
-						<h2 class="mb-4">Thông tin cá nhân</h2>
-						<form:form modelAttribute="user"
-							action="${pageContext.request.contextPath }/user/update-profile"
-							method="post">
-							<div class="row mb-5">
-								<div class="col-lg-12">
-									<div class="p-4 p-md-5 border rounded">
-										<input type="hidden" id="id" name="id" value="${user.id }">
-										<input type="hidden" id="password" name="password"
-											value="${user.password }"> <input type="hidden"
-											id="status" name="status" value="${user.status }"> <input
-											type="hidden" id="role.id" name="role.id"
-											value="${user.role.id }">
-										<div class="form-group">
-											<label for="email">Email</label> <input type="email"
-												class="form-control" id="email" name="email"
-												value="${user.email}" required
-												placeholder="you@yourdomain.com">
-										</div>
-										<div class="form-group">
-											<label for="job-title">Họ và tên</label> <input type="text"
-												class="form-control" name="fullName"
-												value="${user.fullName}" id="job-title" required
-												placeholder="Full name">
-										</div>
-										<div class="form-group">
-											<label for="job-location">Địa chỉ</label> <input type="text"
-												name="address"
-												value="${user.address != null ? user.address : null}"
-												required class="form-control" id="job-location"
-												placeholder="e.g. New York">
-										</div>
-										<div class="form-group">
-											<label for="job-location">Số điện thoại</label> <input
-												type="text" name="phoneNumber"
-												value="${user.phoneNumber != null ? user.phoneNumber : null}"
-												required class="form-control" id="job-location"
-												placeholder="+ 84">
-										</div>
-										<div class="form-group">
-											<label for="job-location">Mô tả bản thân</label>
-											<textarea name="description" class="form-control" id="editor"
-												placeholder="Mô tả"> ${user.description != null ? user.description : ""}</textarea>
-										</div>
-										<div class="row form-group">
-											<div class="col-md-12">
-												<input type="submit" value="Lưu thông tin"
-													class="btn px-4 btn-primary text-white">
+		<c:if test="${user.status == 1}">
+
+			<section class="site-section" style="margin-top: 10px">
+				<div class="container">
+					<div class="row">
+						<!-- thông tin cá nhân -->
+						<div class="col-lg-6 mb-5">
+							<h2 class="mb-4">Thông tin cá nhân</h2>
+							<form:form modelAttribute="user"
+								action="${pageContext.request.contextPath }/user/update-profile"
+								method="post">
+								<div class="row mb-5">
+									<div class="col-lg-12">
+										<div class="p-4 p-md-5 border rounded">
+											<input type="hidden" id="id" name="id" value="${user.id }">
+											<input type="hidden" id="password" name="password"
+												value="${user.password }"> <input type="hidden"
+												id="status" name="status" value="${user.status }"> <input
+												type="hidden" id="role.id" name="role.id"
+												value="${user.role.id }">
+											<div class="form-group">
+												<label for="email">Email</label> <input type="email"
+													class="form-control" id="email" name="email"
+													value="${user.email}" required
+													placeholder="you@yourdomain.com">
+											</div>
+											<div class="form-group">
+												<label for="job-title">Họ và tên</label> <input type="text"
+													class="form-control" name="fullName"
+													value="${user.fullName}" id="job-title" required
+													placeholder="Full name">
+											</div>
+											<div class="form-group">
+												<label for="job-location">Địa chỉ</label> <input type="text"
+													name="address"
+													value="${user.address != null ? user.address : null}"
+													required class="form-control" id="job-location"
+													placeholder="e.g. New York">
+											</div>
+											<div class="form-group">
+												<label for="job-location">Số điện thoại</label> <input
+													type="text" name="phoneNumber"
+													value="${user.phoneNumber != null ? user.phoneNumber : null}"
+													required class="form-control" id="job-location"
+													placeholder="+ 84">
+											</div>
+											<div class="form-group">
+												<label for="job-location">Mô tả bản thân</label>
+												<textarea name="description" class="form-control"
+													id="editor" placeholder="Mô tả"> ${user.description != null ? user.description : ""}</textarea>
+											</div>
+											<div class="row form-group">
+												<div class="col-md-12">
+													<input type="submit" value="Lưu thông tin"
+														class="btn px-4 btn-primary text-white">
+												</div>
 											</div>
 										</div>
+
 									</div>
 
 								</div>
-
-							</div>
-						</form:form>
-					</div>
-
-
-					<!-- thông tin công ty -->
-
-					<div class="col-lg-6">
-						<h2 class="mb-4">Thông tin công ty</h2>
-						<div class="form-group">
-							<label for="company-website-tw d-block1">Cập nhật Logo</label> <br>
-							<label class="btn btn-primary btn-md btn-file"> Chọn logo<input
-								type="file" name="file" id="fileUpload2" required>
-							</label>
-							<div id="divLogo">
-								<img id="avatar1" height="100" width="100"
-									style="border-radius: 50px"
-									src="${company.logo != null ? company.logo : 'https://st.quantrimang.com/photos/image/072015/22/avatar.jpg'}">
-							</div>
+							</form:form>
 						</div>
 
 
-						<form:form modelAttribute="company"
-							action="${pageContext.request.contextPath }/user/update-company"
-							method="post">
-							<div class="row mb-5">
-								<div class="col-lg-12">
-									<div class="p-4 p-md-5 border rounded">
-										<c:if test="${company.id!=null }">
-											<input type="hidden" name="id"
-												value="${company.id !=null ? company.id : null}">
-										</c:if>
+						<!-- thông tin công ty -->
 
-										<div class="form-group">
-											<label for="email">Email</label> <input type="text"
-												class="form-control" required id="email" name="email"
-												value="${company.email != null ? company.email : null }"
-												placeholder="you@yourdomain.com">
-										</div>
-										<div class="form-group">
-											<label for="job-title">Tên công ty</label> <input type="text"
-												class="form-control" name="nameCompany"
-												value="${company.nameCompany != null ? company.nameCompany : null }"
-												id="job-title" placeholder="Full name" required>
+						<div class="col-lg-6">
+							<h2 class="mb-4">Thông tin công ty</h2>
+							<div class="form-group">
+								<label for="company-website-tw d-block1">Cập nhật Logo</label> <br>
+								<label class="btn btn-primary btn-md btn-file"> Chọn
+									logo<input type="file" name="file" id="fileUpload2" required>
+								</label>
+								<div id="divLogo">
+									<img id="avatar1" height="100" width="100"
+										style="border-radius: 50px"
+										src="${company.logo != null ? company.logo : 'https://st.quantrimang.com/photos/image/072015/22/avatar.jpg'}">
+								</div>
+							</div>
 
-										</div>
-										<div class="form-group">
-											<label for="job-location">Địa chỉ</label> <input type="text"
-												name="address"
-												value="${company.address != null ? company.address : null}"
-												required class="form-control" id="job-location"
-												placeholder="e.g. New York">
-										</div>
-										<div class="form-group">
-											<label for="job-location">Số điện thoại công ty</label> <input
-												type="text" name="phoneNumber"
-												value="${company.phoneNumber != null ? company.phoneNumber : null}"
-												required class="form-control" id="job-location"
-												placeholder="+ 84">
-										</div>
-										<div class="form-group">
-											<label for="job-location">Mô tả công ty</label>
-											<textarea name="description" class="form-control"
-												id="editorN" placeholder="Mô tả">${company.description != null ? company.description : null}</textarea>
-										</div>
 
-										<div style="margin-left: 0px" id="divImag1">
-											<c:if test="${company.logo != null}">
-												<img id="avatar" height="100" width="100"
-													style="border-radius: 50px; margin-bottom: 15px"
-													src="${company.logo}">
+							<form:form modelAttribute="company"
+								action="${pageContext.request.contextPath }/user/update-company"
+								method="post">
+								<div class="row mb-5">
+									<div class="col-lg-12">
+										<div class="p-4 p-md-5 border rounded">
+											<c:if test="${company.id!=null }">
+												<input type="hidden" name="id"
+													value="${company.id !=null ? company.id : null}">
 											</c:if>
-										</div>
-										<div class="row form-group">
-											<div class="col-md-12">
-												<input type="submit" value="Lưu thông tin"
-													class="btn px-4 btn-primary text-white">
+
+											<div class="form-group">
+												<label for="email">Email</label> <input type="text"
+													class="form-control" required id="email" name="email"
+													value="${company.email != null ? company.email : null }"
+													placeholder="you@yourdomain.com">
+											</div>
+											<div class="form-group">
+												<label for="job-title">Tên công ty</label> <input
+													type="text" class="form-control" name="nameCompany"
+													value="${company.nameCompany != null ? company.nameCompany : null }"
+													id="job-title" placeholder="Full name" required>
+
+											</div>
+											<div class="form-group">
+												<label for="job-location">Địa chỉ</label> <input type="text"
+													name="address"
+													value="${company.address != null ? company.address : null}"
+													required class="form-control" id="job-location"
+													placeholder="e.g. New York">
+											</div>
+											<div class="form-group">
+												<label for="job-location">Số điện thoại công ty</label> <input
+													type="text" name="phoneNumber"
+													value="${company.phoneNumber != null ? company.phoneNumber : null}"
+													required class="form-control" id="job-location"
+													placeholder="+ 84">
+											</div>
+											<div class="form-group">
+												<label for="job-location">Mô tả công ty</label>
+												<textarea name="description" class="form-control"
+													id="editorN" placeholder="Mô tả">${company.description != null ? company.description : null}</textarea>
+											</div>
+
+											<div style="margin-left: 0px" id="divImag1">
+												<c:if test="${company.logo != null}">
+													<img id="avatar" height="100" width="100"
+														style="border-radius: 50px; margin-bottom: 15px"
+														src="${company.logo}">
+												</c:if>
+											</div>
+											<div class="row form-group">
+												<div class="col-md-12">
+													<input type="submit" value="Lưu thông tin"
+														class="btn px-4 btn-primary text-white">
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-							</div>
 
-						</form:form>
+							</form:form>
+						</div>
 					</div>
 				</div>
-			</div>
-		</section>
-
+			</section>
+		</c:if>
 	</security:authorize>
 	<script>
     ClassicEditor.create(document.querySelector('#editor')).then(eidt => {

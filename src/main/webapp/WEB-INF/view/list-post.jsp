@@ -6,7 +6,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html lang="en">
-<head">
+<head>
 <title>Work CV</title>
 <meta charset="utf-8">
 <meta name="viewport"
@@ -95,7 +95,7 @@
 		class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
 		id="ftco-navbar">
 		<div class="container-fluid px-md-4	">
-			<a class="navbar-brand" href="/">Work CV</a>
+			<a class="navbar-brand" href="${pageContext.request.contextPath }/">Work CV</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#ftco-nav" aria-controls="ftco-nav"
 				aria-expanded="false" aria-label="Toggle navigation">

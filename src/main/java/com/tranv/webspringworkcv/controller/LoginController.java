@@ -21,7 +21,8 @@ public class LoginController {
 	}
 
 	@GetMapping("/sign-up")
-	public String showFormSignUp(Model theModel) {
+	public String showFormSignUp(HttpServletRequest request, Model theModel) {
+		
 		theModel.addAttribute("user", new User());
 		return "registration";
 	}

@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.CharacterEncodingFilter;
@@ -41,9 +40,11 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/", "/sign-up").permitAll()
 
 				.antMatchers("/user/addUser").permitAll()
-				.antMatchers("/user/**").hasRole("EMPLOYER")
+
+				.antMatchers("/user/**").hasRole("EMPLOYER").antMatchers("/user/confirm-account").hasRole("EMPLOYER")
 				.antMatchers("/user/**").hasRole("CANDIDATE")
-				.antMatchers("/**").permitAll()
+
+				.antMatchers("/**").permitAll().antMatchers("/savefile/**").permitAll()
 
 				.antMatchers("/css/**").permitAll()
 
@@ -53,18 +54,14 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.antMatchers("/images/**").permitAll()
 
-//        .antMatchers("/home").permitAll()
 				.anyRequest().authenticated()
 
 				.and().formLogin().loginPage("/showFormLogin").loginProcessingUrl("/authenticateTheUser")
-				.failureUrl("/login?error=true")
-				.usernameParameter("email")
-				.passwordParameter("password").permitAll()
+				.failureUrl("/login?error=true").usernameParameter("email").passwordParameter("password").permitAll()
 
 				.and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful").permitAll()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET")).deleteCookies("JSESSIONID").and()
-				.exceptionHandling().accessDeniedPage("/access-denied")
-				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS).and().rememberMe();
+				.exceptionHandling().accessDeniedPage("/access-denied").and().sessionManagement()
 		;
 
 	}
@@ -80,7 +77,6 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 //	        return new BCryptPasswordEncoder();
 //	    }
 
-
 	@Bean
 	public Filter characterEncodingFilter() {
 		CharacterEncodingFilter filter = new CharacterEncodingFilter();
@@ -88,6 +84,5 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 		filter.setForceEncoding(true);
 		return filter;
 	}
-	
 
 }

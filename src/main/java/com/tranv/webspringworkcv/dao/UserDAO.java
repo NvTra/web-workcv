@@ -17,4 +17,6 @@ public interface UserDAO {
 
 	public User findByEmail(String username);
 
+	public User lockUser(int theId);
+	
 }
