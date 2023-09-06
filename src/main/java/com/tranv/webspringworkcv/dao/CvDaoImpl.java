@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.tranv.webspringworkcv.entity.Cv;
+import com.tranv.webspringworkcv.entity.Cv;
 
 @Repository
 public class CvDaoImpl implements CvDAO {
@@ -50,5 +51,14 @@ public class CvDaoImpl implements CvDAO {
 		theQuery.setParameter("theId", theId);
 		theQuery.executeUpdate();
 	}
+	@Override
+	public Cv getCvByUserId(int theId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<Cv> theQuery = currentSession
+				.createQuery("SELECT c FROM Cv c JOIN c.user u WHERE u.id = :theId", Cv.class);
+		theQuery.setParameter("theId", theId);
 
+		Cv Cv = theQuery.getSingleResult();
+		return Cv;
+	}
 }

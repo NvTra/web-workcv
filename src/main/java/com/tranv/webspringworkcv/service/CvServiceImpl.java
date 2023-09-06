@@ -47,4 +47,10 @@ public class CvServiceImpl implements CvService {
 
 	}
 
+	@Override
+	@Transactional
+	public Cv getCvByUserId(int theId) {
+		return cvDAO.getCvById(theId);
+	}
+
 }

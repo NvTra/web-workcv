@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.tranv.webspringworkcv.entity.Category;
 import com.tranv.webspringworkcv.entity.Company;
+import com.tranv.webspringworkcv.entity.Cv;
 import com.tranv.webspringworkcv.entity.Recruitment;
 import com.tranv.webspringworkcv.entity.User;
 import com.tranv.webspringworkcv.service.CategoryService;
 import com.tranv.webspringworkcv.service.CompanyService;
+import com.tranv.webspringworkcv.service.CvService;
 import com.tranv.webspringworkcv.service.RecruitmentService;
 import com.tranv.webspringworkcv.service.UserService;
 
@@ -32,6 +34,9 @@ public class HomeController {
 	private RecruitmentService recruitmentService;
 	@Autowired
 	private CategoryService categoryService;
+
+	@Autowired
+	private CvService cvService;
 
 	@GetMapping("/")
 	public String showHome(HttpServletRequest request, Model theModel) {
@@ -60,6 +65,8 @@ public class HomeController {
 		User theUser = userService.findByEmail(email);
 		int userId = theUser.getId();
 		Company theCompany = companyService.getCompanyByUserId(userId);
+		Cv theCv = cvService.getCvByUserId(userId);
+		theModel.addAttribute("Cv", theCv);
 		theModel.addAttribute("user", theUser);
 		theModel.addAttribute("company", theCompany);
 		return "profile";

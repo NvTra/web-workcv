@@ -15,4 +15,5 @@ public interface CvDAO {
 
 	public void deleteCv(int theId);
 
+	public Cv getCvByUserId(int theId);
 }

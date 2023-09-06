@@ -2,8 +2,6 @@ package com.tranv.webspringworkcv.controller;
 
 import java.io.IOException;
 
-import javax.servlet.annotation.MultipartConfig;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,15 +39,15 @@ public class UserController {
 		return "redirect:/detail";
 	}
 
-//	@GetMapping("/update-logo-company")
-//	public String updateLogoCompany(@RequestParam("id") int theId,
-//			@RequestParam("logoCompany") MultipartFile multipartFile) throws IOException {
-//		Company company = companyService.getCompanyById(theId);
-//		byte[] logo = multipartFile.getBytes();
-//		company.setLogo(logo);
-//		companyService.saveOrUpdateCompany(company);
-//		return "redirect:/detail";
-//	}
+	@PostMapping("/update-avatar")
+	public String updateAvatar(@RequestParam("userId") int theId, @RequestParam("avatar") MultipartFile multipartFile)
+			throws IOException {
+		User user = userService.getUserById(theId);
+		byte[] image = multipartFile.getBytes();
+		user.setImage(image);
+		userService.update(user);
+		return "redirect:/detail";
+	}
 
 	@PostMapping("/update-company")
 	public String updateCompany(@ModelAttribute("company") Company theCompany) {
@@ -59,6 +57,16 @@ public class UserController {
 		theCompany.setStatus(1);
 		theCompany.setUser(theUser);
 		companyService.saveOrUpdateCompany(theCompany);
+		return "redirect:/detail";
+	}
+
+	@PostMapping("/update-logo-company")
+	public String updateLogoCompany(@RequestParam("id") int theId,
+			@RequestParam("logoCompany") MultipartFile multipartFile) throws IOException {
+		Company company = companyService.getCompanyById(theId);
+		byte[] logo = multipartFile.getBytes();
+		company.setLogo(logo);
+		companyService.saveOrUpdateCompany(company);
 		return "redirect:/detail";
 	}
 
@@ -76,7 +84,6 @@ public class UserController {
 		int theId = theUser.getId();
 		theUser.setStatus(1);
 		userService.update(theUser);
-
 		return "redirect:/detail";
 	}
 

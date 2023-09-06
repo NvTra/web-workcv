@@ -33,8 +33,8 @@ public class User {
 	@Column(name = "phone_number")
 	private String phoneNumber;
 
-	@Column(name = "image")
-	private String image;
+	@Column(name = "image", columnDefinition = "MEDIUMBLOB")
+	private byte[] image;
 
 	@Column(name = "description")
 	private String description;
@@ -74,13 +74,13 @@ public class User {
 	public User() {
 	}
 
-	public User(String fullName, String email, String address, String phoneNumber, String image, String description,
+	public User(String fullName, String email, String address, String phoneNumber, String description,
 			String password) {
 		this.fullName = fullName;
 		this.email = email;
 		this.address = address;
 		this.phoneNumber = phoneNumber;
-		this.image = image;
+
 		this.description = description;
 		this.password = password;
 	}
@@ -151,11 +151,11 @@ public class User {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public String getImage() {
+	public byte[] getImage() {
 		return image;
 	}
 
-	public void setImage(String image) {
+	public void setImage(byte[] image) {
 		this.image = image;
 	}
 

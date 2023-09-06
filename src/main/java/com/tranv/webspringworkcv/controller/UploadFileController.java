@@ -28,10 +28,19 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tranv.webspringworkcv.entity.Company;
+import com.tranv.webspringworkcv.entity.Cv;
+import com.tranv.webspringworkcv.entity.User;
+import com.tranv.webspringworkcv.service.CvService;
+import com.tranv.webspringworkcv.service.UserService;
 
 @Controller
 
 public class UploadFileController {
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private CvService cvService;
 
 	private static final int THRESHOLD_SIZE = 1024 * 1024 * 3; // 3MB
 
@@ -40,33 +49,29 @@ public class UploadFileController {
 		return new ModelAndView("uploadform");
 	}
 
-
-
-//	@RequestMapping(value = "savefile", method = RequestMethod.POST)
 	@PostMapping("saveCvFile")
-	public ModelAndView saveimage(@RequestParam CommonsMultipartFile file, HttpSession session) throws Exception {
+	public ModelAndView saveimage(@RequestParam("userId") int theId, @RequestParam CommonsMultipartFile file,
+			HttpSession session) throws Exception {
 
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		factory.setSizeThreshold(THRESHOLD_SIZE);
 		File f = new File(System.getProperty("user.dir"));
 		factory.setRepository(f);
 
-		ServletFileUpload upload = new ServletFileUpload(factory);
-		ServletContext context = session.getServletContext();
 		String fileName = file.getOriginalFilename();
+		System.out.println(fileName);
 
-//		String uploadPath = context.getRealPath(UPLOAD_DIRECTORY_CV);
-
-//		String uploadPath = "D:\\Eclipse-workspace\\web-spring-workcv\\src\\main\\webapp\\image";
-//		System.out.println(uploadPath);
+		User theUser = userService.getUserById(theId);
+		Cv theCv = new Cv();
+		theCv.setUser(theUser);
+		theCv.setFileName(fileName);
+		cvService.saveCv(theCv);
 
 		String helper = session.getServletContext().getRealPath("/");
 		List y = Arrays.asList(helper.split("\\\\"));
 		String rootDir = y.get(0) + java.io.File.separator + y.get(1) + java.io.File.separator + y.get(y.size() - 1)
 				+ java.io.File.separator + "src\\main\\webapp\\image";
 		String path = rootDir + File.separator + file.getOriginalFilename();
-		;
-		System.out.println(path);
 		System.out.println(path);
 		byte[] bytes = file.getBytes();
 		BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(path)));

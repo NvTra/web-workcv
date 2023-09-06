@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
+<%@ page import="java.util.Base64"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -155,16 +156,37 @@
 				class="row no-gutters slider-text align-items-end justify-content-start">
 				<div class="col-md-12 text-center mb-5">
 					<h1 class="mb-3 bread">Hồ sơ</h1>
-					<div class="form-group">
-						<label class="btn btn-primary btn-md btn-file"> Chọn ảnh<input
-							type="file" name="file" id="fileUpload">
-						</label>
-					</div>
-					<div style="margin-left: 0px" id="divImage">
-						<img id="avatar" height="100" width="100"
-							style="border-radius: 50px"
-							src="${user.image != null ? user.image : 'https://st.quantrimang.com/photos/image/072015/22/avatar.jpg'}">
-					</div>
+					<form
+						action="${pageContext.request.contextPath }/user/update-avatar"
+						method="post" enctype="multipart/form-data">
+						<div class="form-group">
+							<input type="hidden" name="userId" value="${user.id}"> <label
+								class="btn btn-primary btn-md btn-file"> Chọn ảnh<input
+								type="file" name="avatar" id="avatar"> <input
+								type="submit" value="Lưu">
+							</label>
+						</div>
+
+						<div style="margin-left: 0px" id="divImage">
+							<c:if test="${user.image != null}">
+								<c:set var="userImage" value="${user.image}" />
+								<c:set var="base64Data">
+									<%=Base64.getEncoder().encodeToString((byte[]) pageContext.getAttribute("userImage"))%>
+								</c:set>
+
+								<img id="avatar1" height="100" width="100"
+									style="border-radius: 50px"
+									src="data:image/png;base64,${base64Data}">
+							</c:if>
+							<c:if test="${user.image == null}">
+								<img id="avatar" height="100" width="100"
+									style="border-radius: 50px"
+									src="${'https://st.quantrimang.com/photos/image/072015/22/avatar.jpg'}">
+							</c:if>
+						</div>
+
+					</form>
+
 				</div>
 			</div>
 		</div>
@@ -182,6 +204,7 @@
 					action="saveCvFile?${_csrf.parameterName}=${_csrf.token}"
 					enctype="multipart/form-data">
 					<div class="row align-items-center mb-5">
+						<input type="hidden" id="id" name="userId" value="${user.id }">
 						<div class="col-lg-8 ">
 							<div class="d-flex align-items-center">
 								<div class="form-group" style="margin-top: 15px">
@@ -192,16 +215,14 @@
 							</div>
 							<p id="cvName" th:if="${Cv != null}">${Cv != null ? Cv.fileName :'Chưa cập nhập'}</p>
 							<p id="cvName">${Cv == null}</p>
-							<img alt="" src=""${pageContext/request/contextPath}/image/logo-fpt-inkythuatso-1-01-01-14-33-35.jpg"">
-							<a id="nameCv"
-								
-								href="${pageContext/request/contextPath}/image/logo-fpt-inkythuatso-1-01-01-14-33-35.jpg">Xem
-								cv</a> <a id="nameCv"
-								href="${'http://localhost:8080/resources/uploads/'}"></a> <a
-								style="color: red; margin-left: 20px" if="${Cv !=null}"
-								data-toggle="modal" data-target="#exampleModal">Xóa cv</a> <a
-								style="color: red; margin-left: 20px" if="${Cv ==null}" id="xoa"
-								data-toggle="modal" data-target="#exampleModal"></a>
+							<a id="nameCv" href="">Xem cv</a> <a id="nameCv"
+								href="${pageContext.request.contextPath}/image/logo-fpt-inkythuatso-1-01-01-14-33-35.jpg">xemcv</a>
+							<c:if test="${Cv!=null}">
+								<a class="btn btn-warning" style="color: red; margin-left: 20px" data-toggle="modal"
+									data-target="#exampleModal">Xóa cv</a>
+
+							</c:if>
+
 						</div>
 
 					</div>
@@ -220,6 +241,8 @@
 				<form:form modelAttribute="user"
 					action="${pageContext.request.contextPath }/user/update-profile"
 					method="post">
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
 					<div class="row align-items-center mb-5">
 						<div class="col-lg-8 mb-4 mb-lg-0">
 							<div class="d-flex align-items-center">
@@ -326,68 +349,6 @@
 	<!-- Doanh Nghiệp -->
 	<security:authorize access="hasRole('EMPLOYER')">
 
-		<!-- xác nhận email -->
-		<c:if test="${user.status == 0}">
-			<c:url var="lockLink" value="/user/confirm-account">
-				<c:param name="userId" value="${user.id }"></c:param>
-			</c:url>
-			<div class="container-fluid" style="text-align: center">
-				<p
-					style="font-size: 20px; font-weight: bold; color: #aaa; margin-top: 10px">Xác
-					thực email đăng nhập</p>
-				<div
-					style="width: 600px; height: 400px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 10px; margin: 20px auto; padding: 15px">
-					<p style="line-height: 35px; font-size: 16px">
-						Xin chào, <span>${user.fullName}</span> và làm theo hướng dẫn
-						trong email. Trường hợp không nhận được email, bạn vui lòng bấm
-						nút Nhận email xác thực dưới đây.
-					</p>
-					<div class="row form-group">
-						<form action="" method="post" class="col-md-12">
-							<input type="hidden" value="${user.email}" name="email"
-								class="btn px-4 btn-primary text-white">
-							<button type="button" style="width: 250px"
-								class="btn px-4 btn-primary text-white" data-toggle="modal"
-								data-target="#confirm${user.id}">Nhận email xác thực</button>
-						</form>
-					</div>
-					<p>
-						Mọi thắc mắc vui lòng liên hệ bộ phận CSKH của WorkCV:<br>
-					</p>
-					- Điện thoại:<span style="color: #5f80ec">(024) 6680 5588</span><br>
-					- Email: <a href="#" style="color: #5f80ec"> hotro@workcv.vn</a>
-				</div>
-
-				<!-- model -->
-				<div
-					style="width: 600px; height: 400px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 10px; margin: 20px auto; padding: 30px">
-
-					<div class="modal fade" id="confirm${user.id}" tabindex="-1"
-						role="dialog" aria-labelledby="confirmModalLabel"
-						aria-hidden="true">
-						<div class="modal-dialog" role="document">
-							<div class="modal-content">
-								<p style="line-height: 35px; font-size: 16px">
-									Xin chào, <span>${user.fullName}</span> .Bạn đã gửi yêu cầu xác
-									thực thành công, vui lòng kiểm tra mail để xác thực.Cảm ơn
-									bạn!!!
-								</p>
-								<p>
-									Mọi thắc mắc vui lòng liên hệ bộ phận CSKH của WorkCV:<br>
-								</p>
-								- Điện thoại:<span style="color: #5f80ec">(024) 6680 5588</span><br>
-								- Email: <a href="#" style="color: #5f80ec"> hotro@workcv.vn</a>
-								<button type="button" class="btn btn-danger"
-									onclick="window.location.href='${lockLink}'">Xác nhận</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-
-		</c:if>
-
 		<c:if test="${user.status == 1}">
 
 			<section class="site-section" style="margin-top: 10px">
@@ -399,6 +360,8 @@
 							<form:form modelAttribute="user"
 								action="${pageContext.request.contextPath }/user/update-profile"
 								method="post">
+								<input type="hidden" name="${_csrf.parameterName}"
+									value="${_csrf.token}" />
 								<div class="row mb-5">
 									<div class="col-lg-12">
 										<div class="p-4 p-md-5 border rounded">
@@ -459,15 +422,40 @@
 						<div class="col-lg-6">
 							<h2 class="mb-4">Thông tin công ty</h2>
 							<div class="form-group">
-								<label for="company-website-tw d-block1">Cập nhật Logo</label> <br>
-								<label class="btn btn-primary btn-md btn-file"> Chọn
-									logo<input type="file" name="file" id="fileUpload2" required>
-								</label>
-								<div id="divLogo">
-									<img id="avatar1" height="100" width="100"
-										style="border-radius: 50px"
-										src="${company.logo != null ? company.logo : 'https://st.quantrimang.com/photos/image/072015/22/avatar.jpg'}">
-								</div>
+								<form
+									action="${pageContext.request.contextPath }/user/update-logo-company"
+									method="post" enctype="multipart/form-data">
+									<label for="company-website-tw d-block1">Cập nhật Logo</label>
+									<c:if test="${company.id!=null }">
+										<input type="hidden" name="id" value="${company.id}">
+									</c:if>
+									<br> <label class="btn btn-primary btn-md btn-file">
+										Chọn logo<input type="file" name="logoCompany"
+										id="logoCompany" required>
+									</label> <br> <input class="btn btn-primary" type="submit"
+										value="Lưu">
+									<div id="divLogo">
+										<c:if test="${company.logo != null}">
+											<c:set var="logoData" value="${company.logo}" />
+											<c:set var="base64Data">
+												<%=Base64.getEncoder().encodeToString((byte[]) pageContext.getAttribute("logoData"))%>
+											</c:set>
+
+											<img id="avatar1" height="100" width="100"
+												style="border-radius: 50px"
+												src="data:image/png;base64,${base64Data}">
+										</c:if>
+
+										<c:if test="${company.logo == null}">
+											<img id="avatar1" height="100" width="100"
+												style="border-radius: 50px"
+												src="https://st.quantrimang.com/photos/image/072015/22/avatar.jpg">
+										</c:if>
+
+									</div>
+									<input type="hidden" name="${_csrf.parameterName}"
+										value="${_csrf.token}">
+								</form>
 							</div>
 
 
@@ -517,9 +505,15 @@
 
 											<div style="margin-left: 0px" id="divImag1">
 												<c:if test="${company.logo != null}">
-													<img id="avatar" height="100" width="100"
-														style="border-radius: 50px; margin-bottom: 15px"
-														src="${company.logo}">
+													<img id="avatar1" height="100" width="100"
+														style="border-radius: 50px"
+														src="data:image/png;base64,${base64Data}">
+												</c:if>
+
+												<c:if test="${company.logo == null}">
+													<img id="avatar1" height="100" width="100"
+														style="border-radius: 50px"
+														src="https://st.quantrimang.com/photos/image/072015/22/avatar.jpg">
 												</c:if>
 											</div>
 											<div class="row form-group">

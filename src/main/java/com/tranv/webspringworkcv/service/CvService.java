@@ -15,4 +15,5 @@ public interface CvService {
 
 	public void deleteCv(int theId);
 
+	public Cv getCvByUserId(int theId);
 }
