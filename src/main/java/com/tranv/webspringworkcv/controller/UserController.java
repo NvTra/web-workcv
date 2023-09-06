@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tranv.webspringworkcv.entity.Company;
+import com.tranv.webspringworkcv.entity.Cv;
 import com.tranv.webspringworkcv.entity.User;
 import com.tranv.webspringworkcv.service.CompanyService;
 import com.tranv.webspringworkcv.service.UserService;
@@ -87,4 +89,16 @@ public class UserController {
 		return "redirect:/detail";
 	}
 
+	@GetMapping("/post-company")
+	public String postCompany(Model theModel) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String email = authentication.getName();
+		User theUser = userService.findByEmail(email);
+		int userId = theUser.getId();
+		System.out.println(userId);
+		Company theCompany = companyService.getCompanyByUserId(userId);
+		theModel.addAttribute("user", theUser);
+		theModel.addAttribute("company", theCompany);
+		return "post-company";
+	}
 }

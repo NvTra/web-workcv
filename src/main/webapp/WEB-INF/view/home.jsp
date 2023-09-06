@@ -108,7 +108,7 @@
 					<li class="nav-item active"><a
 						href="${pageContext.request.contextPath }/" class="nav-link">Trang
 							chủ</a></li>
-					<li class="'nav-item"><a href="/" class="nav-link">Công
+					<li class="'nav-item"><a href="${pageContext.request.contextPath }/user/post-company" class="nav-link">Công
 							việc</a></li>
 					<li class="nav-item"><a href="/" class="nav-link">Ứng cử
 							viên</a></li>
@@ -539,15 +539,12 @@
 													<span aria-hidden="true">&times;</span>
 												</button>
 											</div>
-
-							
-
 											<form method="post" action="/user/apply-job">
 												<div class="modal-body">
 													<div class="row">
-
 														<div class="col-12">
-															<select id="choose${tempRecruitment.title}"
+															<select id=""
+																onchange="choosed(${tempRecruitment.id})"
 																class="form-control" aria-label="Default select example">
 																<option selected>Chọn phương thức nộp</option>
 																<option value="1">Dùng cv đã cập nhật</option>

@@ -2,8 +2,10 @@ package com.tranv.webspringworkcv.controller;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -16,13 +18,21 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -80,5 +90,28 @@ public class UploadFileController {
 		stream.close();
 
 		return new ModelAndView("redirect:/detail", "filesuccess", "File successfully saved!");
+	}
+
+	@SuppressWarnings("unused")
+	@GetMapping("/downloadFile")
+	@ResponseBody
+	public ResponseEntity<InputStreamResource> downloadLargeFile(@RequestParam("name") String fileName)
+			throws Exception {
+		File f = new File(System.getProperty("user.dir"));
+		System.out.println(f);
+		File file = new File(System.getProperty("user.dir") + File.separator + fileName);
+		System.out.println(file);
+
+		if (file == null) {
+			throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+		}
+		final InputStream inputStream = new FileInputStream(file);
+		final InputStreamResource resource = new InputStreamResource(inputStream);
+		final HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.set(HttpHeaders.LAST_MODIFIED, String.valueOf(file.lastModified()));
+		httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"");
+		httpHeaders.set(HttpHeaders.CONTENT_LENGTH, String.valueOf(file.length()));
+		return ResponseEntity.ok().headers(httpHeaders).contentLength(file.length())
+				.contentType(MediaType.APPLICATION_OCTET_STREAM).body(resource);
 	}
 }

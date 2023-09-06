@@ -35,13 +35,6 @@ public class CvServiceImpl implements CvService {
 
 	@Override
 	@Transactional
-	public void update(Cv theCv) {
-		cvDAO.update(theCv);
-
-	}
-
-	@Override
-	@Transactional
 	public void deleteCv(int theId) {
 		cvDAO.deleteCv(theId);
 
@@ -50,7 +43,7 @@ public class CvServiceImpl implements CvService {
 	@Override
 	@Transactional
 	public Cv getCvByUserId(int theId) {
-		return cvDAO.getCvById(theId);
+		return cvDAO.getCvByUserId(theId);
 	}
 
 }

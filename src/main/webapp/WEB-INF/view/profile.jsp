@@ -205,34 +205,38 @@
 					enctype="multipart/form-data">
 					<div class="row align-items-center mb-5">
 						<input type="hidden" id="id" name="userId" value="${user.id }">
-						<div class="col-lg-8 ">
+						<div class="col-lg-8">
 							<div class="d-flex align-items-center">
 								<div class="form-group" style="margin-top: 15px">
 									<label class="btn btn-primary btn-md btn-file"> Chọn cv
-										(pdf)<input name="file" id="fileToUpload" type="file" />
+										(pdf)<input name="file" id="fileToUpload" type="file" /> <input
+										type="submit" value="Upload">
 									</label>
 								</div>
 							</div>
-							<p id="cvName" th:if="${Cv != null}">${Cv != null ? Cv.fileName :'Chưa cập nhập'}</p>
-							<p id="cvName">${Cv == null}</p>
-							<a id="nameCv" href="">Xem cv</a> <a id="nameCv"
-								href="${pageContext.request.contextPath}/image/logo-fpt-inkythuatso-1-01-01-14-33-35.jpg">xemcv</a>
-							<c:if test="${Cv!=null}">
-								<a class="btn btn-warning" style="color: red; margin-left: 20px" data-toggle="modal"
-									data-target="#exampleModal">Xóa cv</a>
-
-							</c:if>
-
 						</div>
-
 					</div>
-
-					<p>
-						<input type="submit" value="Upload">
-					</p>
-					<input type="hidden" name="${_csrf.parameterName}"
-						value="${_csrf.token}">
 				</form>
+				<c:if test="${Cv!=null }">
+					<form:form class="form-group"
+						action="${pageContext.request.contextPath }/downloadFile"
+						method="get">
+						<div class="row align-items-center mb-5">
+							<div class="col-lg-8">
+								<div class="d-flex align-items-center">
+									<input type="hidden" id="name" name="name"
+										value="${Cv.fileName }" style="border: none">
+									<div class="form-group" style="margin-top: 15px">
+										<label class="btn btn-primary btn-md btn-file">Cv đã
+											đăng ${Cv.fileName } <input type="submit" value="xem Cv">
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form:form>
+				</c:if>
+
 
 				<!-- thông tin cá nhân -->
 

@@ -11,8 +11,6 @@ public interface CvDAO {
 
 	public void saveCv(Cv theCv);
 
-	public void update(Cv theCv);
-
 	public void deleteCv(int theId);
 
 	public Cv getCvByUserId(int theId);

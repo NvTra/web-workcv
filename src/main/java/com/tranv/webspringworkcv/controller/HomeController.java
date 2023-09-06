@@ -66,6 +66,7 @@ public class HomeController {
 		int userId = theUser.getId();
 		Company theCompany = companyService.getCompanyByUserId(userId);
 		Cv theCv = cvService.getCvByUserId(userId);
+		System.out.println(theCv == null);
 		theModel.addAttribute("Cv", theCv);
 		theModel.addAttribute("user", theUser);
 		theModel.addAttribute("company", theCompany);

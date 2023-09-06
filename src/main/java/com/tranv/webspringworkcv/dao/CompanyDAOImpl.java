@@ -30,7 +30,6 @@ public class CompanyDAOImpl implements CompanyDAO {
 		Query<Company> theQuery = currentSession
 				.createQuery("SELECT c FROM Company c JOIN c.user u WHERE u.id = :theId", Company.class);
 		theQuery.setParameter("theId", theId);
-
 		Company company = theQuery.getSingleResult();
 		return company;
 	}

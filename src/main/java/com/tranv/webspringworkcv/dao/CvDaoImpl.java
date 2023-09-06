@@ -34,15 +34,9 @@ public class CvDaoImpl implements CvDAO {
 	@Override
 	public void saveCv(Cv theCv) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		currentSession.save(theCv);
+		currentSession.saveOrUpdate(theCv);
 	}
 
-	@Override
-	public void update(Cv theCv) {
-		Session currentSession = sessionFactory.getCurrentSession();
-		currentSession.update(theCv);
-
-	}
 
 	@Override
 	public void deleteCv(int theId) {
@@ -51,13 +45,13 @@ public class CvDaoImpl implements CvDAO {
 		theQuery.setParameter("theId", theId);
 		theQuery.executeUpdate();
 	}
+
 	@Override
 	public Cv getCvByUserId(int theId) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query<Cv> theQuery = currentSession
-				.createQuery("SELECT c FROM Cv c JOIN c.user u WHERE u.id = :theId", Cv.class);
+		Query<Cv> theQuery = currentSession.createQuery("SELECT c FROM Cv c JOIN c.user u WHERE u.id = :theId",
+				Cv.class);
 		theQuery.setParameter("theId", theId);
-
 		Cv Cv = theQuery.getSingleResult();
 		return Cv;
 	}
