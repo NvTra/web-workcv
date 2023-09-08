@@ -108,8 +108,9 @@
 					<li class="nav-item active"><a
 						href="${pageContext.request.contextPath }/" class="nav-link">Trang
 							chủ</a></li>
-					<li class="'nav-item"><a href="${pageContext.request.contextPath }/user/post-company" class="nav-link">Công
-							việc</a></li>
+					<li class="'nav-item"><a
+						href="${pageContext.request.contextPath }/user/post-company"
+						class="nav-link">Công việc</a></li>
 					<li class="nav-item"><a href="/" class="nav-link">Ứng cử
 							viên</a></li>
 
@@ -539,51 +540,55 @@
 													<span aria-hidden="true">&times;</span>
 												</button>
 											</div>
-											<form method="post" action="/user/apply-job">
-												<div class="modal-body">
-													<div class="row">
-														<div class="col-12">
-															<select id=""
-																onchange="choosed(${tempRecruitment.id})"
-																class="form-control" aria-label="Default select example">
-																<option selected>Chọn phương thức nộp</option>
-																<option value="1">Dùng cv đã cập nhật</option>
-																<option value="2">Nộp cv mới</option>
-															</select>
-														</div>
-														<div id="1" style="display: none" class="col-12">
-															<label for="fileUpload" class="col-form-label">Giới
-																thiệu:</label>
-															<textarea rows="10" cols="3" class="form-control"
-																id="text"></textarea>
-														</div>
-														<div id="2" style="display: none" class="col-12">
-															<label for="fileUpload" class="col-form-label">Chọn
-																cv:</label> <input type="file" class="form-control"
-																id="fileUpload" name="file" required> <label
-																for="fileUpload" class="col-form-label">Giới
-																thiệu:</label>
-															<textarea rows="10" cols="3" class="form-control"
-																id="text"></textarea>
-														</div>
 
-													</div>
-													<div class="modal-footer">
-														<button type="button" class="btn btn-secondary"
-															data-dismiss="modal">Đóng</button>
-														<button type="button"
-															th:id="${'button1'}+${recruitment.id}"
-															style="display: none"
-															th:onclick="'apply1(' +${recruitment.id}+ ')'"
-															class="btn btn-primary">Nộp</button>
-														<button type="button"
-															th:id="${'button2'}+${recruitment.id}"
-															style="display: none"
-															th:onclick="'apply(' +${recruitment.id}+ ')'"
-															class="btn btn-primary">Nộp</button>
+											<div class="modal-body">
+												<div class="row">
+													<div class="col-12" id="applyForm${tempRecruitment.id}">
+														<select class="form-control"
+															aria-label="Default select example"
+															onchange="chooseSubmissionMethod(${tempRecruitment.id})">
+															<option selected disabled>Chọn phương thức nộp</option>
+															<option value="updateCV">Dùng CV đã cập nhật</option>
+															<option value="newCV">Nộp CV mới</option>
+														</select>
+														<div id="updateCV${tempRecruitment.id}"
+															style="display: none" class="col-12">
+															<form:form modelAttribute="applyPost" method="post"
+																action="${pageContext.request.contextPath }/job/apply-job">
+																<input type="hidden" name="recruitment.id"
+																	value="${tempRecruitment.id}">
+																<label for="fileUpload" class="col-form-label">Giới
+																	thiệu:</label>
+																<textarea rows="10" cols="3" class="form-control"
+																	id="text" name="text"></textarea>
+																<input type="submit" class="btn btn-primary" value="Nộp">
+															</form:form>
+
+														</div>
+														<div id="newCV${tempRecruitment.id}" style="display: none"
+															class="col-12">
+															<form:form modelAttribute="applyPost" method="post"
+																action="${pageContext.request.contextPath }/job/apply-job2"
+																enctype="multipart/form-data">
+																<input type="hidden" name="id"
+																	value="${tempRecruitment.id}">
+																<input type="hidden" name="recruitment.id"
+																	value="${tempRecruitment.id}">
+																<label for="fileUpload" class="col-form-label">Chọn
+																	cv:</label>
+																<input name="file" id="fileToUpload" type="file"
+																	required="required" />
+																<label for="fileUpload" class="col-form-label">Giới
+																	thiệu:</label>
+																<textarea rows="10" cols="3" class="form-control"
+																	id="text" name="text"></textarea>
+																<input type="submit" class="btn btn-primary" value="Nộp">
+															</form:form>
+														</div>
 													</div>
 												</div>
-											</form>
+											</div>
+
 
 
 										</div>
@@ -604,6 +609,93 @@
 
 	</section>
 	<script>
+		function chooseSubmissionMethod(jobId) {
+			var submissionMethod = document.getElementById("applyForm" + jobId)
+					.getElementsByTagName("select")[0].value;
+
+			var updateCV = document.getElementById("updateCV" + jobId);
+			var newCV = document.getElementById("newCV" + jobId);
+
+			if (submissionMethod === "updateCV") {
+				updateCV.style.display = "block";
+				newCV.style.display = "none";
+			} else if (submissionMethod === "newCV") {
+				updateCV.style.display = "none";
+				newCV.style.display = "block";
+			}
+		}
+
+		function submitApplication(jobId) {
+			var name = "#idRe" + id;
+			var nameModal = "#exampleModal" + id;
+			var nameFile = "#fileUpload" + id;
+			var nameText = "#text" + id;
+			var idRe = $(name).val();
+			var textvalue = $(nameText).val();
+			var fileUpload = $(nameFile).get(0);
+			var files = fileUpload.files;
+			var formData = new FormData();
+			formData.append('file', files[0]);
+			formData.append('idRe', idRe);
+			formData.append('text', textvalue);
+			if (files[0] == null) {
+				swal({
+					title : 'Bạn cần phải chọn cv!',
+					/* text: 'Redirecting...', */
+					icon : 'error',
+					timer : 3000,
+					buttons : true,
+					type : 'error'
+				})
+			} else {
+				$.ajax({
+					type : 'POST',
+					url : '/user/apply-job/',
+					contentType : false,
+					processData : false,
+					data : formData,
+					success : function(data) {
+						if (data == "false") {
+							swal({
+								title : 'Bạn cần phải đăng nhập!',
+								/* text: 'Redirecting...', */
+								icon : 'error',
+								timer : 3000,
+								buttons : true,
+								type : 'error'
+							})
+						} else if (data == "true") {
+							swal({
+								title : 'Ứng tuyển thành công!',
+								/* text: 'Redirecting...', */
+								icon : 'success',
+								timer : 3000,
+								buttons : true,
+								type : 'success'
+							})
+							$(nameModal).modal('hide');
+							$('#fileUpload').val("");
+						} else {
+							swal({
+								title : 'Bạn đã ứng tuyển công việc này!',
+								/* text: 'Redirecting...', */
+								icon : 'error',
+								timer : 3000,
+								buttons : true,
+								type : 'error'
+							})
+							$(nameModal).modal('hide');
+							$('#fileUpload').val("");
+						}
+					},
+					error : function(err) {
+						alert(err);
+					}
+				})
+			}
+			console.log("Đã nộp đơn ứng tuyển cho công việc có ID: " + jobId);
+		}
+
 		function save(id) {
 			var name = "#idRe" + id;
 			var idRe = $(name).val();

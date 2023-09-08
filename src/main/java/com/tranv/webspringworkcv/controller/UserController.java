@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tranv.webspringworkcv.entity.Company;
-import com.tranv.webspringworkcv.entity.Cv;
 import com.tranv.webspringworkcv.entity.User;
 import com.tranv.webspringworkcv.service.CompanyService;
 import com.tranv.webspringworkcv.service.UserService;
@@ -83,7 +82,6 @@ public class UserController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String email = authentication.getName();
 		User theUser = userService.findByEmail(email);
-		int theId = theUser.getId();
 		theUser.setStatus(1);
 		userService.update(theUser);
 		return "redirect:/detail";
@@ -95,7 +93,6 @@ public class UserController {
 		String email = authentication.getName();
 		User theUser = userService.findByEmail(email);
 		int userId = theUser.getId();
-		System.out.println(userId);
 		Company theCompany = companyService.getCompanyByUserId(userId);
 		theModel.addAttribute("user", theUser);
 		theModel.addAttribute("company", theCompany);

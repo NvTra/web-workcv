@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.tranv.webspringworkcv.entity.Cv;
-import com.tranv.webspringworkcv.entity.Cv;
+
 
 @Repository
 public class CvDaoImpl implements CvDAO {

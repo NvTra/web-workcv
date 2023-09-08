@@ -200,11 +200,12 @@
 			class="site-section" style="margin-top: 10px">
 			<div class="container">
 				<h3 style="color: red">${filesuccess}</h3>
-				<form method="post"
+				<form:form modelAttribute="cv" method="post"
 					action="saveCvFile?${_csrf.parameterName}=${_csrf.token}"
 					enctype="multipart/form-data">
 					<div class="row align-items-center mb-5">
 						<input type="hidden" id="id" name="userId" value="${user.id }">
+						<input type="hidden" id="id" name="id" value="${Cv.id }">
 						<div class="col-lg-8">
 							<div class="d-flex align-items-center">
 								<div class="form-group" style="margin-top: 15px">
@@ -216,7 +217,7 @@
 							</div>
 						</div>
 					</div>
-				</form>
+				</form:form>
 				<c:if test="${Cv!=null }">
 					<form:form class="form-group"
 						action="${pageContext.request.contextPath }/downloadFile"
@@ -272,6 +273,7 @@
 									chi tiết</h3>
 								<div class="form-group">
 									<input type="hidden" id="id" name="id" value="${user.id }">
+									<input type="hidden" id="image" name="image" value="${user.image }">
 									<input type="hidden" id="password" name="password"
 										value="${user.password }"> <input type="hidden"
 										id="status" name="status" value="${user.status }"> <input
@@ -370,6 +372,7 @@
 									<div class="col-lg-12">
 										<div class="p-4 p-md-5 border rounded">
 											<input type="hidden" id="id" name="id" value="${user.id }">
+											<input type="hidden" id="image" name="image" value="${user.image}">
 											<input type="hidden" id="password" name="password"
 												value="${user.password }"> <input type="hidden"
 												id="status" name="status" value="${user.status }"> <input

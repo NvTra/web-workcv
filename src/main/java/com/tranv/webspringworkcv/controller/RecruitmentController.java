@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.tranv.webspringworkcv.entity.ApplyPost;
 import com.tranv.webspringworkcv.entity.Category;
 import com.tranv.webspringworkcv.entity.Company;
 import com.tranv.webspringworkcv.entity.Recruitment;
 import com.tranv.webspringworkcv.entity.User;
+import com.tranv.webspringworkcv.service.ApplyPostService;
 import com.tranv.webspringworkcv.service.CategoryService;
 import com.tranv.webspringworkcv.service.CompanyService;
 import com.tranv.webspringworkcv.service.RecruitmentService;
@@ -33,6 +35,8 @@ public class RecruitmentController {
 	private UserService userService;
 	@Autowired
 	private CompanyService companyService;
+	@Autowired
+	private ApplyPostService applyPostService;
 
 	@GetMapping("/post")
 	public String postJob(Model theModel) {
@@ -88,6 +92,9 @@ public class RecruitmentController {
 	@GetMapping("/detail")
 	public String detailJob(@RequestParam("recruitmentId") int theId, Model theModel) {
 		Recruitment recruitment = recruitmentService.getRecruitmentById(theId);
+		List<ApplyPost> listApplyPosts = applyPostService.listApplyPostByRecruitmentId(theId);
+		theModel.addAttribute("applyPost", listApplyPosts);
+		
 		theModel.addAttribute("recruitment", recruitment);
 		return "job-detail";
 	}
@@ -111,7 +118,7 @@ public class RecruitmentController {
 		theModel.addAttribute("recruitment", recruitments);
 		return "result-search-address";
 	}
-	
+
 	@GetMapping("/searchcompany")
 	public String searchCompany(@RequestParam("keySearch") String searchTerm, Model theModel) {
 		List<Recruitment> recruitments = recruitmentService.getResultCompany(searchTerm);

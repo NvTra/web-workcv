@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "applyjob")
+@Table(name = "applypost")
 public class ApplyPost {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,7 @@ public class ApplyPost {
 	private String nameCv;
 
 	@Column(name = "status")
-	private String status;
+	private int status;
 
 	@Column(name = "text")
 	private String text;
@@ -30,11 +30,11 @@ public class ApplyPost {
 	@Column(name = "created_at")
 	private String createdAt;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
 	@JoinColumn(name = "recruitment_id")
 	private Recruitment recruitment;
 
@@ -42,7 +42,7 @@ public class ApplyPost {
 	public ApplyPost() {
 	}
 
-	public ApplyPost(String nameCv, String status, String text) {
+	public ApplyPost(String nameCv, int status, String text) {
 		super();
 		this.nameCv = nameCv;
 		this.status = status;
@@ -82,11 +82,11 @@ public class ApplyPost {
 		this.nameCv = nameCv;
 	}
 
-	public String getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
