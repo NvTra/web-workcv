@@ -4,9 +4,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
+<%@ page import="java.util.Base64"%>
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="public/fragments :: html_head">
+<head>
 <title>Work CV - Chi tiết công việc</title>
 <meta charset="utf-8">
 <meta name="viewport"
@@ -90,7 +91,8 @@
 		class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
 		id="ftco-navbar">
 		<div class="container-fluid px-md-4	">
-			<a class="navbar-brand" href="${pageContext.request.contextPath}/">Work CV</a>
+			<a class="navbar-brand" href="${pageContext.request.contextPath}/">Work
+				CV</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#ftco-nav" aria-controls="ftco-nav"
 				aria-expanded="false" aria-label="Toggle navigation">
@@ -156,8 +158,23 @@
 				<div class="col-lg-8 mb-4 mb-lg-0">
 					<div class="d-flex align-items-center">
 						<div class="border p-2 d-inline-block mr-3 rounded">
-							<img width="100" height="100" src="${recruitment.company.logo}"
-								alt="Image">
+							<c:choose>
+								<c:when test="${recruitment.company.logo !=null}">
+									<c:set var="userImage" value="${recruitment.company.logo}" />
+									<c:set var="base64Data">
+										<%=Base64.getEncoder().encodeToString((byte[]) pageContext.getAttribute("userImage"))%>
+									</c:set>
+									<img id="avatar1" height="50px" width="50px"
+										style="border-radius: 50px"
+										src="data:image/png;base64,${base64Data}">
+								</c:when>
+								<c:when test="${recruitment.company.logo ==null}">
+									<img id="avatar1" height="50px" width="50px"
+										style="border-radius: 50px"
+										src="https://st.quantrimang.com/photos/image/072015/22/avatar.jpg">
+								</c:when>
+							</c:choose>
+
 						</div>
 						<div>
 							<h2></h2>
@@ -291,175 +308,83 @@
 			<div th:if="${applyPosts != null}" class="row">
 				<div class="col-lg-12 pr-lg-4">
 					<div class="row">
-						<th:block th:if="${applyPosts.size() != 0}"
-							th:each="applyPost : ${applyPosts}">
-							<div class="col-md-12"
-								style="box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 10px; margin: 20px auto;">
-								<div class="team d-md-flex p-4 bg-white">
-									<IMG class="img"
-										src="${applyPost.user.image != null ? applyPost.user.image : 'https://st.quantrimang.com/photos/image/072015/22/avatar.jpg'}"></IMG>
-									<div class="text pl-md-4">
-										<H5 class="location mb-0" th:text="${applyPost.user.fullName}"></H5>
-										<p style="display: block; color: black"
-											th:text="${applyPost.user.address}"></p>
-										<span class="position" style="display: block; color: black"
-											th:text="${applyPost.user.email}"></span>
-										<p class="mb-4" style="width: 700px"
-											th:utext="${applyPost.user.description}">.</p>
-										<div class="row">
-											<p>
-												<a href="#" th:if="${applyPost.nameCv != null}"
-													class="btn btn-primary"
-													th:href="${'http://localhost:8080/resources/uploads/'} +${applyPost.nameCv}">Xem
-													cv</a>
-											</p>
-											<p th:if="${applyPost.status == 0}" style="margin-left: 10px">
-												<a class="btn btn-outline-primary"
-													th:href="${'/user/approve/'} +${applyPost.user.id} +${'/'} +${recruitment.id}">Duyệt</a>
-											</p>
-											<p th:if="${applyPost.status == 1}"
-												style="margin-left: 10px; margin-top: 15px">
-												<span style="color: #1e7e34; font-weight: bold">Đã
-													duyệt</span>
-											</p>
-										</div>
+						<c:if test="${applyPosts.size() != 0}">
+							<c:forEach var="tempApplyPost" items="${applyPosts }">
+								<c:url var="downloadFile" value="/downloadFile">
+									<c:param name="name" value="${tempApplyPost.nameCv}"></c:param>
+								</c:url>
+								<c:url var="confirmJob" value="/recruitment/confirmPost">
+									<c:param name="applyPostId" value="${tempApplyPost.id}"></c:param>
 
+								</c:url>
+								<div class="col-md-12"
+									style="box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 10px; margin: 20px auto;">
+									<div class="team d-md-flex p-4 bg-white">
+										<c:if test="${tempApplyPost.user.image != null}">
+											<c:set var="userImage" value="${tempApplyPost.user.image}" />
+											<c:set var="base64Data">
+												<%=Base64.getEncoder().encodeToString((byte[]) pageContext.getAttribute("userImage"))%>
+											</c:set>
+
+											<img id="avatar1" height="100" width="100"
+												style="border-radius: 50px"
+												src="data:image/png;base64,${base64Data}">
+										</c:if>
+										<c:if test="${tempApplyPost.user.image == null}">
+											<IMG class="img"
+												src="https://st.quantrimang.com/photos/image/072015/22/avatar.jpg"></IMG>
+										</c:if>
+										<div class="text pl-md-4">
+											<H5 class="location mb-0">${tempApplyPost.user.fullName}</H5>
+											<p style="display: block; color: black">${tempApplyPost.user.address}</p>
+											<span class="position" style="display: block; color: black">${tempApplyPost.user.email}</span>
+											<p class="mb-4" style="width: 700px">${tempApplyPost.user.description}</p>
+											<div class="row">
+												<c:choose>
+													<c:when test="${tempApplyPost.nameCv==null}">
+														<a href="#" class="btn btn-primary"> Xem cv</a>
+													</c:when>
+													<c:when test="${tempApplyPost.nameCv!=null}">
+														<button type="button" style="width: 120px"
+															class="btn btn-primary" data-toggle="modal"
+															onclick="window.location.href='${downloadFile}'">Xem
+															cv</button>
+													</c:when>
+												</c:choose>
+												<div>
+													<p>&nbsp;&nbsp;</p>
+												</div>
+												<c:choose>
+													<c:when test="${tempApplyPost.status == 0}">
+														<button type="button" style="width: 120px"
+															class="btn btn-primary" data-toggle="modal"
+															onclick="window.location.href='${confirmJob}'">Duyệt</button>
+													</c:when>
+													<c:when test="${tempApplyPost.status == 1}">
+														<p style="margin-left: 10px; margin-top: 15px">
+															<span style="color: #1e7e34; font-weight: bold">Đã
+																duyệt</span>
+														</p>
+													</c:when>
+												</c:choose>
+
+
+											</div>
+
+										</div>
 									</div>
 								</div>
-							</div>
-						</th:block>
-						<th:block th:if="${applyPosts.size() == 0}">
+
+							</c:forEach>
+						</c:if>
+						<c:if test="${applyPosts.size() == 0}">
 							<p>Chưa có ứng cử viên nào ứng tuyển</p>
-						</th:block>
-
-
+						</c:if>
 					</div>
 				</div>
 
-				<div class="col-lg-4 sidebar">
-					<div class="sidebar-box bg-white p-4 ftco-animate">
-						<h3 class="heading-sidebar">Browse Category</h3>
-						<form action="#" class="search-form mb-3">
-							<div class="form-group">
-								<span class="icon icon-search"></span> <input type="text"
-									class="form-control" placeholder="Search...">
-							</div>
-						</form>
-						<form action="#" class="browse-form">
-							<label for="option-job-1"><input type="checkbox"
-								id="option-job-1" name="vehicle" value="" checked>
-								Website &amp; Software</label><br> <label for="option-job-2"><input
-								type="checkbox" id="option-job-2" name="vehicle" value="">
-								Education &amp; Training</label><br> <label for="option-job-3"><input
-								type="checkbox" id="option-job-3" name="vehicle" value="">
-								Graphics Design</label><br> <label for="option-job-4"><input
-								type="checkbox" id="option-job-4" name="vehicle" value="">
-								Accounting &amp; Finance</label><br> <label for="option-job-5"><input
-								type="checkbox" id="option-job-5" name="vehicle" value="">
-								Restaurant &amp; Food</label><br> <label for="option-job-6"><input
-								type="checkbox" id="option-job-6" name="vehicle" value="">
-								Health &amp; Hospital</label><br>
-						</form>
-					</div>
-
-					<div class="sidebar-box bg-white p-4 ftco-animate">
-						<h3 class="heading-sidebar">Select Location</h3>
-						<form action="#" class="search-form mb-3">
-							<div class="form-group">
-								<span class="icon icon-search"></span> <input type="text"
-									class="form-control" placeholder="Search...">
-							</div>
-						</form>
-						<form action="#" class="browse-form">
-							<label for="option-location-1"><input type="checkbox"
-								id="option-location-1" name="vehicle" value="" checked>
-								Sydney, Australia</label><br> <label for="option-location-2"><input
-								type="checkbox" id="option-location-2" name="vehicle" value="">
-								New York, United States</label><br> <label for="option-location-3"><input
-								type="checkbox" id="option-location-3" name="vehicle" value="">
-								Tokyo, Japan</label><br> <label for="option-location-4"><input
-								type="checkbox" id="option-location-4" name="vehicle" value="">
-								Manila, Philippines</label><br> <label for="option-location-5"><input
-								type="checkbox" id="option-location-5" name="vehicle" value="">
-								Seoul, South Korea</label><br> <label for="option-location-6"><input
-								type="checkbox" id="option-location-6" name="vehicle" value="">
-								Western City, UK</label><br>
-						</form>
-					</div>
-
-					<div class="sidebar-box bg-white p-4 ftco-animate">
-						<h3 class="heading-sidebar">Job Type</h3>
-						<form action="#" class="browse-form">
-							<label for="option-job-type-1"><input type="checkbox"
-								id="option-job-type-1" name="vehicle" value="" checked>
-								Partime</label><br> <label for="option-job-type-2"><input
-								type="checkbox" id="option-job-type-2" name="vehicle" value="">
-								Fulltime</label><br> <label for="option-job-type-3"><input
-								type="checkbox" id="option-job-type-3" name="vehicle" value="">
-								Intership</label><br> <label for="option-job-type-4"><input
-								type="checkbox" id="option-job-type-4" name="vehicle" value="">
-								Temporary</label><br> <label for="option-job-type-5"><input
-								type="checkbox" id="option-job-type-5" name="vehicle" value="">
-								Freelance</label><br> <label for="option-job-type-6"><input
-								type="checkbox" id="option-job-type-6" name="vehicle" value="">
-								Fixed</label><br>
-						</form>
-					</div>
-				</div>
 			</div>
-			<th:block th:each="recruitment : ${listRelated}">
-				<div th:unless="${applyPosts}" class="col-md-12 ">
-					<div class="job-post-item p-4 d-block d-lg-flex align-items-center">
-						<div class="one-third mb-4 mb-md-0">
-							<div class="job-post-item-header align-items-center">
-								<span class="subadge" th:text="${recruitment.type}"></span>
-								<h2 class="mr-3 text-black">
-									<a th:text="${recruitment.title}"
-										th:href="${'/recruitment/detail/'} +${recruitment.id}"></a>
-								</h2>
-							</div>
-							<div class="job-post-item-body d-block d-md-flex">
-								<div class="mr-3">
-									<span class="icon-layers"></span> <a href="#"
-										th:text="${recruitment.company.nameCompany}"></a>
-								</div>
-								<div>
-									<span class="icon-my_location"></span> <span
-										th:text="${recruitment.address}"></span>
-								</div>
-							</div>
-						</div>
 
-						<input type="hidden" th:id="${'idRe'}+${recruitment.id}"
-							th:value="${recruitment.id}">
-						<div th:if="${session.user}"
-							class="one-forth ml-auto d-flex align-items-center mt-4 md-md-0">
-							<div th:if="${session.user.role.id == 1}">
-								<a th:onclick="'save(' +${recruitment.id}+ ')'"
-									class="icon text-center d-flex justify-content-center align-items-center icon mr-2">
-									<span class="icon-heart"></span>
-								</a>
-							</div>
-							<a th:if="${session.user.role.id == 1}" data-toggle="modal"
-								th:data-target="${'#exampleModal'}+${recruitment.id}"
-								class="btn btn-primary py-2">Apply Job</a>
-						</div>
-						<div th:unless="${session.user}"
-							class="one-forth ml-auto d-flex align-items-center mt-4 md-md-0">
-							<div>
-								<a th:onclick="'save(' +${recruitment.id}+ ')'"
-									class="icon text-center d-flex justify-content-center align-items-center icon mr-2">
-									<span class="icon-heart"></span>
-								</a>
-							</div>
-							<a data-toggle="modal"
-								th:data-target="${'#exampleModal'}+${recruitment.id}"
-								class="btn btn-primary py-2">Apply Job</a>
-						</div>
-					</div>
-				</div>
-				<!-- end -->
-			</th:block>
 
 			<script>
 				function apply(id) {

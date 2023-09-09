@@ -11,6 +11,7 @@ import com.tranv.webspringworkcv.entity.ApplyPost;
 
 @Service
 public class ApplyPostServiceImpl implements ApplyPostService {
+
 	@Autowired
 	private ApplyPostDAO applyPostDAO;
 
@@ -23,9 +24,27 @@ public class ApplyPostServiceImpl implements ApplyPostService {
 
 	@Override
 	@Transactional
-	public List<ApplyPost>  listApplyPostByRecruitmentId(int theId) {
+	public List<ApplyPost> listApplyPostByRecruitmentId(int theId) {
 		return applyPostDAO.listApplyPostByRecruitmentId(theId);
-		
+
 	}
 
+	@Override
+	@Transactional
+	public void confirmPost(int theId) {
+		applyPostDAO.confirmPost(theId);
+
+	}
+
+	@Override
+	@Transactional
+	public ApplyPost getApplyPostbyId(int theId) {
+		return applyPostDAO.getApplyPostbyId(theId);
+	}
+
+	@Override
+	@Transactional
+	public List<ApplyPost> listApplyPostsByCompany(int companyId) {
+		return applyPostDAO.listApplyPostsByCompany(companyId);
+	}
 }

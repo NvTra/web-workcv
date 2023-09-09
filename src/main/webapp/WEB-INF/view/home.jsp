@@ -111,7 +111,7 @@
 					<li class="'nav-item"><a
 						href="${pageContext.request.contextPath }/user/post-company"
 						class="nav-link">Công việc</a></li>
-					<li class="nav-item"><a href="/" class="nav-link">Ứng cử
+					<li class="nav-item"><a href="${pageContext.request.contextPath }/user/list-user" class="nav-link">Ứng cử
 							viên</a></li>
 
 					<c:if test="${not empty pageContext.request.remoteUser}">
@@ -132,10 +132,11 @@
 									<li><a class="dropdown-item"
 										href="${pageContext.request.contextPath }/detail">Hồ Sơ</a></li>
 
-									<li><a class="dropdown-item"
+									<li>
+									
+									<a class="dropdown-item"
 										href="${pageContext.request.contextPath }/recruitment/list-post">Danh
 											sách bài đăng</a></li>
-
 
 									<li><a class="dropdown-item"
 										href="<c:url value='/logout' />">Đăng xuất</a></li>

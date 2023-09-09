@@ -1,8 +1,16 @@
 package com.tranv.webspringworkcv.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -12,6 +20,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.HttpClientErrorException;
 
 import com.tranv.webspringworkcv.entity.ApplyPost;
 import com.tranv.webspringworkcv.entity.Category;
@@ -93,8 +103,7 @@ public class RecruitmentController {
 	public String detailJob(@RequestParam("recruitmentId") int theId, Model theModel) {
 		Recruitment recruitment = recruitmentService.getRecruitmentById(theId);
 		List<ApplyPost> listApplyPosts = applyPostService.listApplyPostByRecruitmentId(theId);
-		theModel.addAttribute("applyPost", listApplyPosts);
-		
+		theModel.addAttribute("applyPosts", listApplyPosts);
 		theModel.addAttribute("recruitment", recruitment);
 		return "job-detail";
 	}
@@ -124,5 +133,37 @@ public class RecruitmentController {
 		List<Recruitment> recruitments = recruitmentService.getResultCompany(searchTerm);
 		theModel.addAttribute("recruitment", recruitments);
 		return "result-search-address";
+	}
+
+	@GetMapping("/confirmPost")
+	public String confirmPost(@RequestParam("applyPostId") int theId) {
+		applyPostService.confirmPost(theId);
+		ApplyPost applyPost = applyPostService.getApplyPostbyId(theId);
+		int recruitmentId = applyPost.getRecruitment().getId();
+		System.out.println(recruitmentId);
+		return "redirect:/recruitment/detail?recruitmentId=" + recruitmentId;
+	}
+
+	@SuppressWarnings("unused")
+	@GetMapping("/downloadFile")
+	@ResponseBody
+	public ResponseEntity<InputStreamResource> downloadLargeFile(@RequestParam("name") String fileName)
+			throws Exception {
+		File f = new File(System.getProperty("user.dir"));
+		System.out.println(f);
+		File file = new File(System.getProperty("user.dir") + File.separator + fileName);
+		System.out.println(file);
+
+		if (file == null) {
+			throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+		}
+		final InputStream inputStream = new FileInputStream(file);
+		final InputStreamResource resource = new InputStreamResource(inputStream);
+		final HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.set(HttpHeaders.LAST_MODIFIED, String.valueOf(file.lastModified()));
+		httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"");
+		httpHeaders.set(HttpHeaders.CONTENT_LENGTH, String.valueOf(file.length()));
+		return ResponseEntity.ok().headers(httpHeaders).contentLength(file.length())
+				.contentType(MediaType.APPLICATION_OCTET_STREAM).body(resource);
 	}
 }

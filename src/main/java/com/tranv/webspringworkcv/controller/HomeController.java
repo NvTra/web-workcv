@@ -40,6 +40,7 @@ public class HomeController {
 
 	@GetMapping("/")
 	public String showHome(HttpServletRequest request, Model theModel) {
+		
 		request.setAttribute("msg_register_success", "done");
 		List<Category> categories = categoryService.getTop4Categorys();
 		theModel.addAttribute("categories", categories);

@@ -164,8 +164,9 @@
 				<div class="col-md-7">
 					<h1 class="text-white font-weight-bold">Đăng bài</h1>
 					<div class="custom-breadcrumbs">
-						<a href="${pageContext.request.contextPath}/">Trang chủ</a> <span class="mx-2 slash"></span> <span
-							class="text-white"><strong>Đăng bài tuyển dụng</strong></span>
+						<a href="${pageContext.request.contextPath}/">Trang chủ</a> <span
+							class="mx-2 slash"></span> <span class="text-white"><strong>Đăng
+								bài tuyển dụng</strong></span>
 					</div>
 				</div>
 			</div>
@@ -174,8 +175,9 @@
 
 	<section class="site-section" th:if="${session.user.role.id == 2 }">
 		<div class="container">
-			<form:form action="${pageContext.request.contextPath}/recruitment/addRecruitment" method="post"
-				modelAttribute="recuitment">
+			<form:form
+				action="${pageContext.request.contextPath}/recruitment/addRecruitment"
+				method="post" modelAttribute="recuitment">
 				<div class="row align-items-center mb-5">
 					<div class="col-lg-8 mb-4 mb-lg-0">
 						<div class="d-flex align-items-center">
@@ -281,6 +283,19 @@
 			</form:form>
 		</div>
 	</section>
+	<div class="row pagination-wrap">
+		<c:if test="${totalPages > 1}">
+			<ul class="pagination ml-auto">
+				<li class="page-item ${currentPage == 1 ? 'disabled' : ''}"><a
+					class="page-link" href="?page=${currentPage - 1}">Trang trước</a></li>
+
+				<li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+					<a class="page-link" href="?page=${currentPage + 1}">Trang kế
+						tiếp</a>
+				</li>
+			</ul>
+		</c:if>
+	</div>
 	<script>
     ClassicEditor.create(document.querySelector('#editorN')).then(eidt => {
         console.log("da" + eidt);

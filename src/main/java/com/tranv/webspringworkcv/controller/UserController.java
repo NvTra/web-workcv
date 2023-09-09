@@ -1,6 +1,7 @@
 package com.tranv.webspringworkcv.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -15,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.tranv.webspringworkcv.entity.ApplyPost;
 import com.tranv.webspringworkcv.entity.Company;
+import com.tranv.webspringworkcv.entity.Recruitment;
 import com.tranv.webspringworkcv.entity.User;
+import com.tranv.webspringworkcv.service.ApplyPostService;
 import com.tranv.webspringworkcv.service.CompanyService;
 import com.tranv.webspringworkcv.service.UserService;
 
@@ -27,6 +31,8 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private CompanyService companyService;
+	@Autowired
+	private ApplyPostService applyPostService;
 
 	@PostMapping("/addUser")
 	public String addUser(@ModelAttribute("user") User newUser) {
@@ -98,4 +104,31 @@ public class UserController {
 		theModel.addAttribute("company", theCompany);
 		return "post-company";
 	}
+
+	@GetMapping("/list-user")
+	public String listUser(@RequestParam(name = "page", defaultValue = "1") int currentPage, Model theModel) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String email = authentication.getName();
+		User theUser = userService.findByEmail(email);
+		int userId = theUser.getId();
+		Company theCompany = companyService.getCompanyByUserId(userId);
+		int companyId = theCompany.getId();
+
+		List<ApplyPost> applyPosts = applyPostService.listApplyPostsByCompany(companyId);
+
+		int itemsPerPage = 5;
+		// tổng số trang
+		int totalPages = (int) Math.ceil((double) applyPosts.size() / itemsPerPage);
+		// tính vị trí chỉ mục đầu tiên trên trnag hiện tại
+		int startIndex = (currentPage - 1) * itemsPerPage;
+		// lấy danh sách đợt quyên góp cho trang hiện tại
+		List<ApplyPost> currentPageDonations = applyPosts.subList(startIndex,
+				Math.min(startIndex + itemsPerPage, applyPosts.size()));
+		theModel.addAttribute("currentPage", currentPage);
+		theModel.addAttribute("totalPages", totalPages);
+		theModel.addAttribute("applyPosts", currentPageDonations);
+
+		return "list-user";
+	}
+
 }

@@ -34,4 +34,29 @@ public class ApplyPostDAOImpl implements ApplyPostDAO {
 
 	}
 
+	@Override
+	public void confirmPost(int theId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		ApplyPost applyPost = currentSession.get(ApplyPost.class, theId);
+		applyPost.setStatus(1);
+		currentSession.update(applyPost);
+	}
+
+	@Override
+	public ApplyPost getApplyPostbyId(int theId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		ApplyPost applyPost = currentSession.get(ApplyPost.class, theId);
+		return applyPost;
+	}
+
+	@Override
+	public List<ApplyPost> listApplyPostsByCompany(int companyId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<ApplyPost> theQuery = currentSession.createQuery("SELECT a FROM ApplyPost a JOIN FETCH a.recruitment r "
+				+ "JOIN FETCH a.user u JOIN FETCH r.company c " + "WHERE c.id = :companyId", ApplyPost.class);
+		theQuery.setParameter("companyId", companyId);
+		List<ApplyPost> applyPosts = theQuery.getResultList();
+		return applyPosts;
+	}
+
 }
