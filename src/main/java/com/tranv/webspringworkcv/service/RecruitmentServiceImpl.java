@@ -49,6 +49,19 @@ public class RecruitmentServiceImpl implements RecruitmentService {
 
 	@Override
 	@Transactional
+	public List<Recruitment> getResultRecruitmentByCompany(int theId) {
+		return recruitmentDAO.getResultRecruitmentByCompany(theId);
+	}
+
+	@Override
+	@Transactional
+	public List<Recruitment> getResultRecruitmentBySalary() {
+		return recruitmentDAO.getResultRecruitmentBySalary();
+	}
+
+	// search recruitment by condition
+	@Override
+	@Transactional
 	public List<Recruitment> getResultRecruitment(String searchTerm) {
 		return recruitmentDAO.getResultRecruitment(searchTerm);
 	}
@@ -62,7 +75,6 @@ public class RecruitmentServiceImpl implements RecruitmentService {
 	@Override
 	@Transactional
 	public List<Recruitment> getResultCompany(String searchTerm) {
-
 		return recruitmentDAO.getResultCompany(searchTerm);
 	}
 

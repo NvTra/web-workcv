@@ -63,6 +63,27 @@ public class RecruitmentDAOImpl implements RecruitmentDAO {
 	}
 
 	@Override
+	public List<Recruitment> getResultRecruitmentByCompany(int theId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<Recruitment> theQuery = currentSession
+				.createQuery("SELECT r FROM Recruitment r join r.company c WHERE c.id = :companyId", Recruitment.class);
+		theQuery.setParameter("companyId", theId);
+		List<Recruitment> recruitments = theQuery.getResultList();
+		return recruitments;
+	};
+
+	@Override
+	public List<Recruitment> getResultRecruitmentBySalary() {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<Recruitment> theQuery = currentSession.createQuery("SELECT r FROM Recruitment r ORDER BY r.salary DESC",
+				Recruitment.class);
+		theQuery.setMaxResults(5);
+		List<Recruitment> recruitments = theQuery.getResultList();
+		return recruitments;
+	}
+
+	// method search Recruitment by condition
+	@Override
 	public List<Recruitment> getResultRecruitment(String searchTerm) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Query<Recruitment> theQuery = currentSession.createQuery("FROM Recruitment r WHERE r.title LIKE :searchTerm",
@@ -89,7 +110,6 @@ public class RecruitmentDAOImpl implements RecruitmentDAO {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Query<Recruitment> theQuery = currentSession.createQuery(
 				"SELECT r FROM Recruitment r JOIN r.company c WHERE c.nameCompany LIKE :searchTerm", Recruitment.class);
-
 		theQuery.setParameter("searchTerm", "%" + searchTerm + "%");
 		List<Recruitment> recruitments = theQuery.getResultList();
 		return recruitments;

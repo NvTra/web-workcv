@@ -95,7 +95,8 @@
 		class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
 		id="ftco-navbar">
 		<div class="container-fluid px-md-4	">
-			<a class="navbar-brand" href="${pageContext.request.contextPath }/">Work CV</a>
+			<a class="navbar-brand" href="${pageContext.request.contextPath }/">Work
+				CV</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#ftco-nav" aria-controls="ftco-nav"
 				aria-expanded="false" aria-label="Toggle navigation">
@@ -105,17 +106,19 @@
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item active"><a
-						href="${pageContext.request.contextPath}/" class="nav-link">Trang
-							chủ</a></li>
-					<li class="'nav-item"><a href="/" class="nav-link">Công
-							việc</a></li>
-					<li class="nav-item"><a href="/" class="nav-link">Ứng cử
-							viên</a></li>
-					<li class="nav-item cta mr-md-1"><a
-						href="${pageContext.request.contextPath}/recruitment/post"
-						class="nav-link">Đăng tuyển</a></li>
-					<li class="nav-item cta cta-colored"><a
-						href="<c:url value='/logout' />">Đăng xuất</a></li>
+							href="${pageContext.request.contextPath}/" class="nav-link">Trang
+								chủ</a></li>
+						<li class="'nav-item"><a
+							href="${pageContext.request.contextPath }/recruitment/list-post"
+							class="nav-link">Công việc</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath }/user/list-user"
+							class="nav-link">Ứng cử viên</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/recruitment/post"
+							class="nav-link">Đăng tuyển</a></li>
+						<li class="nav-item"><a href="<c:url value='/logout' />">Đăng
+								xuất</a></li>
 				</ul>
 			</div>
 		</div>
@@ -139,7 +142,7 @@
 			</div>
 		</div>
 	</div>
-	<div th:if="${success}" class="toast" data-delay="2500"
+	<%-- <div th:if="${success}" class="toast" data-delay="2500"
 		style="position: fixed; top: 100PX; left: 10PX; z-index: 2000; width: 300px">
 		<script>
         swal({
@@ -164,7 +167,7 @@
             type: 'error'
         })
     </script>
-	</div>
+	</div> --%>
 
 	<section class="ftco-section bg-light"
 		th:if="${session.user.role.id == 2 }">
@@ -183,85 +186,90 @@
 							</div>
 						</c:if>
 					</div>
-					<ul class="job-listings mb-5">
-						<c:forEach var="tempRecruitment" items="${recruitment }">
-							<c:url var="deleteLink" value="/recruitment/delete">
-								<c:param name="recruitmentId" value="${tempRecruitment.id }"></c:param>
-							</c:url>
-							<c:url var="updateLink" value="/recruitment/showFormForUpdate">
-								<c:param name="recruitmentId" value="${tempRecruitment.id }"></c:param>
-							</c:url>
-							<c:url var="detailLink" value="/recruitment/detail">
-								<c:param name="recruitmentId" value="${tempRecruitment.id }"></c:param>
-							</c:url>
-							<div class="col-md-12 ">
-								<div
-									class="job-post-item p-4 d-block d-lg-flex align-items-center">
-									<div class="one-third mb-4 mb-md-0">
-										<div class="job-post-item-header align-items-center">
-											<span class="subadge"><c:out
-													value="${tempRecruitment.type}" /></span>
-											<h2 class="mr-3 text-black">
-												<a><c:out value="${tempRecruitment.title}" /></a>
-											</h2>
+					<c:if test="${recruitment.size() !=0}">
+						<ul class="job-listings mb-5">
+							<c:forEach var="tempRecruitment" items="${recruitment }">
+								<c:url var="deleteLink" value="/recruitment/delete">
+									<c:param name="recruitmentId" value="${tempRecruitment.id }"></c:param>
+								</c:url>
+								<c:url var="updateLink" value="/recruitment/showFormForUpdate">
+									<c:param name="recruitmentId" value="${tempRecruitment.id }"></c:param>
+								</c:url>
+								<c:url var="detailLink" value="/recruitment/detail">
+									<c:param name="recruitmentId" value="${tempRecruitment.id }"></c:param>
+								</c:url>
+								<div class="col-md-12 ">
+									<div
+										class="job-post-item p-4 d-block d-lg-flex align-items-center">
+										<div class="one-third mb-4 mb-md-0">
+											<div class="job-post-item-header align-items-center">
+												<span class="subadge"><c:out
+														value="${tempRecruitment.type}" /></span>
+												<h2 class="mr-3 text-black">
+													<a><c:out value="${tempRecruitment.title}" /></a>
+												</h2>
+											</div>
+											<span class="icon-layers">
+												${tempRecruitment.company.nameCompany} </span> <span>&emsp;</span>
+											<span class="icon-my_location">
+												${tempRecruitment.address}</span>
 										</div>
-										<span class="icon-layers">
-											${tempRecruitment.company.nameCompany} </span> <span>&emsp;</span> <span
-											class="icon-my_location"> ${tempRecruitment.address}</span>
-									</div>
 
 
-									<div style="width: 500px">
-										<button type="button" style="width: 120px"
-											class="btn btn-primary" data-toggle="modal"
-											onclick="window.location.href='${detailLink}'"
-											>Xem chi
-											tiết</button>
+										<div style="width: 500px">
+											<button type="button" style="width: 120px"
+												class="btn btn-primary" data-toggle="modal"
+												onclick="window.location.href='${detailLink}'">Xem
+												chi tiết</button>
 
-										<button type="button" style="width: 120px"
-											class="btn btn-warning" data-bs-toggle="modal"
-											onclick="window.location.href='${updateLink}'">
-											Cập nhập</button>
+											<button type="button" style="width: 120px"
+												class="btn btn-warning" data-bs-toggle="modal"
+												onclick="window.location.href='${updateLink}'">Cập
+												nhập</button>
 
-										<button type="button" style="width: 80px"
-											class="btn btn-danger" data-toggle="modal"
-											data-target="#deleteRecruitment${tempRecruitment.id}">Xóa</button>
-										<br>
+											<button type="button" style="width: 80px"
+												class="btn btn-danger" data-toggle="modal"
+												data-target="#deleteRecruitment${tempRecruitment.id}">Xóa</button>
+											<br>
 
-										<!-- Modal Delete -->
-										<div class="modal fade"
-											id="deleteRecruitment${tempRecruitment.id}" tabindex="-1"
-											role="dialog" aria-labelledby="confirmModalLabel"
-											aria-hidden="true">
-											<div class="modal-dialog" role="document">
-												<div class="modal-content">
-													<div class="modal-header">
-														<h5 class="modal-title" id="confirmModalLabel">Bạn
-															chắc chắn muốn xóa ?</h5>
-														<button type="button" class="btn-close"
-															data-dismiss="modal" aria-label="Close"></button>
-													</div>
-													<div class="modal-body">
-														Bài đăng: <span>${tempRecruitment.title}</span>
-													</div>
-													<div class="modal-footer">
-														<button type="button" class="btn btn-secondary"
-															data-dismiss="modal">Đóng</button>
-														<button type="button" class="btn btn-danger"
-															onclick="window.location.href='${deleteLink}'">Xóa</button>
+											<!-- Modal Delete -->
+											<div class="modal fade"
+												id="deleteRecruitment${tempRecruitment.id}" tabindex="-1"
+												role="dialog" aria-labelledby="confirmModalLabel"
+												aria-hidden="true">
+												<div class="modal-dialog" role="document">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title" id="confirmModalLabel">Bạn
+																chắc chắn muốn xóa ?</h5>
+															<button type="button" class="btn-close"
+																data-dismiss="modal" aria-label="Close"></button>
+														</div>
+														<div class="modal-body">
+															Bài đăng: <span>${tempRecruitment.title}</span>
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-secondary"
+																data-dismiss="modal">Đóng</button>
+															<button type="button" class="btn btn-danger"
+																onclick="window.location.href='${deleteLink}'">Xóa</button>
+														</div>
 													</div>
 												</div>
 											</div>
+
+											<!-- Modal Delete -->
+
+
 										</div>
-
-										<!-- Modal Delete -->
-
-
 									</div>
 								</div>
-							</div>
-						</c:forEach>
-					</ul>
+							</c:forEach>
+						</ul>
+					</c:if>
+					<c:if test="${recruitment.size() ==0}">
+						<p>Chưa có bài đăng tuyển dụng nào</p>
+					</c:if>
 					<div class="row pagination-wrap">
 						<c:if test="${totalPages > 1}">
 							<ul class="pagination ml-auto">

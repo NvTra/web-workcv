@@ -108,12 +108,15 @@
 					<li class="nav-item active"><a
 						href="${pageContext.request.contextPath }/" class="nav-link">Trang
 							chủ</a></li>
-					<li class="'nav-item"><a
-						href="${pageContext.request.contextPath }/user/post-company"
-						class="nav-link">Công việc</a></li>
-					<li class="nav-item"><a href="${pageContext.request.contextPath }/user/list-user" class="nav-link">Ứng cử
-							viên</a></li>
+					<security:authorize access="hasRole('EMPLOYER')">
+						<li class="'nav-item"><a
+							href="${pageContext.request.contextPath }/recruitment/list-post"
+							class="nav-link">Công việc</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath }/user/list-user"
+							class="nav-link">Ứng cử viên</a></li>
 
+					</security:authorize>
 					<c:if test="${not empty pageContext.request.remoteUser}">
 
 						<security:authorize access="hasRole('EMPLOYER')">
@@ -132,9 +135,7 @@
 									<li><a class="dropdown-item"
 										href="${pageContext.request.contextPath }/detail">Hồ Sơ</a></li>
 
-									<li>
-									
-									<a class="dropdown-item"
+									<li><a class="dropdown-item"
 										href="${pageContext.request.contextPath }/recruitment/list-post">Danh
 											sách bài đăng</a></li>
 
@@ -319,7 +320,7 @@
 																	<span class="icon-map-marker"></span>
 																</div>
 																<input type="text" name="keySearch" class="form-control"
-																	placeholder="Tìm kiếm ứng cử viên">
+																	placeholder="Tìm kiếm công ty">
 															</div>
 														</div>
 													</div>
@@ -486,7 +487,12 @@
 											</div>
 											<div class="job-post-item-body d-block d-md-flex">
 												<div class="mr-3">
-													<span class="icon-layers"></span> <span>${tempRecruitment.company.nameCompany}</span>
+													<span class="icon-layers"></span>
+													<c:url var="companyLink" value="/company/detail-company">
+														<c:param name="companyId"
+															value="${ tempRecruitment.company.id}"></c:param>
+													</c:url>
+													<a href="${companyLink }"><span>${tempRecruitment.company.nameCompany}</span></a>
 												</div>
 												<div>
 													<span class="icon-my_location"></span> <span>${tempRecruitment.address}</span>
@@ -571,8 +577,7 @@
 															<form:form modelAttribute="applyPost" method="post"
 																action="${pageContext.request.contextPath }/job/apply-job2"
 																enctype="multipart/form-data">
-																<input type="hidden" name="id"
-																	value="${tempRecruitment.id}">
+
 																<input type="hidden" name="recruitment.id"
 																	value="${tempRecruitment.id}">
 																<label for="fileUpload" class="col-form-label">Chọn

@@ -6,7 +6,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html lang="en">
-<head">
+<head>
 <title>Work CV</title>
 <meta charset="utf-8">
 <meta name="viewport"
@@ -17,42 +17,74 @@
 	rel="stylesheet">
 
 <!-- CSS -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/css/open-iconic-bootstrap.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/css/animate.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/css/owl.carousel.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/css/owl.theme.default.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/css/magnific-popup.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/css/owl.carousel.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/css/owl.theme.default.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/css/aos.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/css/ionicons.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/css/bootstrap-datepicker.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/css/jquery.timepicker.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/css/css/bootstrap-reboot.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/css/css/mixins/_text-hide.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/css/flaticon.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/css/icomoon.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/css/style.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/css/bootstrap/bootstrap-grid.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/css/bootstrap/bootstrap-reboot.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/static/css/open-iconic-bootstrap.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/static/css/animate.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/static/css/owl.carousel.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/static/css/owl.theme.default.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/static/css/magnific-popup.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/static/css/owl.carousel.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/static/css/owl.theme.default.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/static/css/aos.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/static/css/ionicons.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/static/css/bootstrap-datepicker.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/static/css/jquery.timepicker.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/static/css/css/bootstrap-reboot.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/static/css/css/mixins/_text-hide.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/static/css/flaticon.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/static/css/icomoon.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/static/css/style.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/static/css/bootstrap/bootstrap-grid.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/static/css/bootstrap/bootstrap-reboot.css">
 
 <!-- JS -->
-<script src="${pageContext.request.contextPath}/resources/static/js/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/js/jquery-migrate-3.0.1.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/js/popper.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/js/jquery.easing.1.3.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/js/jquery.waypoints.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/js/jquery.stellar.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/js/owl.carousel.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/js/jquery.magnific-popup.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/js/aos.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/js/jquery.animateNumber.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/js/scrollax.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/static/js/jquery.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/static/js/jquery-migrate-3.0.1.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/static/js/popper.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/static/js/bootstrap.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/static/js/jquery.easing.1.3.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/static/js/jquery.waypoints.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/static/js/jquery.stellar.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/static/js/owl.carousel.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/static/js/jquery.magnific-popup.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/static/js/aos.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/static/js/jquery.animateNumber.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/static/js/scrollax.min.js"></script>
 <script
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-<script src="${pageContext.request.contextPath}/resources/static/js/google-map.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/js/main.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/static/js/google-map.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/static/js/main.js"></script>
 <script
 	src="https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -63,7 +95,8 @@
 		class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
 		id="ftco-navbar">
 		<div class="container-fluid px-md-4	">
-			<a class="navbar-brand" href="/">Work CV</a>
+			<a class="navbar-brand" href="${pageContext.request.contextPath}/">Work
+				CV</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#ftco-nav" aria-controls="ftco-nav"
 				aria-expanded="false" aria-label="Toggle navigation">
@@ -72,38 +105,20 @@
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item active"><a href="/" class="nav-link">Trang
+					<li class="nav-item active"><a
+						href="${pageContext.request.contextPath}/" class="nav-link">Trang
 							chủ</a></li>
-					<li class="'nav-item"><a href="/" class="nav-link">Công
-							việc</a></li>
-					<li class="nav-item"><a href="/" class="nav-link">Ứng cử
-							viên</a></li>
-					<!--        <li class="nav-item"><a href="blog.html" class="nav-link">Công ty</a></li>-->
-					<!-- 
-            <li th:if="${session.user}" class="nav-item"><a th:href="@{'/user/profile/'+${session.user.id}}" th:text="${session.user.fullName}" class="nav-link" ></a> -->
-
-					<ul class="dropdown">
-						<li><a href="/">Hồ Sơ</a></li>
-						<!--            <li><a href="service-single.html">Đổi mật khẩu</a></li>-->
-						<li><a href="/save-job/get-list">Công việc đã lưu</a></li>
-						<li><a href="/user/list-post">Danh sách bài đăng</a></li>
-						<li><a href="/user/get-list-apply">Công việc đã ứng
-								tuyển</a></li>
-						<li><a href="/user/get-list-company">Công ty đã theo
-								dõi</a></li>
-						<!--            <li th:if="${session.user.role.id == 2}"><a href="/auth/logout" >Ứng cử viên tiềm năng</a></li>-->
-						<li><a href="/auth/logout">Đăng xuất</a></li>
-
-					</ul>
-	
-
-					<li></li>
-
-					<li class="nav-item cta mr-md-1"><a href="/recruitment/post"
+					<li class="'nav-item"><a
+						href="${pageContext.request.contextPath }/recruitment/list-post"
+						class="nav-link">Công việc</a></li>
+					<li class="nav-item"><a
+						href="${pageContext.request.contextPath }/user/list-user"
+						class="nav-link">Ứng cử viên</a></li>
+					<li class="nav-item"><a
+						href="${pageContext.request.contextPath}/recruitment/post"
 						class="nav-link">Đăng tuyển</a></li>
-					<li class="nav-item cta cta-colored"><a href="/auth/login"
-						class="nav-link">Đăng nhập</a></li>
-
+					<li class="nav-item"><a href="<c:url value='/logout' />">Đăng
+							xuất</a></li>
 				</ul>
 			</div>
 		</div>
@@ -123,14 +138,13 @@
 								class="ion-ios-arrow-forward"></i></a></span>Công việc <span></span>
 					</p>
 					<h1 class="mb-3 bread">
-						Danh sách công việc của công ty : <span
-							th:text="${company.nameCompany}"></span>
+						Danh sách công việc của công ty : <span>${company.nameCompany}</span>
 					</h1>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 
 	<section class="ftco-section bg-light"
 		th:if="${session.user.role.id == 1 }">
@@ -138,158 +152,177 @@
 			<div class="row">
 				<div class="col-lg-12 pr-lg-5">
 					<div class="row">
-						<th:block th:each="recruitment : ${list.content}">
+						<c:forEach var="tempRecruitment" items="${recruitments}">
 							<div class="col-md-12 ">
+
 								<div
 									class="job-post-item p-4 d-block d-lg-flex align-items-center">
+									<input type="hidden" id=tempRecruitment.id
+										value="${recruitment.id}">
 									<div class="one-third mb-4 mb-md-0">
 										<div class="job-post-item-header align-items-center">
-											<span class="subadge" th:text="${recruitment.type}"></span>
+											<span class="subadge">${tempRecruitment.type}</span>
 											<h2 class="mr-3 text-black">
-												<a th:text="${recruitment.title}"
-													th:href="${'/recruitment/detail/'} +${recruitment.id}"></a>
+												<span>${tempRecruitment.title}</span>
 											</h2>
 										</div>
 										<div class="job-post-item-body d-block d-md-flex">
 											<div class="mr-3">
-												<span class="icon-layers"></span> <a href="#"
-													th:text="${recruitment.Company.nameCompany}"></a>
+												<span class="icon-layers"></span>
+												<c:url var="companyLink" value="/company/post-company">
+													<c:param name="companyId"
+														value="${ tempRecruitment.company.id}"></c:param>
+												</c:url>
+
+												<a href="${companyLink }"><span>${tempRecruitment.company.nameCompany}</span></a>
 											</div>
 											<div>
-												<span class="icon-my_location"></span> <span
-													th:text="${recruitment.address}"></span>
+												<span class="icon-my_location"></span> <span>${tempRecruitment.address}</span>
 											</div>
 										</div>
 									</div>
-									<input type="hidden" th:id="${'idRe'}+${recruitment.id}"
-										th:value="${recruitment.id}">
-									<div th:if="${session.user}"
-										class="one-forth ml-auto d-flex align-items-center mt-4 md-md-0">
-										<div th:if="${session.user.role.id == 1}">
-											<a th:onclick="'save(' +${recruitment.id}+ ')'"
-												class="icon text-center d-flex justify-content-center align-items-center icon mr-2">
-												<span class="icon-heart"></span>
-											</a>
-										</div>
-										<a th:if="${session.user.role.id == 1}" data-toggle="modal"
-											th:data-target="${'#exampleModal'}+${recruitment.id}"
-											class="btn btn-primary py-2">Apply Job</a>
-									</div>
-									<div th:unless="${session.user}"
-										class="one-forth ml-auto d-flex align-items-center mt-4 md-md-0">
-										<div>
-											<a th:onclick="'save(' +${recruitment.id}+ ')'"
-												class="icon text-center d-flex justify-content-center align-items-center icon mr-2">
-												<span class="icon-heart"></span>
-											</a>
-										</div>
-										<a data-toggle="modal"
-											th:data-target="${'#exampleModal'}+${recruitment.id}"
-											class="btn btn-primary py-2">Apply Job</a>
-									</div>
+									<security:authorize access="hasRole('CANDIDATE')">
+										<c:if test="${session.user}">
+											<div
+												class="one-forth ml-auto d-flex align-items-center mt-4 md-md-0">
+												<c:if test="${session.user.role.id == 1}">
+													<a onclick="'save(' + ${tempRecruitment.id} + ')'"
+														class="icon text-center d-flex justify-content-center align-items-center icon mr-2">
+														<span class="icon-heart"></span>
+													</a>
+												</c:if>
+												<a if="${session.user.role.id == 1}" data-toggle="modal"
+													data-target="applypost${tempRecruitment.id}"
+													class="btn btn-primary py-2">Apply Job</a>
+											</div>
+										</c:if>
+										<c:if test="${not session.user}">
+											<div
+												class="one-forth ml-auto d-flex align-items-center mt-4 md-md-0">
+												<div>
+													<a onclick="'save(' + ${tempRecruitment.id} + ')'"
+														class="icon text-center d-flex justify-content-center align-items-center icon mr-2">
+														<span class="icon-heart"></span>
+													</a>
+												</div>
+												<button type="button" style="width: 130px"
+													class="btn btn-primary py-2" data-toggle="modal"
+													data-target="#applypost${tempRecruitment.id}">Apply</button>
+
+											</div>
+										</c:if>
+									</security:authorize>
 								</div>
 							</div>
-							<!-- end -->
-							<!-- Modal -->
-							<div class="modal fade"
-								th:id="${'exampleModal'}+${recruitment.id}" tabindex="-1"
-								role="dialog" aria-labelledby="exampleModalLabel"
+							<!-- Model -->
+							<div class="modal fade" id="applypost${tempRecruitment.id}"
+								tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
 								aria-hidden="true">
 								<div class="modal-dialog" role="document">
 									<div class="modal-content">
 										<div class="modal-header">
 											<h5 class="modal-title" id="exampleModalLabel">
-												Ứng tuyển: <span th:text="${recruitment.title}"></span>
+												Ứng tuyển: <span>${tempRecruitment.title}</span>
 											</h5>
 											<button type="button" class="close" data-dismiss="modal"
 												aria-label="Close">
 												<span aria-hidden="true">&times;</span>
 											</button>
 										</div>
-										<form method="post" action="/user/apply-job">
-											<div class="modal-body">
-												<div class="row">
-													<div class="col-12">
-														<select th:id="${'choose'}+${recruitment.id}"
-															th:onchange="'choosed(' +${recruitment.id}+ ')'"
-															class="form-control" aria-label="Default select example">
-															<option selected>Chọn phương thức nộp</option>
-															<option value="1">Dùng cv đã cập nhật</option>
-															<option value="2">Nộp cv mới</option>
-														</select>
-													</div>
-													<div th:id="${'loai1'}+${recruitment.id}"
+
+										<div class="modal-body">
+											<div class="row">
+												<div class="col-12" id="applyForm${tempRecruitment.id}">
+													<select class="form-control"
+														aria-label="Default select example"
+														onchange="chooseSubmissionMethod(${tempRecruitment.id})">
+														<option selected disabled>Chọn phương thức nộp</option>
+														<option value="updateCV">Dùng CV đã cập nhật</option>
+														<option value="newCV">Nộp CV mới</option>
+													</select>
+													<div id="updateCV${tempRecruitment.id}"
 														style="display: none" class="col-12">
-														<label for="fileUpload" class="col-form-label">Giới
-															thiệu:</label>
-														<textarea rows="10" cols="3" class="form-control"
-															th:id="${'text'}+${recruitment.id}">
+														<form:form modelAttribute="applyPost" method="post"
+															action="${pageContext.request.contextPath }/job/apply-job">
+															<input type="hidden" name="recruitment.id"
+																value="${tempRecruitment.id}">
+															<label for="fileUpload" class="col-form-label">Giới
+																thiệu:</label>
+															<textarea rows="10" cols="3" class="form-control"
+																id="text" name="text"></textarea>
+															<input type="submit" class="btn btn-primary" value="Nộp">
+														</form:form>
 
-                                                    </textarea>
 													</div>
-													<div th:id="${'loai2'}+${recruitment.id}"
-														style="display: none" class="col-12">
+													<div id="newCV${tempRecruitment.id}" style="display: none"
+														class="col-12">
+														<form:form modelAttribute="applyPost" method="post"
+															action="${pageContext.request.contextPath }/job/apply-job2"
+															enctype="multipart/form-data">
 
-														<label for="fileUpload" class="col-form-label">Chọn
-															cv:</label> <input type="file" class="form-control"
-															th:id="${'fileUpload'}+${recruitment.id}" name="file"
-															required> <label for="fileUpload"
-															class="col-form-label">Giới thiệu:</label>
-														<textarea rows="10" cols="3" class="form-control"
-															th:id="${'text'}+${recruitment.id}">
-
-                                                    </textarea>
+															<input type="hidden" name="recruitment.id"
+																value="${tempRecruitment.id}">
+															<label for="fileUpload" class="col-form-label">Chọn
+																cv:</label>
+															<input name="file" id="fileToUpload" type="file"
+																required="required" />
+															<label for="fileUpload" class="col-form-label">Giới
+																thiệu:</label>
+															<textarea rows="10" cols="3" class="form-control"
+																id="text" name="text"></textarea>
+															<input type="submit" class="btn btn-primary" value="Nộp">
+														</form:form>
 													</div>
-
-												</div>
-												<div class="modal-footer">
-													<button type="button" class="btn btn-secondary"
-														data-dismiss="modal">Đóng</button>
-													<button type="button"
-														th:id="${'button1'}+${recruitment.id}"
-														style="display: none"
-														th:onclick="'apply1(' +${recruitment.id}+ ')'"
-														class="btn btn-primary">Nộp</button>
-													<button type="button"
-														th:id="${'button2'}+${recruitment.id}"
-														style="display: none"
-														th:onclick="'apply(' +${recruitment.id}+ ')'"
-														class="btn btn-primary">Nộp</button>
 												</div>
 											</div>
-										</form>
+										</div>
+
 
 
 									</div>
 								</div>
 							</div>
-						</th:block>
+							<!-- Model -->
+						</c:forEach>
+						<div class="row pagination-wrap">
+							<c:if test="${totalPages > 1}">
+								<ul class="pagination ml-auto">
+									<li class="page-item ${currentPage == 1 ? 'disabled' : ''}"><a
+										class="page-link" href="?page=${currentPage - 1}">Trang
+											trước</a></li>
 
-					</div>
-					<div class="row mt-5">
-						<div class="col text-center">
-							<div class="block-27">
-								<ul>
-									<li th:if="${numberPage>0}"><a
-										th:href="@{/recruitment/index(page = ${list.number - 1})}">&lt;</a></li>
-									<th:block th:each="recruitment,state  : ${recruitmentList}">
-										<li
-											th:class="${numberPage == state.index  ? 'active' : null }"><a
-											th:href="@{/recruitment/index(page = ${state.index})}"
-											th:text="${state.index + 1}"></a></li>
-									</th:block>
-									<li th:if="${numberPage<list.totalPages - 1}"><a
-										th:href="@{/recruitment/index(page = ${list.number + 1})}">&gt;</a></li>
+									<li
+										class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+										<a class="page-link" href="?page=${currentPage + 1}">Trang
+											kế tiếp</a>
+									</li>
 								</ul>
-							</div>
+							</c:if>
 						</div>
 					</div>
+
 				</div>
 
 			</div>
 		</div>
 	</section>
 	<script>
+	function chooseSubmissionMethod(jobId) {
+		var submissionMethod = document.getElementById("applyForm" + jobId)
+				.getElementsByTagName("select")[0].value;
+
+		var updateCV = document.getElementById("updateCV" + jobId);
+		var newCV = document.getElementById("newCV" + jobId);
+
+		if (submissionMethod === "updateCV") {
+			updateCV.style.display = "block";
+			newCV.style.display = "none";
+		} else if (submissionMethod === "newCV") {
+			updateCV.style.display = "none";
+			newCV.style.display = "block";
+		}
+	}
+	
 		function apply1(id) {
 			var name = "#idRe" + id;
 			var nameModal = "#exampleModal" + id;

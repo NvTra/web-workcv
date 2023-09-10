@@ -1,6 +1,8 @@
 package com.tranv.webspringworkcv.entity;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -52,6 +55,9 @@ public class Company {
 	@OneToMany(mappedBy = "company", cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
 			CascadeType.REFRESH })
 	private List<Recruitment> recruitments;
+
+	@ManyToMany(mappedBy = "companies")
+	private Set<User> users = new HashSet<User>();
 	// constructor
 
 	public Company() {
@@ -67,9 +73,7 @@ public class Company {
 	}
 
 	// setter and getter
-	
-	
-	
+
 	public List<Recruitment> getRecruitments() {
 		return recruitments;
 	}

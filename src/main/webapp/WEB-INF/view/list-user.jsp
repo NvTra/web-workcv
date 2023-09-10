@@ -3,11 +3,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security"
-	uri="http://www.springframework.org/security/tags"%>\
+	uri="http://www.springframework.org/security/tags"%>
 <%@ page import="java.util.Base64"%>
 <!DOCTYPE html>
 <html lang="en">
-<head">
+<head>
 <title>Work CV</title>
 <meta charset="utf-8">
 <meta name="viewport"
@@ -112,10 +112,12 @@
 						<li class="nav-item active"><a
 							href="${pageContext.request.contextPath}/" class="nav-link">Trang
 								chủ</a></li>
-						<li class="'nav-item"><a href="/" class="nav-link">Công
-								việc</a></li>
-						<li class="nav-item"><a href="/" class="nav-link">Ứng cử
-								viên</a></li>
+						<li class="'nav-item"><a
+							href="${pageContext.request.contextPath }/recruitment/list-post"
+							class="nav-link">Công việc</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath }/user/list-user"
+							class="nav-link">Ứng cử viên</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/recruitment/post"
 							class="nav-link">Đăng tuyển</a></li>

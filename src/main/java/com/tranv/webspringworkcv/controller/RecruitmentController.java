@@ -48,6 +48,14 @@ public class RecruitmentController {
 	@Autowired
 	private ApplyPostService applyPostService;
 
+	private Company getCompanyByUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String email = authentication.getName();
+		User theUser = userService.findByEmail(email);
+		Company company = companyService.getCompanyByUserId(theUser.getId());
+		return company;
+	};
+
 	@GetMapping("/post")
 	public String postJob(Model theModel) {
 		List<Category> categories = categoryService.getCategories();
@@ -55,12 +63,27 @@ public class RecruitmentController {
 		return "job-post";
 	}
 
+	@GetMapping("/list-post")
+	public String showDonation(@RequestParam(name = "page", defaultValue = "1") int currentPage, Model theModel) {
+		Company company = getCompanyByUser();
+		List<Recruitment> recruitments = recruitmentService.getResultRecruitmentByCompany(company.getId());
+		int itemsPerPage = 5;
+		// tổng số trang
+		int totalPages = (int) Math.ceil((double) recruitments.size() / itemsPerPage);
+		// tính vị trí chỉ mục đầu tiên trên trnag hiện tại
+		int startIndex = (currentPage - 1) * itemsPerPage;
+		// lấy danh sách đợt quyên góp cho trang hiện tại
+		List<Recruitment> currentPageDonations = recruitments.subList(startIndex,
+				Math.min(startIndex + itemsPerPage, recruitments.size()));
+		theModel.addAttribute("currentPage", currentPage);
+		theModel.addAttribute("totalPages", totalPages);
+		theModel.addAttribute("recruitment", currentPageDonations);
+		return "list-post";
+	}
+
 	@PostMapping("/addRecruitment")
 	public String addRecruitment(@ModelAttribute("recruitment") Recruitment newRecruitment) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String email = authentication.getName();
-		User theUser = userService.findByEmail(email);
-		Company company = companyService.getCompanyByUserId(theUser.getId());
+		Company company = getCompanyByUser();
 		newRecruitment.setCompany(company);
 		recruitmentService.saveRecruitment(newRecruitment);
 		return "redirect:/recruitment/list-post";
@@ -79,24 +102,6 @@ public class RecruitmentController {
 	public String updateRecruitment(@ModelAttribute("recruitment") Recruitment recruitment) {
 		recruitmentService.update(recruitment);
 		return "redirect:/recruitment/list-post";
-	}
-
-	@GetMapping("/list-post")
-	public String showDonation(@RequestParam(name = "page", defaultValue = "1") int currentPage, Model theModel) {
-		List<Recruitment> recruitments = recruitmentService.getListRecruitments();
-		int itemsPerPage = 5;
-		// tổng số trang
-		int totalPages = (int) Math.ceil((double) recruitments.size() / itemsPerPage);
-		// tính vị trí chỉ mục đầu tiên trên trnag hiện tại
-		int startIndex = (currentPage - 1) * itemsPerPage;
-		// lấy danh sách đợt quyên góp cho trang hiện tại
-		List<Recruitment> currentPageDonations = recruitments.subList(startIndex,
-				Math.min(startIndex + itemsPerPage, recruitments.size()));
-		theModel.addAttribute("currentPage", currentPage);
-		theModel.addAttribute("totalPages", totalPages);
-		theModel.addAttribute("recruitment", currentPageDonations);
-
-		return "list-post";
 	}
 
 	@GetMapping("/detail")

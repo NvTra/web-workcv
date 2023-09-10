@@ -44,7 +44,7 @@ public class HomeController {
 		request.setAttribute("msg_register_success", "done");
 		List<Category> categories = categoryService.getTop4Categorys();
 		theModel.addAttribute("categories", categories);
-		List<Recruitment> recruitment = recruitmentService.getListRecruitments();
+		List<Recruitment> recruitment = recruitmentService.getResultRecruitmentBySalary();
 		theModel.addAttribute("recruitments", recruitment);
 		return "home";
 	}

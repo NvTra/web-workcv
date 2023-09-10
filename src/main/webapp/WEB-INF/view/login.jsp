@@ -138,7 +138,7 @@
 			</div>
 		</div>
 	</div>
-	<div th:if="${msg_register_success}" class="toast" data-delay="2500"
+	<%-- <div th:if="${msg_register_success}" class="toast" data-delay="2500"
 		style="position: fixed; top: 100PX; right: 10PX; z-index: 2000; width: 300px">
 		<script>
 			swal({
@@ -164,7 +164,7 @@
 				type : 'error'
 			})
 		</script>
-	</div>
+	</div> --%>
 	<!-- HOME -->
 	<section class="section-hero overlay inner-page bg-image"
 		style="background-image: url('images/hero_1.jpg');" id="home-section">

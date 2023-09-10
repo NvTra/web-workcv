@@ -106,17 +106,19 @@
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item active"><a
-						href="${pageContext.request.contextPath}/" class="nav-link">Trang
-							chủ</a></li>
-					<li class="'nav-item"><a href="/" class="nav-link">Công
-							việc</a></li>
-					<li class="nav-item"><a href="/" class="nav-link">Ứng cử
-							viên</a></li>
-					<li class="nav-item cta mr-md-1"><a
-						href="${pageContext.request.contextPath}/recruitment/post"
-						class="nav-link">Đăng tuyển</a></li>
-					<li class="nav-item cta cta-colored"><a
-						href="<c:url value='/logout' />">Đăng xuất</a></li>
+							href="${pageContext.request.contextPath}/" class="nav-link">Trang
+								chủ</a></li>
+						<li class="'nav-item"><a
+							href="${pageContext.request.contextPath }/recruitment/list-post"
+							class="nav-link">Công việc</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath }/user/list-user"
+							class="nav-link">Ứng cử viên</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/recruitment/post"
+							class="nav-link">Đăng tuyển</a></li>
+						<li class="nav-item"><a href="<c:url value='/logout' />">Đăng
+								xuất</a></li>
 				</ul>
 			</div>
 		</div>

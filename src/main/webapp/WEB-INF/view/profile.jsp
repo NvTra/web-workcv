@@ -113,10 +113,12 @@
 						<li class="nav-item active"><a
 							href="${pageContext.request.contextPath}/" class="nav-link">Trang
 								chủ</a></li>
-						<li class="'nav-item"><a href="/" class="nav-link">Công
-								việc</a></li>
-						<li class="nav-item"><a href="/" class="nav-link">Ứng cử
-								viên</a></li>
+						<li class="'nav-item"><a
+							href="${pageContext.request.contextPath }/recruitment/list-post"
+							class="nav-link">Công việc</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath }/user/list-user"
+							class="nav-link">Ứng cử viên</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/recruitment/post"
 							class="nav-link">Đăng tuyển</a></li>
@@ -205,7 +207,9 @@
 					enctype="multipart/form-data">
 					<div class="row align-items-center mb-5">
 						<input type="hidden" id="id" name="userId" value="${user.id }">
-						<input type="hidden" id="id" name="id" value="${Cv.id }">
+						<c:if test="${Cv!=null }">
+							<input type="hidden" id="id" name="id" value="${Cv.id }">
+						</c:if>
 						<div class="col-lg-8">
 							<div class="d-flex align-items-center">
 								<div class="form-group" style="margin-top: 15px">
@@ -273,15 +277,16 @@
 									chi tiết</h3>
 								<div class="form-group">
 									<input type="hidden" id="id" name="id" value="${user.id }">
-									<input type="hidden" id="image" name="image" value="${user.image }">
-									<input type="hidden" id="password" name="password"
-										value="${user.password }"> <input type="hidden"
-										id="status" name="status" value="${user.status }"> <input
-										type="hidden" id="role.id" name="role.id"
-										value="${user.role.id }"> <label for="email">Email</label>
-									<input type="email" class="form-control" id="email"
-										name="email" value="${user.email != null ? user.email : null}"
-										required placeholder="you@yourdomain.com">
+									<input type="hidden" id="image" name="image"
+										value="${user.image }"> <input type="hidden"
+										id="password" name="password" value="${user.password }">
+									<input type="hidden" id="status" name="status"
+										value="${user.status }"> <input type="hidden"
+										id="role.id" name="role.id" value="${user.role.id }">
+									<label for="email">Email</label> <input type="email"
+										class="form-control" id="email" name="email"
+										value="${user.email != null ? user.email : null}" required
+										placeholder="you@yourdomain.com">
 								</div>
 								<div class="form-group">
 									<label for="job-title">Full name</label> <input type="text"
@@ -372,12 +377,12 @@
 									<div class="col-lg-12">
 										<div class="p-4 p-md-5 border rounded">
 											<input type="hidden" id="id" name="id" value="${user.id }">
-											<input type="hidden" id="image" name="image" value="${user.image}">
-											<input type="hidden" id="password" name="password"
-												value="${user.password }"> <input type="hidden"
-												id="status" name="status" value="${user.status }"> <input
-												type="hidden" id="role.id" name="role.id"
-												value="${user.role.id }">
+											<input type="hidden" id="image" name="image"
+												value="${user.image}"> <input type="hidden"
+												id="password" name="password" value="${user.password }">
+											<input type="hidden" id="status" name="status"
+												value="${user.status }"> <input type="hidden"
+												id="role.id" name="role.id" value="${user.role.id }">
 											<div class="form-group">
 												<label for="email">Email</label> <input type="email"
 													class="form-control" id="email" name="email"
@@ -429,40 +434,42 @@
 						<div class="col-lg-6">
 							<h2 class="mb-4">Thông tin công ty</h2>
 							<div class="form-group">
-								<form
-									action="${pageContext.request.contextPath }/user/update-logo-company"
-									method="post" enctype="multipart/form-data">
-									<label for="company-website-tw d-block1">Cập nhật Logo</label>
-									<c:if test="${company.id!=null }">
-										<input type="hidden" name="id" value="${company.id}">
-									</c:if>
-									<br> <label class="btn btn-primary btn-md btn-file">
-										Chọn logo<input type="file" name="logoCompany"
-										id="logoCompany" required>
-									</label> <br> <input class="btn btn-primary" type="submit"
-										value="Lưu">
-									<div id="divLogo">
-										<c:if test="${company.logo != null}">
-											<c:set var="logoData" value="${company.logo}" />
-											<c:set var="base64Data">
-												<%=Base64.getEncoder().encodeToString((byte[]) pageContext.getAttribute("logoData"))%>
-											</c:set>
-
-											<img id="avatar1" height="100" width="100"
-												style="border-radius: 50px"
-												src="data:image/png;base64,${base64Data}">
+								<c:if test="${company!=null}">
+									<form
+										action="${pageContext.request.contextPath }/user/update-logo-company"
+										method="post" enctype="multipart/form-data">
+										<label for="company-website-tw d-block1">Cập nhật Logo</label>
+										<c:if test="${company.id!=null }">
+											<input type="hidden" name="id" value="${company.id}">
 										</c:if>
+										<br> <label class="btn btn-primary btn-md btn-file">
+											Chọn logo<input type="file" name="logoCompany"
+											id="logoCompany" required>
+										</label> <br> <input class="btn btn-primary" type="submit"
+											value="Lưu">
+										<div id="divLogo">
+											<c:if test="${company.logo != null}">
+												<c:set var="logoData" value="${company.logo}" />
+												<c:set var="base64Data">
+													<%=Base64.getEncoder().encodeToString((byte[]) pageContext.getAttribute("logoData"))%>
+												</c:set>
 
-										<c:if test="${company.logo == null}">
-											<img id="avatar1" height="100" width="100"
-												style="border-radius: 50px"
-												src="https://st.quantrimang.com/photos/image/072015/22/avatar.jpg">
-										</c:if>
+												<img id="avatar1" height="100" width="100"
+													style="border-radius: 50px"
+													src="data:image/png;base64,${base64Data}">
+											</c:if>
 
-									</div>
-									<input type="hidden" name="${_csrf.parameterName}"
-										value="${_csrf.token}">
-								</form>
+											<c:if test="${company.logo == null}">
+												<img id="avatar1" height="100" width="100"
+													style="border-radius: 50px"
+													src="https://st.quantrimang.com/photos/image/072015/22/avatar.jpg">
+											</c:if>
+
+										</div>
+										<input type="hidden" name="${_csrf.parameterName}"
+											value="${_csrf.token}">
+									</form>
+								</c:if>
 							</div>
 
 
@@ -475,6 +482,8 @@
 											<c:if test="${company.id!=null }">
 												<input type="hidden" name="id"
 													value="${company.id !=null ? company.id : null}">
+												<input type="hidden" id="logo" name="logo"
+													value="${company.logo}">
 											</c:if>
 
 											<div class="form-group">

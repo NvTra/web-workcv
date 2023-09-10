@@ -15,9 +15,13 @@ public interface RecruitmentService {
 
 	public void deleteRecruitment(int theId);
 
+	public List<Recruitment> getResultRecruitmentByCompany(int theId);
+
+	public List<Recruitment> getResultRecruitmentBySalary();
+
 	public List<Recruitment> getResultRecruitment(String searchTerm);
-	
+
 	public List<Recruitment> getResultAdress(String searchTerm);
-	
+
 	public List<Recruitment> getResultCompany(String searchTerm);
 }

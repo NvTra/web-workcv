@@ -36,17 +36,16 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.addFilterBefore(characterEncodingFilter(), CsrfFilter.class);
 		http.csrf().disable().authorizeRequests()
 
-				.antMatchers("/", "/sign-up").permitAll()
-
+				.antMatchers("/", "/sign-up").permitAll().antMatchers("/savefile/**").permitAll()
 				.antMatchers("/user/addUser").permitAll()
-				
+
 				.antMatchers("/user/**").hasAnyRole("EMPLOYER", "CANDIDATE")
 //				.antMatchers("/user/**").hasRole("EMPLOYER")
 //				
 //				.antMatchers("/user/**").hasRole("CANDIDATE")
 //				.antMatchers("/user/**").permitAll()
 
-				.antMatchers("/**").permitAll().antMatchers("/savefile/**").permitAll()
+				.antMatchers("/**").permitAll()
 
 				.antMatchers("/css/**").permitAll()
 

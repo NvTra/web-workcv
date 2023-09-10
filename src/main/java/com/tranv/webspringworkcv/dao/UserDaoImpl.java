@@ -41,6 +41,7 @@ public class UserDaoImpl implements UserDAO {
 		String pass = theUser.getPassword();
 		theUser.setPassword("{noop}" + pass);
 		theUser.setRole(role);
+		theUser.setStatus(1);
 		currentSession.save(theUser);
 
 	}

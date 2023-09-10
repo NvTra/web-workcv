@@ -111,10 +111,12 @@
 						<li class="nav-item active"><a
 							href="${pageContext.request.contextPath}/" class="nav-link">Trang
 								chủ</a></li>
-						<li class="'nav-item"><a href="/" class="nav-link">Công
-								việc</a></li>
-						<li class="nav-item"><a href="/" class="nav-link">Ứng cử
-								viên</a></li>
+						<li class="'nav-item"><a
+							href="${pageContext.request.contextPath }/recruitment/list-post"
+							class="nav-link">Công việc</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath }/user/list-user"
+							class="nav-link">Ứng cử viên</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/recruitment/post"
 							class="nav-link">Đăng tuyển</a></li>
@@ -267,7 +269,7 @@
 																	<span class="icon-map-marker"></span>
 																</div>
 																<input type="text" name="keySearch" class="form-control"
-																	placeholder="Tìm kiếm ứng cử viên">
+																	placeholder="Tìm kiếm công ty">
 															</div>
 														</div>
 													</div>
@@ -347,7 +349,11 @@
 										</div>
 										<div class="job-post-item-body d-block d-md-flex">
 											<div class="mr-3">
-												<span class="icon-layers"></span> <span>${tempRecruitment.company.nameCompany}</span>
+												<c:url var="companyLink" value="/company/detail-company">
+													<c:param name="companyId"
+														value="${ tempRecruitment.company.id}"></c:param>
+												</c:url>
+												<a href="${companyLink }"><span>${tempRecruitment.company.nameCompany}</span></a>
 											</div>
 											<div>
 												<span class="icon-my_location"></span> <span>${tempRecruitment.address}</span>
@@ -359,13 +365,13 @@
 											<div
 												class="one-forth ml-auto d-flex align-items-center mt-4 md-md-0">
 												<c:if test="${session.user.role.id == 1}">
-													<a onclick="'save(' + ${recruitment.id} + ')'"
+													<a onclick="'save(' + ${tempRecruitment.id} + ')'"
 														class="icon text-center d-flex justify-content-center align-items-center icon mr-2">
 														<span class="icon-heart"></span>
 													</a>
 												</c:if>
-												<a th:if="${session.user.role.id == 1}" data-toggle="modal"
-													th:data-target="'#exampleModal' + ${recruitment.id}"
+												<a if="${session.user.role.id == 1}" data-toggle="modal"
+													data-target="applypost${tempRecruitment.id}"
 													class="btn btn-primary py-2">Apply Job</a>
 											</div>
 										</c:if>
@@ -378,12 +384,81 @@
 														<span class="icon-heart"></span>
 													</a>
 												</div>
-												<a data-toggle="modal"
-													data-target="'#exampleModal' + ${tempRecruitment.id}"
-													class="btn btn-primary py-2">Apply Job</a>
+												<button type="button" style="width: 130px"
+													class="btn btn-primary py-2" data-toggle="modal"
+													data-target="#applypost${tempRecruitment.id}">Apply</button>
+
 											</div>
 										</c:if>
 									</security:authorize>
+								</div>
+							</div>
+							<!-- Model -->
+							<div class="modal fade" id="applypost${tempRecruitment.id}"
+								tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+								aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">
+												Ứng tuyển: <span>${tempRecruitment.title}</span>
+											</h5>
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+
+										<div class="modal-body">
+											<div class="row">
+												<div class="col-12" id="applyForm${tempRecruitment.id}">
+													<select class="form-control"
+														aria-label="Default select example"
+														onchange="chooseSubmissionMethod(${tempRecruitment.id})">
+														<option selected disabled>Chọn phương thức nộp</option>
+														<option value="updateCV">Dùng CV đã cập nhật</option>
+														<option value="newCV">Nộp CV mới</option>
+													</select>
+													<div id="updateCV${tempRecruitment.id}"
+														style="display: none" class="col-12">
+														<form:form modelAttribute="applyPost" method="post"
+															action="${pageContext.request.contextPath }/job/apply-job">
+															<input type="hidden" name="recruitment.id"
+																value="${tempRecruitment.id}">
+															<label for="fileUpload" class="col-form-label">Giới
+																thiệu:</label>
+															<textarea rows="10" cols="3" class="form-control"
+																id="text" name="text"></textarea>
+															<input type="submit" class="btn btn-primary" value="Nộp">
+														</form:form>
+
+													</div>
+													<div id="newCV${tempRecruitment.id}" style="display: none"
+														class="col-12">
+														<form:form modelAttribute="applyPost" method="post"
+															action="${pageContext.request.contextPath }/job/apply-job2"
+															enctype="multipart/form-data">
+
+															<input type="hidden" name="recruitment.id"
+																value="${tempRecruitment.id}">
+															<label for="fileUpload" class="col-form-label">Chọn
+																cv:</label>
+															<input name="file" id="fileToUpload" type="file"
+																required="required" />
+															<label for="fileUpload" class="col-form-label">Giới
+																thiệu:</label>
+															<textarea rows="10" cols="3" class="form-control"
+																id="text" name="text"></textarea>
+															<input type="submit" class="btn btn-primary" value="Nộp">
+														</form:form>
+													</div>
+												</div>
+											</div>
+										</div>
+
+
+
+									</div>
 								</div>
 							</div>
 							<!-- Model -->
@@ -419,6 +494,21 @@
 	</section>
 
 	<script>
+	function chooseSubmissionMethod(jobId) {
+		var submissionMethod = document.getElementById("applyForm" + jobId)
+				.getElementsByTagName("select")[0].value;
+
+		var updateCV = document.getElementById("updateCV" + jobId);
+		var newCV = document.getElementById("newCV" + jobId);
+
+		if (submissionMethod === "updateCV") {
+			updateCV.style.display = "block";
+			newCV.style.display = "none";
+		} else if (submissionMethod === "newCV") {
+			updateCV.style.display = "none";
+			newCV.style.display = "block";
+		}
+	}
 		function apply1(id) {
 			var name = "#idRe" + id;
 			var nameModal = "#exampleModal" + id;

@@ -34,6 +34,13 @@ public class UserController {
 	@Autowired
 	private ApplyPostService applyPostService;
 
+	private User getUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String email = authentication.getName();
+		User theUser = userService.findByEmail(email);
+		return theUser;
+	};
+
 	@PostMapping("/addUser")
 	public String addUser(@ModelAttribute("user") User newUser) {
 		userService.saveUser(newUser);
@@ -58,9 +65,7 @@ public class UserController {
 
 	@PostMapping("/update-company")
 	public String updateCompany(@ModelAttribute("company") Company theCompany) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String email = authentication.getName();
-		User theUser = userService.findByEmail(email);
+		User theUser = getUser();
 		theCompany.setStatus(1);
 		theCompany.setUser(theUser);
 		companyService.saveOrUpdateCompany(theCompany);
@@ -85,31 +90,22 @@ public class UserController {
 
 	@PostMapping("/confirm-account")
 	public String confirmAccount() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String email = authentication.getName();
-		User theUser = userService.findByEmail(email);
+		User theUser = getUser();
 		theUser.setStatus(1);
 		userService.update(theUser);
 		return "redirect:/detail";
 	}
 
 	@GetMapping("/post-company")
-	public String postCompany(Model theModel) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String email = authentication.getName();
-		User theUser = userService.findByEmail(email);
-		int userId = theUser.getId();
-		Company theCompany = companyService.getCompanyByUserId(userId);
-		theModel.addAttribute("user", theUser);
+	public String postCompany(@RequestParam("companyId") int companyId, Model theModel) {
+		Company theCompany = companyService.getCompanyById(companyId);
 		theModel.addAttribute("company", theCompany);
 		return "post-company";
 	}
 
 	@GetMapping("/list-user")
 	public String listUser(@RequestParam(name = "page", defaultValue = "1") int currentPage, Model theModel) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String email = authentication.getName();
-		User theUser = userService.findByEmail(email);
+		User theUser = getUser();
 		int userId = theUser.getId();
 		Company theCompany = companyService.getCompanyByUserId(userId);
 		int companyId = theCompany.getId();
