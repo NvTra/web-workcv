@@ -154,4 +154,12 @@ public class Company {
 		this.status = status;
 	}
 
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
+
 }

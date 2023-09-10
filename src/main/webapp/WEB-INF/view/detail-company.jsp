@@ -233,16 +233,36 @@
 				</div>
 				<div class="col-lg-4">
 					<div class="row">
-						<div th:if="${session.user}" class="col-6">
-							<a th:if="${session.user.role.id == 1}" onclick="follow()"
-								class="btn btn-block btn-light btn-md"><span
-								class="icon-heart-o mr-2 text-danger"></span>Theo dõi</a>
-						</div>
-						<div th:unless="${session.user}" class="col-6">
-							<a onclick="follow()" class="btn btn-block btn-light btn-md"><span
-								class="icon-heart-o mr-2 text-danger"></span>Theo dõi</a>
-						</div>
-						<div class="col-6"></div>
+
+						<c:if test="${not sessionScoped.user}">
+							<c:if test="${!theUser.companies.contains(company)}">
+								<div class="col-6">
+									<form:form method="post"
+										action="${pageContext.request.contextPath }/company/follow-company">
+										<input type="hidden" name="companyId" value="${company.id }">
+										<button class="btn btn-block btn-light btn-md" type="submit">
+											<span class="icon-heart-o mr-2 text-danger"></span>Theo dõi
+										</button>
+
+									</form:form>
+								</div>
+							</c:if>
+							<c:if test="${theUser.companies.contains(company)}">
+								<div class="col-6">
+									<form:form method="post"
+										action="${pageContext.request.contextPath }/company/follow-company">
+										<input type="hidden" name="companyId" value="${company.id }">
+										<button class="btn btn-block btn-light btn-md" type="submit">
+											<span class="icon-heart-o mr-2 text-danger"></span>Bỏ Theo
+											dõi
+										</button>
+
+									</form:form>
+								</div>
+							</c:if>
+						</c:if>
+
+
 					</div>
 				</div>
 			</div>
@@ -295,7 +315,7 @@
 				formData.append('idCompany', idCompany);
 				$.ajax({
 					type : 'POST',
-					url : '/user/follow-company/',
+					url : '/company/follow-company/',
 					contentType : false,
 					processData : false,
 					data : formData,
