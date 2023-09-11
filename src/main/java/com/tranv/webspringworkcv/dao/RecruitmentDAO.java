@@ -14,7 +14,7 @@ public interface RecruitmentDAO {
 	public void update(Recruitment theRecruitment);
 
 	public void deleteRecruitment(int theId);
-
+	
 	public List<Recruitment> getResultRecruitmentByCompany(int theId);
 
 	public List<Recruitment> getResultRecruitmentBySalary();

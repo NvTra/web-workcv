@@ -61,6 +61,8 @@ public class ApplyPostDAOImpl implements ApplyPostDAO {
 		return applyPosts;
 	}
 
+
+
 	@Override
 	public List<ApplyPost> listApplyPostsByUser(int theId) {
 		Session currentSession = sessionFactory.getCurrentSession();

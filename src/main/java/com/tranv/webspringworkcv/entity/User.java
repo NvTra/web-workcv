@@ -79,14 +79,6 @@ public class User {
 	private Set<Recruitment> recruitments = new HashSet<>();
 	// contructor
 
-	public List<ApplyPost> getApplyPosts() {
-		return applyPosts;
-	}
-
-	public void setApplyPosts(List<ApplyPost> applyPosts) {
-		this.applyPosts = applyPosts;
-	}
-
 	public User() {
 	}
 
@@ -215,4 +207,11 @@ public class User {
 		this.recruitments = recruitments;
 	}
 
+	public List<ApplyPost> getApplyPosts() {
+		return applyPosts;
+	}
+
+	public void setApplyPosts(List<ApplyPost> applyPosts) {
+		this.applyPosts = applyPosts;
+	}
 }

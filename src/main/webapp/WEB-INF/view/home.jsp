@@ -120,7 +120,6 @@
 					<c:if test="${not empty pageContext.request.remoteUser}">
 
 						<security:authorize access="hasRole('EMPLOYER')">
-							<security:authentication property="principal" var="user" />
 
 							<c:set var="sessionId" value="${pageContext.session.id}" />
 							<c:set var="username"
@@ -130,7 +129,7 @@
 								id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
 								aria-expanded="false"> Đăng tuyển</a>
 
-								<ul class="dropdown-menu"
+								<ul style="left: -85px !important" class="dropdown-menu"
 									aria-labelledby="navbarDropdownMenuLink">
 									<li><a class="dropdown-item"
 										href="${pageContext.request.contextPath }/detail">Hồ Sơ</a></li>
@@ -145,12 +144,15 @@
 						</security:authorize>
 
 						<security:authorize access="hasRole('CANDIDATE')">
+							<li class="'nav-item"><a
+								href="${pageContext.request.contextPath }/recruitment/list-apply-job"
+								class="nav-link">Công việc</a></li>
 							<li class="nav-item dropdown"><a style="color: white;"
 								class="nav-link dropdown-toggle" href="#"
 								id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
 								aria-expanded="false"> Hồ sơ</a>
 
-								<ul class="dropdown-menu"
+								<ul style="left: -140px !important" class="dropdown-menu"
 									aria-labelledby="navbarDropdownMenuLink">
 
 									<li><a class="dropdown-item"
@@ -158,6 +160,9 @@
 									<li><a class="dropdown-item"
 										href="${pageContext.request.contextPath }/recruitment/list-apply-job">Công
 											việc đã ứng tuyển</a></li>
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/job/list-save-job">Công
+											việc đã lưu</a></li>
 									<li><a class="dropdown-item"
 										href="${pageContext.request.contextPath }/company/list-follow-company">Công
 											ty đã theo dõi</a></li>
@@ -502,89 +507,22 @@
 											</div>
 										</div>
 										<security:authorize access="hasRole('CANDIDATE')">
-											<%-- <c:if test="${session.user}">
-												<div
-													class="one-forth ml-auto d-flex align-items-center mt-4 md-md-0">
-													<c:forEach var="tempRecruitment2"
-														items="${theUser.recruitments}">
-														<c:choose>
-															<c:when
-																test="${tempRecruitment2.id eq tempRecruitment.id}">
-																<div class="col-6">
-																	<form:form method="post"
-																		action="${pageContext.request.contextPath}/job/saveJob">
-																		<input type="hidden" name="recruitmentId"
-																			value="${tempRecruitment.id}">
-																		<button
-																			class="icon text-center d-flex justify-content-center align-items-center icon mr-2"
-																			type="submit">
-																			<span class="icon-heart"></span>
-																		</button>
-																	</form:form>
-																</div>
-															</c:when>
-															<c:when
-																test="${tempRecruitment2.id eq tempRecruitment.id}">
-																<div class="col-6">
-																	<form:form method="post"
-																		action="${pageContext.request.contextPath}/job/saveJob">
-																		<input type="hidden" name="recruitmentId"
-																			value="${tempRecruitment.id}">
-																		<button
-																			class="icon text-center d-flex justify-content-center align-items-center icon mr-2"
-																			type="submit">
-																			<span class="icon-heart"></span>
-																		</button>
-																	</form:form>
-																</div>
-															</c:when>
-														</c:choose>
-													</c:forEach>
-													<a if="${session.user.role.id == 1}" data-toggle="modal"
-														data-target="applypost${tempRecruitment.id}"
-														class="btn btn-primary py-2">Apply Job</a>
-												</div>
-											</c:if> --%>
+
 											<c:if test="${not session.user}">
 												<div
 													class="one-forth ml-auto d-flex align-items-center mt-4 md-md-0">
-													<c:forEach var="tempRecruitment2"
-														items="${theUser.recruitments}">
-														<c:choose>
-															<c:when
-																test="${tempRecruitment2.id ne tempRecruitment.id}">
-																<div class="col-6">
-																	<form:form method="post"
-																		action="${pageContext.request.contextPath}/job/saveJob">
-																		<input type="hidden" name="recruitmentId"
-																			value="${tempRecruitment.id}">
-																		<button
-																			class="icon text-center d-flex justify-content-center align-items-center icon mr-2"
-																			type="submit">
-																			<span class="icon-heart"></span>
-																		</button>
-																	</form:form>
-																</div>
-															</c:when>
-															<c:when
-																test="${tempRecruitment2.id eq tempRecruitment.id}">
-																<div class="col-6">
-																	<form:form method="post"
-																		action="${pageContext.request.contextPath}/job/unsaveJob">
-																		<input type="hidden" name="recruitmentId"
-																			value="${tempRecruitment.id}">
-																		<button
-																			class="icon text-center d-flex justify-content-center align-items-center icon mr-2"
-																			type="submit">
-																			<span class="icon-heart">B</span>
-																		</button>
-																	</form:form>
-																</div>
-															</c:when>
-														</c:choose>
-
-													</c:forEach>
-
+													<div class="col-6">
+														<form:form method="post"
+															action="${pageContext.request.contextPath}/job/saveJob">
+															<input type="hidden" name="recruitmentId"
+																value="${tempRecruitment.id}">
+															<button
+																class="icon text-center d-flex justify-content-center align-items-center icon mr-2"
+																type="submit">
+																<span class="icon-heart"></span>
+															</button>
+														</form:form>
+													</div>
 
 													<button type="button" style="width: 130px"
 														class="btn btn-primary py-2" data-toggle="modal"

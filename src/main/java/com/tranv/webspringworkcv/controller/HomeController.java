@@ -1,5 +1,6 @@
 package com.tranv.webspringworkcv.controller;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,8 +48,8 @@ public class HomeController {
 		request.setAttribute("msg_register_success", "done");
 		List<Category> categories = categoryService.getTop4Categorys();
 		theModel.addAttribute("categories", categories);
-		List<Recruitment> recruitment = recruitmentService.getResultRecruitmentBySalary();
-		theModel.addAttribute("recruitments", recruitment);
+		List<Recruitment> recruitments = recruitmentService.getResultRecruitmentBySalary();
+		theModel.addAttribute("recruitments", recruitments);
 		return "home";
 	}
 

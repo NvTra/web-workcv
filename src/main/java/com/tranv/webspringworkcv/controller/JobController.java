@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,9 +26,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tranv.webspringworkcv.entity.ApplyPost;
 import com.tranv.webspringworkcv.entity.Cv;
+import com.tranv.webspringworkcv.entity.Recruitment;
 import com.tranv.webspringworkcv.entity.User;
 import com.tranv.webspringworkcv.service.ApplyPostService;
 import com.tranv.webspringworkcv.service.CvService;
+import com.tranv.webspringworkcv.service.RecruitmentService;
 import com.tranv.webspringworkcv.service.SaveJobService;
 import com.tranv.webspringworkcv.service.UserService;
 
@@ -45,6 +48,9 @@ public class JobController {
 
 	@Autowired
 	private SaveJobService saveJobService;
+
+	@Autowired
+	private RecruitmentService recruitmentService;
 
 	private static final int THRESHOLD_SIZE = 1024 * 1024 * 3; // 3MB
 
@@ -114,7 +120,16 @@ public class JobController {
 	public String saveJob(@RequestParam("recruitmentId") int recruitmentId) {
 		User theUser = getUser();
 		int userId = theUser.getId();
-		saveJobService.saveJob(recruitmentId, userId);
+
+		Recruitment recruitment = recruitmentService.getRecruitmentById(recruitmentId);
+
+		boolean isSaveJob = theUser.getRecruitments().stream()
+				.anyMatch(saveJob -> saveJob.getId() == recruitment.getId());
+		if (isSaveJob) {
+			saveJobService.unSaveJob(recruitmentId, userId);
+		} else {
+			saveJobService.saveJob(recruitmentId, userId);
+		}
 		return "redirect:/";
 	}
 
@@ -123,7 +138,23 @@ public class JobController {
 		User theUser = getUser();
 		int userId = theUser.getId();
 		saveJobService.unSaveJob(recruitmentId, userId);
-		return "redirect:/";
+		return "redirect:/job/list-save-job";
+	}
+
+	@GetMapping("list-save-job")
+	public String listSaveJob(@RequestParam(name = "page", defaultValue = "1") int currentPage, Model theModel) {
+		User theUser = getUser();
+		int theId = theUser.getId();
+		List<Recruitment> recruitments = saveJobService.listSaveJobByUser(theId);
+		int itemsPerPage = 5;
+		int totalPages = (int) Math.ceil((double) recruitments.size() / itemsPerPage);
+		int startIndex = (currentPage - 1) * itemsPerPage;
+		List<Recruitment> currentPageDonations = recruitments.subList(startIndex,
+				Math.min(startIndex + itemsPerPage, recruitments.size()));
+		theModel.addAttribute("currentPage", currentPage);
+		theModel.addAttribute("totalPages", totalPages);
+		theModel.addAttribute("recruitments", currentPageDonations);
+		return "list-save-job";
 	}
 
 	@GetMapping("/deleteJob")

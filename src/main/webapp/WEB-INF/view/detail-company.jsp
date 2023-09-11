@@ -233,10 +233,10 @@
 				</div>
 				<div class="col-lg-4">
 					<div class="row">
-<!-- FOllow COmpany -->
+						<!-- FOllow COmpany -->
 						<c:if test="${not sessionScoped.user}">
 							<c:if test="${not isFollowed}">
-							
+
 								<div class="col-6">
 									<form:form method="post"
 										action="${pageContext.request.contextPath}/company/follow-company">
@@ -248,7 +248,7 @@
 								</div>
 							</c:if>
 							<c:if test="${isFollowed}">
-							
+
 								<div class="col-6">
 									<form:form method="post"
 										action="${pageContext.request.contextPath}/company/unfollow-company">

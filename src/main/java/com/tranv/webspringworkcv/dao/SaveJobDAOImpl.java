@@ -1,10 +1,14 @@
 package com.tranv.webspringworkcv.dao;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.tranv.webspringworkcv.entity.ApplyPost;
 import com.tranv.webspringworkcv.entity.Recruitment;
 import com.tranv.webspringworkcv.entity.User;
 import com.tranv.webspringworkcv.service.RecruitmentService;
@@ -43,6 +47,15 @@ public class SaveJobDAOImpl implements SaveJobDAO {
 		theRecruitment.getUsers().remove(theUser);
 
 		currentSession.merge(theUser);
+	}
+
+	@Override
+	public List<Recruitment> listSaveJobByUser(int theId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<Recruitment> theQuery = currentSession.createQuery("SELECT r FROM User u JOIN u.recruitments r WHERE u.id = :userId", Recruitment.class);
+		theQuery.setParameter("userId", theId);
+		List<Recruitment> recruitments = theQuery.getResultList();
+		return recruitments;
 	}
 
 }

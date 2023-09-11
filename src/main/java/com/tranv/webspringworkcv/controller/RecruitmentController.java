@@ -160,10 +160,12 @@ public class RecruitmentController {
 	public String listApplyJob(Model theModel) {
 		User theUser = getUser();
 		int theId = theUser.getId();
-		List<ApplyPost> applyPosts=applyPostService.listApplyPostsByUser(theId);
+		List<ApplyPost> applyPosts = applyPostService.listApplyPostsByUser(theId);
 		theModel.addAttribute("applyPosts", applyPosts);
 		return "list-apply-job";
 	}
+
+	
 
 	@SuppressWarnings("unused")
 	@GetMapping("/downloadFile")
