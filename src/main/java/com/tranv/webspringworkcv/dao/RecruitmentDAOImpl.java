@@ -70,7 +70,8 @@ public class RecruitmentDAOImpl implements RecruitmentDAO {
 		theQuery.setParameter("companyId", theId);
 		List<Recruitment> recruitments = theQuery.getResultList();
 		return recruitments;
-	};
+	}
+
 
 	@Override
 	public List<Recruitment> getResultRecruitmentBySalary() {

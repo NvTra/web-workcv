@@ -47,4 +47,18 @@ public class ApplyPostServiceImpl implements ApplyPostService {
 	public List<ApplyPost> listApplyPostsByCompany(int companyId) {
 		return applyPostDAO.listApplyPostsByCompany(companyId);
 	}
+
+	@Override
+	@Transactional
+	public List<ApplyPost> listApplyPostsByUser(int theId) {
+		return applyPostDAO.listApplyPostsByUser(theId);
+	}
+
+	@Override
+	@Transactional
+	public void deleteJob(int theId) {
+		applyPostDAO.deleteJob(theId);
+
+	}
+
 }

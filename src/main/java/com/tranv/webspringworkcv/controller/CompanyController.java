@@ -35,6 +35,13 @@ public class CompanyController {
 	@Autowired
 	private UserService userService;
 
+	private User getUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String email = authentication.getName();
+		User theUser = userService.findByEmail(email);
+		return theUser;
+	}
+
 	@GetMapping("/post-company")
 	public String postCompany(@RequestParam(name = "page", defaultValue = "1") int currentPage,
 			@RequestParam("companyId") int CompanyId, Model theModel) {
@@ -61,8 +68,12 @@ public class CompanyController {
 		String email = authentication.getName();
 		User theUser = userService.findByEmail(email);
 		Company theCompany = companyService.getCompanyById(companyId);
+		
+		boolean isFollowed = theUser.getCompanies().stream().anyMatch(followedCompany -> followedCompany.getId() == theCompany.getId());
+		
 		theModel.addAttribute("company", theCompany);
 		theModel.addAttribute("theUser", theUser);
+		theModel.addAttribute("isFollowed", isFollowed);
 		return "detail-company";
 	}
 
@@ -78,11 +89,38 @@ public class CompanyController {
 
 	@PostMapping("/unfollow-company")
 	public String unFollowCompany(@RequestParam("companyId") int companyId, Model theModel) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String email = authentication.getName();
-		User theUser = userService.findByEmail(email);
+		User theUser = getUser();
 		int userId = theUser.getId();
 		followCompanyService.unFollowCompany(userId, companyId);
 		return "redirect:/company/detail-company?companyId=" + companyId;
 	}
+
+	@PostMapping("/unfollow-company2")
+	public String unFollowCompany2(@RequestParam("companyId") int companyId, Model theModel) {
+		User theUser = getUser();
+		int userId = theUser.getId();
+		followCompanyService.unFollowCompany(userId, companyId);
+		return "redirect:/company/list-follow-company";
+	}
+
+	@GetMapping("/list-follow-company")
+	public String listFollowCompany(@RequestParam(name = "page", defaultValue = "1") int currentPage, Model theModel) {
+		User theUser = getUser();
+		int theId = theUser.getId();
+		List<Company> companies = followCompanyService.listCompanyFollow(theId);
+		int itemsPerPage = 5;
+		// tổng số trang
+		int totalPages = (int) Math.ceil((double) companies.size() / itemsPerPage);
+		// tính vị trí chỉ mục đầu tiên trên trnag hiện tại
+		int startIndex = (currentPage - 1) * itemsPerPage;
+		// lấy danh sách đợt quyên góp cho trang hiện tại
+		List<Company> currentPageDonations = companies.subList(startIndex,
+				Math.min(startIndex + itemsPerPage, companies.size()));
+		theModel.addAttribute("currentPage", currentPage);
+		theModel.addAttribute("totalPages", totalPages);
+		theModel.addAttribute("companies", currentPageDonations);
+		return "list-follow-company";
+
+	}
+
 }

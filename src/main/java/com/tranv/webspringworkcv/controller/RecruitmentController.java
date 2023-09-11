@@ -56,6 +56,13 @@ public class RecruitmentController {
 		return company;
 	};
 
+	private User getUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String email = authentication.getName();
+		User theUser = userService.findByEmail(email);
+		return theUser;
+	};
+
 	@GetMapping("/post")
 	public String postJob(Model theModel) {
 		List<Category> categories = categoryService.getCategories();
@@ -147,6 +154,15 @@ public class RecruitmentController {
 		int recruitmentId = applyPost.getRecruitment().getId();
 		System.out.println(recruitmentId);
 		return "redirect:/recruitment/detail?recruitmentId=" + recruitmentId;
+	}
+
+	@GetMapping("/list-apply-job")
+	public String listApplyJob(Model theModel) {
+		User theUser = getUser();
+		int theId = theUser.getId();
+		List<ApplyPost> applyPosts=applyPostService.listApplyPostsByUser(theId);
+		theModel.addAttribute("applyPosts", applyPosts);
+		return "list-apply-job";
 	}
 
 	@SuppressWarnings("unused")

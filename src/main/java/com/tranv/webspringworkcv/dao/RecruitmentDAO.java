@@ -24,4 +24,6 @@ public interface RecruitmentDAO {
 	public List<Recruitment> getResultAdress(String searchTerm);
 
 	public List<Recruitment> getResultCompany(String searchTerm);
+
+
 }

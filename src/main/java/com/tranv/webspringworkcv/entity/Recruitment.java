@@ -1,6 +1,8 @@
 package com.tranv.webspringworkcv.entity;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -68,22 +71,8 @@ public class Recruitment {
 	@OneToMany(mappedBy = "recruitment", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
 			CascadeType.REFRESH })
 	private List<ApplyPost> applyPosts;
-
-	public List<ApplyPost> getApplyPosts() {
-		return applyPosts;
-	}
-
-	public void setApplyPosts(List<ApplyPost> applyPosts) {
-		this.applyPosts = applyPosts;
-	}
-
-	public String getDeadline() {
-		return deadline;
-	}
-
-	public void setDeadline(String deadline) {
-		this.deadline = deadline;
-	}
+	@ManyToMany(mappedBy = "recruitments")
+	private Set<User> users = new HashSet<User>();
 
 	// constructor
 	public Recruitment() {
@@ -229,4 +218,28 @@ public class Recruitment {
 		this.category = category;
 	}
 
+	public List<ApplyPost> getApplyPosts() {
+		return applyPosts;
+	}
+
+	public void setApplyPosts(List<ApplyPost> applyPosts) {
+		this.applyPosts = applyPosts;
+	}
+
+	public String getDeadline() {
+		return deadline;
+	}
+
+	public void setDeadline(String deadline) {
+		this.deadline = deadline;
+	}
+
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
+	
 }

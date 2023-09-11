@@ -1,7 +1,11 @@
 package com.tranv.webspringworkcv.dao;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +43,16 @@ public class FollowCompanyDAOImpl implements FollowCompanyDAO {
 		theUser.getCompanies().remove(theCompany);
 		theCompany.getUsers().remove(theUser);
 		currentSession.merge(theUser);
+	}
+
+	@Override
+	public List<Company> listCompanyFollow(int userId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<Company> theQuery = currentSession
+				.createQuery("SELECT c FROM User u JOIN u.companies c WHERE u.id = :userId", Company.class);
+		theQuery.setParameter("userId", userId);
+		List<Company> companies = theQuery.getResultList();
+		return companies;
 	}
 
 }

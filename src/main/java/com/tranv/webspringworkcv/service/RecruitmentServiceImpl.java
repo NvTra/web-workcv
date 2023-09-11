@@ -53,6 +53,8 @@ public class RecruitmentServiceImpl implements RecruitmentService {
 		return recruitmentDAO.getResultRecruitmentByCompany(theId);
 	}
 
+
+
 	@Override
 	@Transactional
 	public List<Recruitment> getResultRecruitmentBySalary() {

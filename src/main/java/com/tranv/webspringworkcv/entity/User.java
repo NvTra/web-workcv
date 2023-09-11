@@ -71,6 +71,12 @@ public class User {
 	@JoinTable(name = "follow_company", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "company_id") })
 	private Set<Company> companies = new HashSet<>();
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
+			CascadeType.REFRESH })
+	@JoinTable(name = "save_job", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "recruitment_id") })
+	private Set<Recruitment> recruitments = new HashSet<>();
 	// contructor
 
 	public List<ApplyPost> getApplyPosts() {
@@ -199,6 +205,14 @@ public class User {
 
 	public void setCompanies(Set<Company> companies) {
 		this.companies = companies;
+	}
+
+	public Set<Recruitment> getRecruitments() {
+		return recruitments;
+	}
+
+	public void setRecruitments(Set<Recruitment> recruitments) {
+		this.recruitments = recruitments;
 	}
 
 }

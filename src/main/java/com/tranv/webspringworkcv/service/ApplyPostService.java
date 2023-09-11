@@ -15,4 +15,8 @@ public interface ApplyPostService {
 	public void confirmPost(int theId);
 
 	public List<ApplyPost> listApplyPostsByCompany(int companyId);
+
+	public List<ApplyPost> listApplyPostsByUser(int theId);
+
+	public void deleteJob(int theId);
 }

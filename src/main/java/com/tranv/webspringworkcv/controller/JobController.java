@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,7 @@ import com.tranv.webspringworkcv.entity.Cv;
 import com.tranv.webspringworkcv.entity.User;
 import com.tranv.webspringworkcv.service.ApplyPostService;
 import com.tranv.webspringworkcv.service.CvService;
+import com.tranv.webspringworkcv.service.SaveJobService;
 import com.tranv.webspringworkcv.service.UserService;
 
 @Controller
@@ -34,19 +36,29 @@ import com.tranv.webspringworkcv.service.UserService;
 public class JobController {
 	@Autowired
 	private UserService userService;
+
 	@Autowired
 	private CvService cvService;
+
 	@Autowired
 	private ApplyPostService applyPostService;
 
+	@Autowired
+	private SaveJobService saveJobService;
+
 	private static final int THRESHOLD_SIZE = 1024 * 1024 * 3; // 3MB
+
+	private User getUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String email = authentication.getName();
+		User theUser = userService.findByEmail(email);
+		return theUser;
+	}
 
 	@PostMapping("/apply-job")
 	public String applyJob(@ModelAttribute("applyJob") ApplyPost applyPost) {
 		SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String email = authentication.getName();
-		User theUser = userService.findByEmail(email);
+		User theUser = getUser();
 		int theId = theUser.getId();
 		Cv cv = cvService.getCvByUserId(theId);
 		applyPost.setCreatedAt(formater.format(new Date()));
@@ -61,9 +73,7 @@ public class JobController {
 	public ModelAndView saveimage(@ModelAttribute("applyJob") ApplyPost applyPost,
 			@RequestParam CommonsMultipartFile file, HttpSession session) throws Exception {
 		SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String email = authentication.getName();
-		User theUser = userService.findByEmail(email);
+		User theUser = getUser();
 		int theId = theUser.getId();
 		Cv theCv = cvService.getCvByUserId(theId);
 
@@ -98,5 +108,27 @@ public class JobController {
 		applyPostService.saveOrUpdateApplyPost(applyPost);
 
 		return new ModelAndView("redirect:/", "filesuccess", "File successfully saved!");
+	}
+
+	@PostMapping("/saveJob")
+	public String saveJob(@RequestParam("recruitmentId") int recruitmentId) {
+		User theUser = getUser();
+		int userId = theUser.getId();
+		saveJobService.saveJob(recruitmentId, userId);
+		return "redirect:/";
+	}
+
+	@PostMapping("/unsaveJob")
+	public String unSaveJob(@RequestParam("recruitmentId") int recruitmentId) {
+		User theUser = getUser();
+		int userId = theUser.getId();
+		saveJobService.unSaveJob(recruitmentId, userId);
+		return "redirect:/";
+	}
+
+	@GetMapping("/deleteJob")
+	public String deleteJob(@RequestParam("applyPostId") int theId) {
+		applyPostService.deleteJob(theId);
+		return "redirect:/recruitment/list-apply-job";
 	}
 }

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.tranv.webspringworkcv.entity.ApplyPost;
+import com.tranv.webspringworkcv.entity.Recruitment;
+import com.tranv.webspringworkcv.entity.User;
 
 @Repository
 public class ApplyPostDAOImpl implements ApplyPostDAO {
@@ -57,6 +59,25 @@ public class ApplyPostDAOImpl implements ApplyPostDAO {
 		theQuery.setParameter("companyId", companyId);
 		List<ApplyPost> applyPosts = theQuery.getResultList();
 		return applyPosts;
+	}
+
+	@Override
+	public List<ApplyPost> listApplyPostsByUser(int theId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<ApplyPost> theQuery = currentSession.createQuery(
+				"SELECT a FROM Recruitment r JOIN r.applyPosts a JOIN a.user u WHERE u.id = :userId", ApplyPost.class);
+		theQuery.setParameter("userId", theId);
+		List<ApplyPost> applyPosts = theQuery.getResultList();
+		return applyPosts;
+	}
+
+	@Override
+	public void deleteJob(int theId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query theQuery = currentSession.createQuery("delete from ApplyPost where id:=applyPostId", ApplyPost.class);
+		theQuery.setParameter("applyPostId", theId);
+		theQuery.executeUpdate();
+
 	}
 
 }

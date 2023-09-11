@@ -40,7 +40,10 @@ public class HomeController {
 
 	@GetMapping("/")
 	public String showHome(HttpServletRequest request, Model theModel) {
-		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String email = authentication.getName();
+		User theUser = userService.findByEmail(email);
+		theModel.addAttribute("theUser", theUser);
 		request.setAttribute("msg_register_success", "done");
 		List<Category> categories = categoryService.getTop4Categorys();
 		theModel.addAttribute("categories", categories);
