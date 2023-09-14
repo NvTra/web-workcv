@@ -9,9 +9,11 @@ import com.tranv.webspringworkcv.entity.Role;
 
 @Service
 public class RoleServiceImpl implements RoleService {
+	// Service handles operations related to the Role object
 	@Autowired
 	private RoleDAO roleDAO;
 
+	// Get the Role object by Id
 	@Override
 	@Transactional
 	public Role getRolebyRoleId(int theId) {

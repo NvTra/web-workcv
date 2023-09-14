@@ -83,70 +83,113 @@
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/static/js/google-map.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/static/js/main.js"></script>
+
 <script
 	src="https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/static/js/main.js"></script>
 </head>
 <body>
-<body>
-	<!-- NAV -->
-	<nav class="header_menu"
-		class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
-		id="ftco-navbar">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container-fluid px-md-4	">
-			<a class="navbar-brand" href="${pageContext.request.contextPath}/">Work
+			<a class="navbar-brand" href="${pageContext.request.contextPath }/">Work
 				CV</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#ftco-nav" aria-controls="ftco-nav"
-				aria-expanded="false" aria-label="Toggle navigation">
-				<span class="oi oi-menu"></span> Menu
-			</button>
-			<c:set var="sessionId" value="${pageContext.session.id}" />
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
-				<security:authorize access="hasRole('EMPLOYER')">
-					<ul class="navbar-nav ml-auto">
-						<li class="nav-item active"><a
-							href="${pageContext.request.contextPath}/" class="nav-link">Trang
-								chủ</a></li>
-						<li class="'nav-item"><a
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item active"><a
+						href="${pageContext.request.contextPath }/" class="nav-link">Trang
+							chủ</a></li>
+					<security:authorize access="hasRole('EMPLOYER')">
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath }/recruitment/list-post"
 							class="nav-link">Công việc</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath }/user/list-user"
 							class="nav-link">Ứng cử viên</a></li>
-						<li class="nav-item"><a
-							href="${pageContext.request.contextPath}/recruitment/post"
-							class="nav-link">Đăng tuyển</a></li>
-						<li class="nav-item"><a href="<c:url value='/logout' />">Đăng
-								xuất</a></li>
-					</ul>
 
-				</security:authorize>
+					</security:authorize>
+					<c:if test="${not empty pageContext.request.remoteUser}">
 
-				<security:authorize access="hasRole('CANDIDATE')">
-					<li>
-						<ul class="dropdown">
-							<li><a href="/">Hồ Sơ</a></li>
-							<li><a href="/save-job/get-list">Công việc đã lưu</a></li>
-							<li><a href="/user/list-post">Danh sách bài đăng</a></li>
-							<li><a href="/user/get-list-apply">Công việc đã ứng
-									tuyển</a></li>
-							<li><a href="/user/get-list-company">Công ty đã theo dõi</a></li>
+						<security:authorize access="hasRole('EMPLOYER')">
 
-						</ul>
-					</li>
-				</security:authorize>
+							<li class="nav-item dropdown"
+								style="position: relative !important;"><a
+								style="color: white;" class="nav-link dropdown-toggle" href="#"
+								id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+								aria-expanded="false"> Đăng tuyển</a>
 
+								<ul style="left: -85px !important" class="dropdown-menu"
+									aria-labelledby="navbarDropdownMenuLink">
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/detail">Hồ Sơ</a></li>
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/recruitment/list-post">Danh
+											sách bài đăng</a></li>
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/recruitment/post">Đăng
+											Tuyến</a></li>
+									<li><a class="dropdown-item"
+										href="<c:url value='/logout' />">Đăng xuất</a></li>
+
+								</ul></li>
+
+						</security:authorize>
+
+						<security:authorize access="hasRole('CANDIDATE')">
+							<li class="nav-item"><a
+								href="${pageContext.request.contextPath }/recruitment/list-apply-job"
+								class="nav-link">Công việc</a></li>
+							<li class="nav-item dropdown"><a style="color: white;"
+								class="nav-link dropdown-toggle" href="#"
+								id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+								aria-expanded="false"> Hồ sơ</a>
+
+								<ul style="left: -140px !important" class="dropdown-menu"
+									aria-labelledby="navbarDropdownMenuLink">
+
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/detail">Hồ sơ</a></li>
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/recruitment/list-apply-job">Công
+											việc đã ứng tuyển</a></li>
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/job/list-save-job">Công
+											việc đã lưu</a></li>
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/company/list-follow-company">Công
+											ty đã theo dõi</a></li>
+									<li><a class="dropdown-item"
+										href="<c:url value='/logout' />">Đăng xuất</a></li>
+								</ul></li>
+
+						</security:authorize>
+					</c:if>
+
+					<li><c:if test="${empty pageContext.request.remoteUser}">
+
+							<li class="nav-item"><a
+								href="<c:url value='/showFormLogin' />"
+								class="nav-link btn btn-warning" style="color: white;">Đăng
+									nhập</a></li>
+						</c:if></li>
+
+				</ul>
 			</div>
 		</div>
 	</nav>
-	<!-- NAV -->
+	<!-- END nav -->
 	<!-- tìm kiếm -->
 	<div class="hero-wrap img"
-		style="background-image: url(user${pageContext.request.contextPath}/resources/static/images/bg_1.jpg);">
+		style="background-image: url(${pageContext.request.contextPath}/resources/static/images/bg_1.jpg);">
 		<div class="overlay"></div>
 		<div class="container">
 			<div
@@ -344,7 +387,11 @@
 										<div class="job-post-item-header align-items-center">
 											<span class="subadge">${tempRecruitment.type}</span>
 											<h2 class="mr-3 text-black">
-												<span>${tempRecruitment.title}</span>
+												<c:url var="jobLink" value="/recruitment/detail">
+													<c:param name="recruitmentId"
+														value="${ tempRecruitment.id}"></c:param>
+												</c:url>
+												<a href="${jobLink }"><span>${tempRecruitment.title}</span></a>
 											</h2>
 										</div>
 										<div class="job-post-item-body d-block d-md-flex">
@@ -469,23 +516,23 @@
 
 					</div>
 
-					<div class="row mt-5">
-						<div class="col text-center">
-							<div class="block-27">
-								<ul>
-									<li th:if="${numberPage>0}"><a
-										th:href="@{'/recruitment/search/'+ ${keySearch}(page = ${list.number - 1})}">&lt;</a></li>
-									<th:block th:each="recruitment,state  : ${recruitmentList}">
-										<li
-											th:class="${numberPage == state.index  ? 'active' : null }"><a
-											th:href="@{'/recruitment/search/'+ ${keySearch}(page = ${state.index})}"
-											th:text="${state.index + 1}"></a></li>
-									</th:block>
-									<li th:if="${numberPage<list.totalPages - 1}"><a
-										th:href="@{'/recruitment/search/'+ ${keySearch}(page = ${list.number + 1})}">&gt;</a></li>
-								</ul>
-							</div>
-						</div>
+					<div class="row pagination-wrap">
+						<c:if test="${totalPages > 1}">
+							<ul class="pagination ml-auto">
+								<li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+									<a class="page-link"
+									href="?keySearch=${keySearch}&page=${currentPage - 1}">Trang
+										trước</a>
+								</li>
+
+								<li
+									class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+									<a class="page-link"
+									href="?keySearch=${keySearch}&page=${currentPage + 1}">Trang
+										kế tiếp</a>
+								</li>
+							</ul>
+						</c:if>
 					</div>
 				</div>
 
@@ -713,6 +760,7 @@
 
 	<!-- loader -->
 	<!--<div th:replace="public/fragments :: loading" id="ftco-loader" class="show fullscreen"></div>-->
-
+	<script
+		src="${pageContext.request.contextPath}/resources/static/js/main.js"></script>
 </body>
 </html>

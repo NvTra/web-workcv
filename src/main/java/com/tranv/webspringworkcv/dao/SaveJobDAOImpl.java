@@ -16,6 +16,8 @@ import com.tranv.webspringworkcv.service.UserService;
 
 @Repository
 public class SaveJobDAOImpl implements SaveJobDAO {
+	// DAO handles operations related to the Save Job object
+
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -25,6 +27,7 @@ public class SaveJobDAOImpl implements SaveJobDAO {
 	@Autowired
 	private RecruitmentService recruitmentService;
 
+	// Save a job by associating it with a user.
 	@Override
 	public void saveJob(int recruitmentId, int userId) {
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -37,6 +40,7 @@ public class SaveJobDAOImpl implements SaveJobDAO {
 		currentSession.merge(theUser);
 	}
 
+	// unSave a job by associating it with a user.
 	@Override
 	public void unSaveJob(int recruitmentId, int userId) {
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -49,10 +53,12 @@ public class SaveJobDAOImpl implements SaveJobDAO {
 		currentSession.merge(theUser);
 	}
 
+	// Retrieve the list of recruitment save by the user with the given ID
 	@Override
 	public List<Recruitment> listSaveJobByUser(int theId) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query<Recruitment> theQuery = currentSession.createQuery("SELECT r FROM User u JOIN u.recruitments r WHERE u.id = :userId", Recruitment.class);
+		Query<Recruitment> theQuery = currentSession
+				.createQuery("SELECT r FROM User u JOIN u.recruitments r WHERE u.id = :userId", Recruitment.class);
 		theQuery.setParameter("userId", theId);
 		List<Recruitment> recruitments = theQuery.getResultList();
 		return recruitments;

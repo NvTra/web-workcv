@@ -14,15 +14,19 @@ import com.tranv.webspringworkcv.entity.User;
 
 @Repository
 public class ApplyPostDAOImpl implements ApplyPostDAO {
+	//DAO handles operations related to the ApplyPost object
+	
 	@Autowired
 	private SessionFactory sessionFactory;
 
+	// Save or update the ApplyPost object in the database
 	@Override
 	public void saveOrUpdateApplyPost(ApplyPost theApplyPost) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		currentSession.saveOrUpdate(theApplyPost);
 	}
 
+	// Method to get a list of ApplyPosts associated with the Recruitment ID
 	@Override
 	public List<ApplyPost> listApplyPostByRecruitmentId(int theId) {
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -33,9 +37,9 @@ public class ApplyPostDAOImpl implements ApplyPostDAO {
 
 		List<ApplyPost> applyPosts = theQuery.getResultList();
 		return applyPosts;
-
 	}
 
+	// Method confirm that the company has approved the job for the applicant
 	@Override
 	public void confirmPost(int theId) {
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -44,6 +48,7 @@ public class ApplyPostDAOImpl implements ApplyPostDAO {
 		currentSession.update(applyPost);
 	}
 
+	// Method to get list of ApplyPosts associated with the Company ID
 	@Override
 	public ApplyPost getApplyPostbyId(int theId) {
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -51,6 +56,7 @@ public class ApplyPostDAOImpl implements ApplyPostDAO {
 		return applyPost;
 	}
 
+	// Method to get list of ApplyPosts associated with the Company ID
 	@Override
 	public List<ApplyPost> listApplyPostsByCompany(int companyId) {
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -61,8 +67,7 @@ public class ApplyPostDAOImpl implements ApplyPostDAO {
 		return applyPosts;
 	}
 
-
-
+	// Method to get list of ApplyPosts associated with the User ID
 	@Override
 	public List<ApplyPost> listApplyPostsByUser(int theId) {
 		Session currentSession = sessionFactory.getCurrentSession();

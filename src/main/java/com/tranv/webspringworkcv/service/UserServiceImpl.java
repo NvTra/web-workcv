@@ -11,21 +11,26 @@ import com.tranv.webspringworkcv.entity.User;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+	// Service handles operations related to the User object
 	@Autowired
 	private UserDAO userDAO;
 
+	// Method to get a list of all users from the database
 	@Override
 	@Transactional
 	public List<User> getListUsers() {
 		return userDAO.getListUsers();
 	}
 
+	// Method to get information about a user based on ID
 	@Override
 	@Transactional
 	public User getUserById(int theId) {
 		return userDAO.getUserById(theId);
 	}
 
+	// Method to save user to database
 	@Override
 	@Transactional
 	public void saveUser(User theUser) {
@@ -33,6 +38,7 @@ public class UserServiceImpl implements UserService {
 
 	}
 
+	// Method to update a user based on ID
 	@Override
 	@Transactional
 	public void update(User theUser) {
@@ -40,6 +46,7 @@ public class UserServiceImpl implements UserService {
 
 	}
 
+	// Method to delete a user based on ID
 	@Override
 	@Transactional
 	public void deleteUser(int theId) {
@@ -47,6 +54,7 @@ public class UserServiceImpl implements UserService {
 
 	}
 
+	// Method to get information about a user based on email
 	@Override
 	@Transactional
 	public User findByEmail(String email) {
@@ -54,6 +62,7 @@ public class UserServiceImpl implements UserService {
 		return userDAO.findByEmail(email);
 	}
 
+	// Method to unlock a user based on ID
 	@Override
 	@Transactional
 	public User lockUser(int theId) {

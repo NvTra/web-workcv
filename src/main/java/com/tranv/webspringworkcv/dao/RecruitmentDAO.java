@@ -2,6 +2,7 @@ package com.tranv.webspringworkcv.dao;
 
 import java.util.List;
 
+import com.tranv.webspringworkcv.entity.Company;
 import com.tranv.webspringworkcv.entity.Recruitment;
 
 public interface RecruitmentDAO {
@@ -14,7 +15,7 @@ public interface RecruitmentDAO {
 	public void update(Recruitment theRecruitment);
 
 	public void deleteRecruitment(int theId);
-	
+
 	public List<Recruitment> getResultRecruitmentByCompany(int theId);
 
 	public List<Recruitment> getResultRecruitmentBySalary();
@@ -24,6 +25,5 @@ public interface RecruitmentDAO {
 	public List<Recruitment> getResultAdress(String searchTerm);
 
 	public List<Recruitment> getResultCompany(String searchTerm);
-
 
 }

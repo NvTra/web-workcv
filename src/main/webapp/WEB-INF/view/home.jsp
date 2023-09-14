@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
+<%@ page import="java.util.Base64"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -109,7 +110,7 @@
 						href="${pageContext.request.contextPath }/" class="nav-link">Trang
 							chủ</a></li>
 					<security:authorize access="hasRole('EMPLOYER')">
-						<li class="'nav-item"><a
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath }/recruitment/list-post"
 							class="nav-link">Công việc</a></li>
 						<li class="nav-item"><a
@@ -120,7 +121,7 @@
 					<c:if test="${not empty pageContext.request.remoteUser}">
 
 						<security:authorize access="hasRole('EMPLOYER')">
-
+							<security:authentication property="principal" var="user" />
 							<c:set var="sessionId" value="${pageContext.session.id}" />
 							<c:set var="username"
 								value="${pageContext.request.userPrincipal.name}" />
@@ -137,6 +138,9 @@
 										href="${pageContext.request.contextPath }/recruitment/list-post">Danh
 											sách bài đăng</a></li>
 									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/recruitment/post">Đăng
+											Tuyến</a></li>
+									<li><a class="dropdown-item"
 										href="<c:url value='/logout' />">Đăng xuất</a></li>
 
 								</ul></li>
@@ -144,7 +148,7 @@
 						</security:authorize>
 
 						<security:authorize access="hasRole('CANDIDATE')">
-							<li class="'nav-item"><a
+							<li class="nav-item"><a
 								href="${pageContext.request.contextPath }/recruitment/list-apply-job"
 								class="nav-link">Công việc</a></li>
 							<li class="nav-item dropdown"><a style="color: white;"
@@ -175,8 +179,9 @@
 
 					<li><c:if test="${empty pageContext.request.remoteUser}">
 
-							<li class="nav-item cta cta-colored"><a
-								href="<c:url value='/showFormLogin' />" class="nav-link">Đăng
+							<li class="nav-item"><a
+								href="<c:url value='/showFormLogin' />"
+								class="nav-link btn btn-warning" style="color: white;">Đăng
 									nhập</a></li>
 						</c:if></li>
 
@@ -185,7 +190,7 @@
 		</div>
 	</nav>
 	<!-- END nav -->
-	<c:if test="${not empty pageContext.request.remoteUser}">
+	<%-- <c:if test="${not empty pageContext.request.remoteUser}">
 		<c:if test="${not empty msg_register_success}">
 			<div class="toast" data-delay="2000"
 				style="position: fixed; top: 100PX; right: 10PX; z-index: 2000; width: 300px">
@@ -201,7 +206,7 @@
 				</script>
 			</div>
 		</c:if>
-	</c:if>
+	</c:if> --%>
 	<div class="hero-wrap img"
 		style="background-image:<c:url value='/resources/static/images/bg_1.jpg' />">
 		<div class="overlay"></div>
@@ -489,7 +494,11 @@
 											<div class="job-post-item-header align-items-center">
 												<span class="subadge">${tempRecruitment.type}</span>
 												<h2 class="mr-3 text-black">
-													<span>${tempRecruitment.title}</span>
+													<c:url var="jobLink" value="/recruitment/detail">
+														<c:param name="recruitmentId"
+															value="${ tempRecruitment.id}"></c:param>
+													</c:url>
+													<a href="${jobLink }"><span>${tempRecruitment.title}</span></a>
 												</h2>
 											</div>
 											<div class="job-post-item-body d-block d-md-flex">
@@ -569,7 +578,14 @@
 																	thiệu:</label>
 																<textarea rows="10" cols="3" class="form-control"
 																	id="text" name="text"></textarea>
-																<input type="submit" class="btn btn-primary" value="Nộp">
+																<c:if test="${userCv==null }">
+																	<p>Vui lòng cập nhập CV</p>
+																</c:if>
+																<c:if test="${userCv!=null }">
+																	<input type="submit" class="btn btn-primary"
+																		value="Nộp">
+																</c:if>
+
 															</form:form>
 
 														</div>
@@ -585,6 +601,7 @@
 																	cv:</label>
 																<input name="file" id="fileToUpload" type="file"
 																	required="required" />
+																<br>
 																<label for="fileUpload" class="col-form-label">Giới
 																	thiệu:</label>
 																<textarea rows="10" cols="3" class="form-control"
@@ -607,7 +624,50 @@
 						</div>
 					</div>
 				</div>
+				<div class="col-lg-3 sidebar">
+					<div class="row justify-content-center pb-3">
+						<div class="col-md-12 heading-section ">
+							<h2 class="mb-4">Công ty nổi bật</h2>
+						</div>
+					</div>
+					<c:forEach var="tempCompany" items="${companies}">
 
+						<div class="sidebar-box">
+							<div class="">
+								<div id="divLogo">
+									<c:if test="${company.logo != null}">
+										<c:set var="logoData" value="${company.logo}" />
+										<c:set var="base64Data">
+											<%=Base64.getEncoder().encodeToString((byte[]) pageContext.getAttribute("logoData"))%>
+										</c:set>
+
+										<img id="avatar1" height="100" width="100"
+											style="border-radius: 50px"
+											src="data:image/png;base64,${base64Data}">
+									</c:if>
+
+									<c:if test="${company.logo == null}">
+										<img id="avatar1" height="100" width="100"
+											style="border-radius: 50px"
+											src="https://st.quantrimang.com/photos/image/072015/22/avatar.jpg">
+									</c:if>
+
+								</div>
+								<div class="text p-3">
+									<h3>
+										<c:url var="companyLink" value="/company/detail-company">
+											<c:param name="companyId" value="${ tempCompany.id}"></c:param>
+										</c:url>
+										<a href="${companyLink }"><span>${tempCompany.nameCompany}</span></a>
+									</h3>
+									<p>
+										<span>${tempCompany.address }</span> <span></span>
+									</p>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
 
 			</div>
 		</div>

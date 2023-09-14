@@ -11,21 +11,25 @@ import com.tranv.webspringworkcv.entity.Cv;
 
 @Service
 public class CvServiceImpl implements CvService {
+	// Service handles operations related to the Cv object
 	@Autowired
 	private CvDAO cvDAO;
 
+	// Retrieve all CVs from the database
 	@Override
 	@Transactional
 	public List<Cv> getListCvs() {
 		return cvDAO.getListCvs();
 	}
 
+	// Retrieve a specific CV from the database based on the given ID
 	@Override
 	@Transactional
 	public Cv getCvById(int theId) {
 		return cvDAO.getCvById(theId);
 	}
 
+	// Save or update the CV object in the database
 	@Override
 	@Transactional
 	public void saveCv(Cv theCv) {
@@ -33,6 +37,7 @@ public class CvServiceImpl implements CvService {
 
 	}
 
+	// Delete the CV with the given ID from the database
 	@Override
 	@Transactional
 	public void deleteCv(int theId) {
@@ -40,6 +45,7 @@ public class CvServiceImpl implements CvService {
 
 	}
 
+	// Retrieve the CV associated with the given User ID
 	@Override
 	@Transactional
 	public Cv getCvByUserId(int theId) {

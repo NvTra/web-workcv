@@ -7,6 +7,8 @@ import com.tranv.webspringworkcv.entity.Company;
 public interface CompanyService {
 	public List<Company> getListCompanys();
 
+	public List<Company> getCompanyTop();
+
 	public Company getCompanyByUserId(int theId);
 
 	public Company getCompanyById(int theId);

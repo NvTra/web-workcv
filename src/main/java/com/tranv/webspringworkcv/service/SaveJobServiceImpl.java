@@ -11,9 +11,12 @@ import com.tranv.webspringworkcv.entity.Recruitment;
 
 @Service
 public class SaveJobServiceImpl implements SaveJobService {
+	// Service handles operations related to the Save Job object
+
 	@Autowired
 	private SaveJobDAO saveJobDAO;
 
+	// Save a job by associating it with a user.
 	@Override
 	@Transactional
 	public void saveJob(int recruitmentId, int userId) {
@@ -21,6 +24,7 @@ public class SaveJobServiceImpl implements SaveJobService {
 
 	}
 
+	// unSave a job by associating it with a user.
 	@Override
 	@Transactional
 	public void unSaveJob(int recruitmentId, int userId) {
@@ -28,6 +32,7 @@ public class SaveJobServiceImpl implements SaveJobService {
 
 	}
 
+	// Retrieve the list of recruitment save by the user with the given ID
 	@Override
 	@Transactional
 	public List<Recruitment> listSaveJobByUser(int theId) {

@@ -87,42 +87,96 @@
 </head>
 <body>
 
-	<nav class="header_menu"
-		class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
-		id="ftco-navbar">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container-fluid px-md-4	">
-			<a class="navbar-brand" href="${pageContext.request.contextPath}/">Work
+			<a class="navbar-brand" href="${pageContext.request.contextPath }/">Work
 				CV</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#ftco-nav" aria-controls="ftco-nav"
-				aria-expanded="false" aria-label="Toggle navigation">
-				<span class="oi oi-menu"></span> Menu
-			</button>
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item active"><a
-						href="${pageContext.request.contextPath}/" class="nav-link">Trang
+						href="${pageContext.request.contextPath }/" class="nav-link">Trang
 							chủ</a></li>
-					<li class="'nav-item"><a
-						href="${pageContext.request.contextPath }/recruitment/list-post"
-						class="nav-link">Công việc</a></li>
-					<li class="nav-item"><a
-						href="${pageContext.request.contextPath }/user/list-user"
-						class="nav-link">Ứng cử viên</a></li>
-					<li class="nav-item"><a
-						href="${pageContext.request.contextPath}/recruitment/post"
-						class="nav-link">Đăng tuyển</a></li>
-					<li class="nav-item"><a href="<c:url value='/logout' />">Đăng
-							xuất</a></li>
+					<security:authorize access="hasRole('EMPLOYER')">
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath }/recruitment/list-post"
+							class="nav-link">Công việc</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath }/user/list-user"
+							class="nav-link">Ứng cử viên</a></li>
+
+					</security:authorize>
+					<c:if test="${not empty pageContext.request.remoteUser}">
+
+						<security:authorize access="hasRole('EMPLOYER')">
+
+							<li class="nav-item dropdown"
+								style="position: relative !important;"><a
+								style="color: white;" class="nav-link dropdown-toggle" href="#"
+								id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+								aria-expanded="false"> Đăng tuyển</a>
+
+								<ul style="left: -85px !important" class="dropdown-menu"
+									aria-labelledby="navbarDropdownMenuLink">
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/detail">Hồ Sơ</a></li>
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/recruitment/list-post">Danh
+											sách bài đăng</a></li>
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/recruitment/post">Đăng
+											Tuyến</a></li>
+									<li><a class="dropdown-item"
+										href="<c:url value='/logout' />">Đăng xuất</a></li>
+
+								</ul></li>
+
+						</security:authorize>
+
+						<security:authorize access="hasRole('CANDIDATE')">
+							<li class="nav-item"><a
+								href="${pageContext.request.contextPath }/recruitment/list-apply-job"
+								class="nav-link">Công việc</a></li>
+							<li class="nav-item dropdown" style="position: relative;"><a
+								style="color: white;" class="nav-link dropdown-toggle" href="#"
+								id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+								aria-expanded="false"> Hồ sơ</a>
+
+								<ul style="left: -140px !important" class="dropdown-menu"
+									aria-labelledby="navbarDropdownMenuLink">
+
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/detail">Hồ sơ</a></li>
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/recruitment/list-apply-job">Công
+											việc đã ứng tuyển</a></li>
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/job/list-save-job">Công
+											việc đã lưu</a></li>
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/company/list-follow-company">Công
+											ty đã theo dõi</a></li>
+									<li><a class="dropdown-item"
+										href="<c:url value='/logout' />">Đăng xuất</a></li>
+								</ul></li>
+
+						</security:authorize>
+					</c:if>
+
+					<li><c:if test="${empty pageContext.request.remoteUser}">
+
+							<li class="nav-item"><a
+								href="<c:url value='/showFormLogin' />"
+								class="nav-link btn btn-warning" style="color: white;">Đăng
+									nhập</a></li>
+						</c:if></li>
+
 				</ul>
 			</div>
 		</div>
 	</nav>
-
-
 	<!-- END nav -->
-	<div th:if="${success}" class="toast" data-delay="2000"
+	<%-- <div th:if="${success}" class="toast" data-delay="2000"
 		style="position: fixed; top: 100PX; right: 10PX; z-index: 2000; width: 300px">
 		<script>
 			swal({
@@ -134,7 +188,7 @@
 				type : 'success'
 			})
 		</script>
-	</div>
+	</div> --%>
 
 	<div class="hero-wrap hero-wrap-2"
 		style="background-image: url('${pageContext.request.contextPath}/resources/static/images/bg_1.jpg');"
@@ -190,18 +244,44 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-4">
-					<div class="row">
-						<div class="col-6">
-							<a class="btn btn-block btn-light btn-md"><span
-								class="icon-heart-o mr-2 text-danger"></span>Lưu</a>
+				<c:if test="${not empty pageContext.request.remoteUser}">
+					<security:authorize access="hasRole('CANDIDATE')">
+						<div class="col-lg-4">
+							<div class="row">
+								<div class="col-6">
+									<c:if test="${isSaveJob}">
+										<form:form method="post"
+											action="${pageContext.request.contextPath}/job/saveJob2">
+											<input type="hidden" name="recruitmentId"
+												value="${recruitment.id}">
+											<button class="btn btn-block btn-light btn-md" type="submit">
+												<span class="icon-heart-o mr-2 text-danger"></span> Bỏ Lưu
+											</button>
+										</form:form>
+									</c:if>
+									<c:if test="${!isSaveJob}">
+										<form:form method="post"
+											action="${pageContext.request.contextPath}/job/saveJob2">
+											<input type="hidden" name="recruitmentId"
+												value="${recruitment.id}">
+											<button class="btn btn-block btn-light btn-md" type="submit">
+												<span class="icon-heart-o mr-2 text-danger"></span>Lưu
+											</button>
+										</form:form>
+									</c:if>
+
+
+								</div>
+								<div class="col-6">
+									<button type="button" style="width: 130px"
+										class="btn btn-block btn-primary btn-md" data-toggle="modal"
+										data-target="#applypost${recruitment.id}">Ứng tuyển</button>
+
+								</div>
+							</div>
 						</div>
-						<div class="col-6">
-							<a data-toggle="modal" class="btn btn-block btn-primary btn-md">Ứng
-								tuyển</a>
-						</div>
-					</div>
-				</div>
+					</security:authorize>
+				</c:if>
 			</div>
 			<div class="row">
 				<div class="col-lg-8">
@@ -254,141 +334,181 @@
 			</div>
 		</div>
 	</section>
-	<!-- Modal -->
-	<div class="modal fade" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<!-- Model -->
+	<div class="modal fade" id="applypost${recruitment.id}" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">
-						Ứng tuyển: <span></span>
+						Ứng tuyển: <span>${recruitment.title}</span>
 					</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<form method="post" action="/user/apply-job">
-					<div class="modal-body">
-						<div class="row">
-							<div class="col-12">
-								<label for="fileUpload" class="col-form-label">Chọn cv:</label>
-								<input type="file" class="form-control"
-									th:id="${'fileUpload'}+${recruitment.id}" name="file" required>
-								<label for="fileUpload" class="col-form-label">Giới
-									thiệu:</label>
-								<textarea rows="10" cols="3" class="form-control">
 
-                                                    </textarea>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-12" id="applyForm${recruitment.id}">
+							<select class="form-control" aria-label="Default select example"
+								onchange="chooseSubmissionMethod(${recruitment.id})">
+								<option selected disabled>Chọn phương thức nộp</option>
+								<option value="updateCV">Dùng CV đã cập nhật</option>
+								<option value="newCV">Nộp CV mới</option>
+							</select>
+							<div id="updateCV${recruitment.id}" style="display: none"
+								class="col-12">
+								<form:form modelAttribute="applyPost" method="post"
+									action="${pageContext.request.contextPath }/job/apply-job">
+									<input type="hidden" name="recruitment.id"
+										value="${recruitment.id}">
+									<label for="fileUpload" class="col-form-label">Giới
+										thiệu:</label>
+									<textarea rows="10" cols="3" class="form-control" id="text"
+										name="text"></textarea>
+									<input type="submit" class="btn btn-primary" value="Nộp">
+								</form:form>
+
 							</div>
+							<div id="newCV${recruitment.id}" style="display: none"
+								class="col-12">
+								<form:form modelAttribute="applyPost" method="post"
+									action="${pageContext.request.contextPath }/job/apply-job2"
+									enctype="multipart/form-data">
 
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary"
-								data-dismiss="modal">Đóng</button>
-							<button type="button"
-								th:onclick="'apply(' +${recruitment.id}+ ')'"
-								class="btn btn-primary">Nộp</button>
+									<input type="hidden" name="recruitment.id"
+										value="${recruitment.id}">
+									<label for="fileUpload" class="col-form-label">Chọn cv:</label>
+									<input name="file" id="fileToUpload" type="file"
+										required="required" />
+									<label for="fileUpload" class="col-form-label">Giới
+										thiệu:</label>
+									<textarea rows="10" cols="3" class="form-control" id="text"
+										name="text"></textarea>
+									<input type="submit" class="btn btn-primary" value="Nộp">
+								</form:form>
+							</div>
 						</div>
 					</div>
-				</form>
+				</div>
+
 
 
 			</div>
 		</div>
 	</div>
+	<!-- Model -->
+
 	<section class="site-section" id="next">
 		<div class="container">
-
-			<div class="row mb-5 justify-content-center">
-				<div class="col-md-7 text-center">
-					<h2 class="section-title mb-2" th:if="${applyPosts}">Danh sách
-						ứng viên ứng tuyển</h2>
-				</div>
-			</div>
-
-			<div th:if="${applyPosts != null}" class="row">
-				<div class="col-lg-12 pr-lg-4">
-					<div class="row">
-						<c:if test="${applyPosts.size() != 0}">
-							<c:forEach var="tempApplyPost" items="${applyPosts }">
-								<c:url var="downloadFile" value="/downloadFile">
-									<c:param name="name" value="${tempApplyPost.nameCv}"></c:param>
-								</c:url>
-								<c:url var="confirmJob" value="/recruitment/confirmPost">
-									<c:param name="applyPostId" value="${tempApplyPost.id}"></c:param>
-
-								</c:url>
-								<div class="col-md-12"
-									style="box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 10px; margin: 20px auto;">
-									<div class="team d-md-flex p-4 bg-white">
-										<c:if test="${tempApplyPost.user.image != null}">
-											<c:set var="userImage" value="${tempApplyPost.user.image}" />
-											<c:set var="base64Data">
-												<%=Base64.getEncoder().encodeToString((byte[]) pageContext.getAttribute("userImage"))%>
-											</c:set>
-
-											<img id="avatar1" height="100" width="100"
-												style="border-radius: 50px"
-												src="data:image/png;base64,${base64Data}">
-										</c:if>
-										<c:if test="${tempApplyPost.user.image == null}">
-											<IMG class="img"
-												src="https://st.quantrimang.com/photos/image/072015/22/avatar.jpg"></IMG>
-										</c:if>
-										<div class="text pl-md-4">
-											<H5 class="location mb-0">${tempApplyPost.user.fullName}</H5>
-											<p style="display: block; color: black">${tempApplyPost.user.address}</p>
-											<span class="position" style="display: block; color: black">${tempApplyPost.user.email}</span>
-											<p class="mb-4" style="width: 700px">${tempApplyPost.user.description}</p>
-											<div class="row">
-												<c:choose>
-													<c:when test="${tempApplyPost.nameCv==null}">
-														<a href="#" class="btn btn-primary"> Xem cv</a>
-													</c:when>
-													<c:when test="${tempApplyPost.nameCv!=null}">
-														<button type="button" style="width: 120px"
-															class="btn btn-primary" data-toggle="modal"
-															onclick="window.location.href='${downloadFile}'">Xem
-															cv</button>
-													</c:when>
-												</c:choose>
-												<div>
-													<p>&nbsp;&nbsp;</p>
-												</div>
-												<c:choose>
-													<c:when test="${tempApplyPost.status == 0}">
-														<button type="button" style="width: 120px"
-															class="btn btn-primary" data-toggle="modal"
-															onclick="window.location.href='${confirmJob}'">Duyệt</button>
-													</c:when>
-													<c:when test="${tempApplyPost.status == 1}">
-														<p style="margin-left: 10px; margin-top: 15px">
-															<span style="color: #1e7e34; font-weight: bold">Đã
-																duyệt</span>
-														</p>
-													</c:when>
-												</c:choose>
-
-
-											</div>
-
-										</div>
-									</div>
-								</div>
-
-							</c:forEach>
-						</c:if>
-						<c:if test="${applyPosts.size() == 0}">
-							<p>Chưa có ứng cử viên nào ứng tuyển</p>
-						</c:if>
+			<security:authorize access="hasRole('EMPLOYER')">
+				<div class="row mb-5 justify-content-center">
+					<div class="col-md-7 text-center">
+						<h2 class="section-title mb-2" th:if="${applyPosts}">Danh
+							sách ứng viên ứng tuyển</h2>
 					</div>
 				</div>
 
-			</div>
+				<div th:if="${applyPosts != null}" class="row">
+					<div class="col-lg-12 pr-lg-4">
+						<div class="row">
+							<c:if test="${applyPosts.size() != 0}">
+								<c:forEach var="tempApplyPost" items="${applyPosts }">
+									<c:url var="downloadFile" value="/downloadFile">
+										<c:param name="name" value="${tempApplyPost.nameCv}"></c:param>
+									</c:url>
+									<c:url var="confirmJob" value="/recruitment/confirmPost">
+										<c:param name="applyPostId" value="${tempApplyPost.id}"></c:param>
 
+									</c:url>
+									<div class="col-md-12"
+										style="box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 10px; margin: 20px auto;">
+										<div class="team d-md-flex p-4 bg-white">
+											<c:if test="${tempApplyPost.user.image != null}">
+												<c:set var="userImage" value="${tempApplyPost.user.image}" />
+												<c:set var="base64Data">
+													<%=Base64.getEncoder().encodeToString((byte[]) pageContext.getAttribute("userImage"))%>
+												</c:set>
+
+												<img id="avatar1" height="100" width="100"
+													style="border-radius: 50px"
+													src="data:image/png;base64,${base64Data}">
+											</c:if>
+											<c:if test="${tempApplyPost.user.image == null}">
+												<IMG
+													style="height: 100px; width: 100px; border-radius: 50px"
+													src="https://st.quantrimang.com/photos/image/072015/22/avatar.jpg"></IMG>
+											</c:if>
+											<div class="text pl-md-4">
+												<H5 class="location mb-0">${tempApplyPost.user.fullName}</H5>
+												<p style="display: block; color: black">${tempApplyPost.user.address}</p>
+												<span class="position" style="display: block; color: black">${tempApplyPost.user.email}</span>
+												<p class="mb-4" style="width: 700px">${tempApplyPost.user.description}</p>
+												<div class="row">
+													<c:choose>
+														<c:when test="${tempApplyPost.nameCv==null}">
+															<a href="#" class="btn btn-primary"> Xem cv</a>
+														</c:when>
+														<c:when test="${tempApplyPost.nameCv!=null}">
+															<button type="button" style="width: 120px; height: 50px"
+																class="btn btn-primary" data-toggle="modal"
+																onclick="window.location.href='${downloadFile}'">Xem
+																cv</button>
+														</c:when>
+													</c:choose>
+													<div>
+														<p>&nbsp;&nbsp;</p>
+													</div>
+													<c:choose>
+														<c:when test="${tempApplyPost.status == 0}">
+															<button type="button" style="width: 120px"
+																class="btn btn-primary" data-toggle="modal"
+																onclick="window.location.href='${confirmJob}'">Duyệt</button>
+														</c:when>
+														<c:when test="${tempApplyPost.status == 1}">
+															<p style="margin-left: 10px; margin-top: 15px">
+																<span style="color: #1e7e34; font-weight: bold">Đã
+																	duyệt</span>
+															</p>
+														</c:when>
+													</c:choose>
+
+
+												</div>
+
+											</div>
+										</div>
+									</div>
+
+								</c:forEach>
+							</c:if>
+							<c:if test="${applyPosts.size() == 0}">
+								<p>Chưa có ứng cử viên nào ứng tuyển</p>
+							</c:if>
+						</div>
+					</div>
+
+				</div>
+			</security:authorize>
 
 			<script>
+			function chooseSubmissionMethod(jobId) {
+				var submissionMethod = document.getElementById("applyForm" + jobId)
+						.getElementsByTagName("select")[0].value;
+
+				var updateCV = document.getElementById("updateCV" + jobId);
+				var newCV = document.getElementById("newCV" + jobId);
+
+				if (submissionMethod === "updateCV") {
+					updateCV.style.display = "block";
+					newCV.style.display = "none";
+				} else if (submissionMethod === "newCV") {
+					updateCV.style.display = "none";
+					newCV.style.display = "block";
+				}
+			}
 				function apply(id) {
 					var name = "#idRe" + id;
 					var nameModal = "#exampleModal" + id;
@@ -508,7 +628,6 @@
 					})
 				}
 			</script>
-
 		</div>
 	</section>
 

@@ -50,11 +50,7 @@ public class UploadFileController {
 
 	private static final int THRESHOLD_SIZE = 1024 * 1024 * 3; // 3MB
 
-	@RequestMapping("uploadform")
-	public ModelAndView uploadForm() {
-		return new ModelAndView("uploadform");
-	}
-
+	// save File
 	@PostMapping("saveCvFile")
 	public ModelAndView saveimage(@ModelAttribute("cv") Cv theCv, @RequestParam("userId") int theId,
 			@RequestParam CommonsMultipartFile file, HttpSession session) throws Exception {
@@ -87,6 +83,7 @@ public class UploadFileController {
 		return new ModelAndView("redirect:/detail", "filesuccess", "File successfully saved!");
 	}
 
+	// Download a large file.
 	@SuppressWarnings("unused")
 	@GetMapping("/downloadFile")
 	@ResponseBody

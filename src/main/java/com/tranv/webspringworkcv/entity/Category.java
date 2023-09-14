@@ -23,7 +23,7 @@ public class Category {
 	private String name;
 
 	@Column(name = "number_choose")
-	private String numberChoose;
+	private int numberChoose;
 
 	@OneToMany(mappedBy = "category", cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE,
 			CascadeType.REFRESH })
@@ -33,9 +33,14 @@ public class Category {
 	public Category() {
 	}
 
-	public Category(String name, String numberChoose) {
+	public Category(String name, int numberChoose) {
 		this.name = name;
 		this.numberChoose = numberChoose;
+	}
+
+	// method
+	public void addNumberChoose() {
+		this.numberChoose += 1;
 	}
 
 	// getter and setter
@@ -63,11 +68,11 @@ public class Category {
 		this.name = name;
 	}
 
-	public String getNumberChoose() {
+	public int getNumberChoose() {
 		return numberChoose;
 	}
 
-	public void setNumberChoose(String numberChoose) {
+	public void setNumberChoose(int numberChoose) {
 		this.numberChoose = numberChoose;
 	}
 

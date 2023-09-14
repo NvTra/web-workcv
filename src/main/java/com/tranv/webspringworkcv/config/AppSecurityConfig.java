@@ -40,10 +40,6 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/user/addUser").permitAll()
 
 				.antMatchers("/user/**").hasAnyRole("EMPLOYER", "CANDIDATE")
-//				.antMatchers("/user/**").hasRole("EMPLOYER")
-//				
-//				.antMatchers("/user/**").hasRole("CANDIDATE")
-//				.antMatchers("/user/**").permitAll()
 
 				.antMatchers("/**").permitAll()
 

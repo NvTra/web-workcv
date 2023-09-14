@@ -11,9 +11,11 @@ import com.tranv.webspringworkcv.entity.Company;
 
 @Service
 public class FollowCompanyServiceImpl implements FollowCompanyService {
+	// Service handles operations related to the Follow Company object
 	@Autowired
 	private FollowCompanyDAO followCompanyDAO;
 
+	// Follow a company by associating it with a user.
 	@Override
 	@Transactional
 	public void followCompany(int userId, int companyId) {
@@ -21,6 +23,7 @@ public class FollowCompanyServiceImpl implements FollowCompanyService {
 
 	}
 
+	// Unfollow a company by disassociating it from a user.
 	@Override
 	@Transactional
 	public void unFollowCompany(int userId, int companyId) {
@@ -28,6 +31,7 @@ public class FollowCompanyServiceImpl implements FollowCompanyService {
 
 	}
 
+	// Retrieve the list of companies followed by the user with the given ID
 	@Override
 	@Transactional
 	public List<Company> listCompanyFollow(int userId) {

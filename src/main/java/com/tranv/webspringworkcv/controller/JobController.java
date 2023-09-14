@@ -54,6 +54,7 @@ public class JobController {
 
 	private static final int THRESHOLD_SIZE = 1024 * 1024 * 3; // 3MB
 
+	// Retrieve the currently authenticated user.
 	private User getUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String email = authentication.getName();
@@ -61,6 +62,11 @@ public class JobController {
 		return theUser;
 	}
 
+	/**
+	 * Handle the request to apply for a job. This method sets the necessary
+	 * attributes of the ApplyPost object, saves the ApplyPost to the database, and
+	 * redirects the user to the home page.
+	 */
 	@PostMapping("/apply-job")
 	public String applyJob(@ModelAttribute("applyJob") ApplyPost applyPost) {
 		SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -75,6 +81,11 @@ public class JobController {
 		return "redirect:/";
 	}
 
+	/**
+	 * Handle the request to apply for a job. This method sets the necessary
+	 * attributes of the ApplyPost object, saves the ApplyPost to the database, and
+	 * redirects the user to the home page.
+	 */
 	@PostMapping("/apply-job2")
 	public ModelAndView saveimage(@ModelAttribute("applyJob") ApplyPost applyPost,
 			@RequestParam CommonsMultipartFile file, HttpSession session) throws Exception {
@@ -116,6 +127,7 @@ public class JobController {
 		return new ModelAndView("redirect:/", "filesuccess", "File successfully saved!");
 	}
 
+	// Handle the request to save a job.
 	@PostMapping("/saveJob")
 	public String saveJob(@RequestParam("recruitmentId") int recruitmentId) {
 		User theUser = getUser();
@@ -132,7 +144,23 @@ public class JobController {
 		}
 		return "redirect:/";
 	}
+	@PostMapping("/saveJob2")
+	public String saveJob2(@RequestParam("recruitmentId") int recruitmentId) {
+		User theUser = getUser();
+		int userId = theUser.getId();
 
+		Recruitment recruitment = recruitmentService.getRecruitmentById(recruitmentId);
+
+		boolean isSaveJob = theUser.getRecruitments().stream()
+				.anyMatch(saveJob -> saveJob.getId() == recruitment.getId());
+		if (isSaveJob) {
+			saveJobService.unSaveJob(recruitmentId, userId);
+		} else {
+			saveJobService.saveJob(recruitmentId, userId);
+		}
+		return "redirect:/recruitment/detail?recruitmentId="+recruitmentId;
+	}
+	// Handle the request to unsave a job.
 	@PostMapping("/unsaveJob")
 	public String unSaveJob(@RequestParam("recruitmentId") int recruitmentId) {
 		User theUser = getUser();
@@ -141,6 +169,7 @@ public class JobController {
 		return "redirect:/job/list-save-job";
 	}
 
+	// Handle the request to list saved jobs.
 	@GetMapping("list-save-job")
 	public String listSaveJob(@RequestParam(name = "page", defaultValue = "1") int currentPage, Model theModel) {
 		User theUser = getUser();
@@ -157,6 +186,7 @@ public class JobController {
 		return "list-save-job";
 	}
 
+	// Handle the request to delete a job.
 	@GetMapping("/deleteJob")
 	public String deleteJob(@RequestParam("applyPostId") int theId) {
 		applyPostService.deleteJob(theId);

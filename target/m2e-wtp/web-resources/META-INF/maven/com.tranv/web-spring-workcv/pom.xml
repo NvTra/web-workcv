@@ -112,11 +112,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>com.luv2code</groupId>
-			<artifactId>spring-security-demo</artifactId>
-			<version>1.0</version>
-		</dependency>
+		
 	</dependencies>
 
 	<!-- TO DO: Add support for Maven WAR Plugin -->

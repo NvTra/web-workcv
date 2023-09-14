@@ -83,46 +83,110 @@
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/static/js/google-map.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/static/js/main.js"></script>
+
 <script
 	src="https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/static/js/main.js"></script>
 </head>
 <body>
-<body>
-	<nav class="header_menu"
-		class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
-		id="ftco-navbar">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container-fluid px-md-4	">
-			<a class="navbar-brand" href="${pageContext.request.contextPath}/">Work
+			<a class="navbar-brand" href="${pageContext.request.contextPath }/">Work
 				CV</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#ftco-nav" aria-controls="ftco-nav"
-				aria-expanded="false" aria-label="Toggle navigation">
-				<span class="oi oi-menu"></span> Menu
-			</button>
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item active"><a
-						href="${pageContext.request.contextPath}/" class="nav-link">Trang
+						href="${pageContext.request.contextPath }/" class="nav-link">Trang
 							chủ</a></li>
-					<li class="'nav-item"><a
-						href="${pageContext.request.contextPath }/recruitment/list-post"
-						class="nav-link">Công việc</a></li>
-					<li class="nav-item"><a
-						href="${pageContext.request.contextPath }/user/list-user"
-						class="nav-link">Ứng cử viên</a></li>
-					<li class="nav-item"><a
-						href="${pageContext.request.contextPath}/recruitment/post"
-						class="nav-link">Đăng tuyển</a></li>
-					<li class="nav-item"><a href="<c:url value='/logout' />">Đăng
-							xuất</a></li>
+					<security:authorize access="hasRole('EMPLOYER')">
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath }/recruitment/list-post"
+							class="nav-link">Công việc</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath }/user/list-user"
+							class="nav-link">Ứng cử viên</a></li>
+
+					</security:authorize>
+					<c:if test="${not empty pageContext.request.remoteUser}">
+
+						<security:authorize access="hasRole('EMPLOYER')">
+
+							<li class="nav-item dropdown"
+								style="position: relative !important;"><a
+								style="color: white;" class="nav-link dropdown-toggle" href="#"
+								id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+								aria-expanded="false"> Đăng tuyển</a>
+
+								<ul style="left: -85px !important" class="dropdown-menu"
+									aria-labelledby="navbarDropdownMenuLink">
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/detail">Hồ Sơ</a></li>
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/recruitment/list-post">Danh
+											sách bài đăng</a></li>
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/recruitment/post">Đăng
+											Tuyến</a></li>
+									<li><a class="dropdown-item"
+										href="<c:url value='/logout' />">Đăng xuất</a></li>
+
+								</ul></li>
+
+						</security:authorize>
+
+						<security:authorize access="hasRole('CANDIDATE')">
+							<li class="nav-item"><a
+								href="${pageContext.request.contextPath }/recruitment/list-apply-job"
+								class="nav-link">Công việc</a></li>
+							<li class="nav-item dropdown"><a style="color: white;"
+								class="nav-link dropdown-toggle" href="#"
+								id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+								aria-expanded="false"> Hồ sơ</a>
+
+								<ul style="left: -140px !important" class="dropdown-menu"
+									aria-labelledby="navbarDropdownMenuLink">
+
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/detail">Hồ sơ</a></li>
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/recruitment/list-apply-job">Công
+											việc đã ứng tuyển</a></li>
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/job/list-save-job">Công
+											việc đã lưu</a></li>
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/company/list-follow-company">Công
+											ty đã theo dõi</a></li>
+									<li><a class="dropdown-item"
+										href="<c:url value='/logout' />">Đăng xuất</a></li>
+								</ul></li>
+
+						</security:authorize>
+					</c:if>
+
+					<li><c:if test="${empty pageContext.request.remoteUser}">
+
+							<li class="nav-item"><a
+								href="<c:url value='/showFormLogin' />"
+								class="nav-link btn btn-warning" style="color: white;">Đăng
+									nhập</a></li>
+						</c:if></li>
+
 				</ul>
 			</div>
 		</div>
 	</nav>
+	<!-- END nav -->
 
 	<div class="hero-wrap hero-wrap-2"
 		style="background-image: url('user${pageContext.request.contextPath}/resources/static/images/bg_1.jpg');"
@@ -185,13 +249,20 @@
 										<c:if test="${session.user}">
 											<div
 												class="one-forth ml-auto d-flex align-items-center mt-4 md-md-0">
-												<c:if test="${session.user.role.id == 1}">
-													<a onclick="'save(' + ${tempRecruitment.id} + ')'"
-														class="icon text-center d-flex justify-content-center align-items-center icon mr-2">
-														<span class="icon-heart"></span>
-													</a>
-												</c:if>
-												<a if="${session.user.role.id == 1}" data-toggle="modal"
+												<div class="col-6">
+													<form:form method="post"
+														action="${pageContext.request.contextPath}/job/saveJob"
+														onsubmit="event.preventDefault(); saveJob(this);">
+														<input type="hidden" name="recruitmentId"
+															value="${tempRecruitment.id}">
+														<button
+															class="icon text-center d-flex justify-content-center align-items-center icon mr-2"
+															type="submit">
+															<span class="icon-heart"></span>
+														</button>
+													</form:form>
+												</div>
+												<a data-toggle="modal"
 													data-target="applypost${tempRecruitment.id}"
 													class="btn btn-primary py-2">Apply Job</a>
 											</div>
@@ -199,11 +270,17 @@
 										<c:if test="${not session.user}">
 											<div
 												class="one-forth ml-auto d-flex align-items-center mt-4 md-md-0">
-												<div>
-													<a onclick="'save(' + ${tempRecruitment.id} + ')'"
-														class="icon text-center d-flex justify-content-center align-items-center icon mr-2">
-														<span class="icon-heart"></span>
-													</a>
+												<div class="col-6">
+													<form:form method="post"
+														action="${pageContext.request.contextPath}/job/saveJob">
+														<input type="hidden" name="recruitmentId"
+															value="${tempRecruitment.id}">
+														<button
+															class="icon text-center d-flex justify-content-center align-items-center icon mr-2"
+															type="submit">
+															<span class="icon-heart"></span>
+														</button>
+													</form:form>
 												</div>
 												<button type="button" style="width: 130px"
 													class="btn btn-primary py-2" data-toggle="modal"
@@ -258,6 +335,7 @@
 														class="col-12">
 														<form:form modelAttribute="applyPost" method="post"
 															action="${pageContext.request.contextPath }/job/apply-job2"
+															onsubmit="event.preventDefault(); saveJob(this);"
 															enctype="multipart/form-data">
 
 															<input type="hidden" name="recruitment.id"
@@ -307,6 +385,20 @@
 		</div>
 	</section>
 	<script>
+	 function saveJob(form) {
+	
+		    $.ajax({
+		      url: form.action,
+		      method: form.method,
+		      data: $(form).serialize(),
+		      success: function(response) {
+		    
+		      },
+		      error: function(error) {
+		       
+		      }
+		    });
+		  }
 	function chooseSubmissionMethod(jobId) {
 		var submissionMethod = document.getElementById("applyForm" + jobId)
 				.getElementsByTagName("select")[0].value;
@@ -529,6 +621,7 @@
 
 	<!-- loader -->
 	<!--<div th:replace="public/fragments :: loading" id="ftco-loader" class="show fullscreen"></div>-->
-
+	<script
+		src="${pageContext.request.contextPath}/resources/static/js/main.js"></script>
 </body>
 </html>

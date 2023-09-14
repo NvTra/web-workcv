@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.tranv.webspringworkcv.entity.ApplyPost;
 import com.tranv.webspringworkcv.entity.Company;
-import com.tranv.webspringworkcv.entity.Recruitment;
 import com.tranv.webspringworkcv.entity.User;
 import com.tranv.webspringworkcv.service.ApplyPostService;
 import com.tranv.webspringworkcv.service.CompanyService;
@@ -34,6 +33,7 @@ public class UserController {
 	@Autowired
 	private ApplyPostService applyPostService;
 
+	// Retrieve the currently authenticated user.
 	private User getUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String email = authentication.getName();
@@ -41,18 +41,25 @@ public class UserController {
 		return theUser;
 	};
 
+	/**
+	 * Add a new user. This method saves the new user using the userService and
+	 * redirects the user to the home page.
+	 */
+
 	@PostMapping("/addUser")
 	public String addUser(@ModelAttribute("user") User newUser) {
 		userService.saveUser(newUser);
 		return "redirect:/";
 	}
 
+	// Update the user's profile.
 	@PostMapping("/update-profile")
 	public String updateProfile(@ModelAttribute("user") User theUser) {
 		userService.update(theUser);
 		return "redirect:/detail";
 	}
 
+	// Update the user's avatar.
 	@PostMapping("/update-avatar")
 	public String updateAvatar(@RequestParam("userId") int theId, @RequestParam("avatar") MultipartFile multipartFile)
 			throws IOException {
@@ -63,6 +70,7 @@ public class UserController {
 		return "redirect:/detail";
 	}
 
+	// Update the user's company information.
 	@PostMapping("/update-company")
 	public String updateCompany(@ModelAttribute("company") Company theCompany) {
 		User theUser = getUser();
@@ -72,6 +80,7 @@ public class UserController {
 		return "redirect:/detail";
 	}
 
+	// Update the user's company logo.
 	@PostMapping("/update-logo-company")
 	public String updateLogoCompany(@RequestParam("id") int theId,
 			@RequestParam("logoCompany") MultipartFile multipartFile) throws IOException {
@@ -82,12 +91,14 @@ public class UserController {
 		return "redirect:/detail";
 	}
 
+	// Upload a file.
 	@PostMapping(value = "/uploadFile")
 	public String submit(@RequestParam("file") MultipartFile file, ModelMap modelMap) {
 		modelMap.addAttribute("file", file);
 		return "fileUploadView";
 	}
 
+	// Confirm the user's account.
 	@PostMapping("/confirm-account")
 	public String confirmAccount() {
 		User theUser = getUser();
@@ -96,6 +107,7 @@ public class UserController {
 		return "redirect:/detail";
 	}
 
+	// Display the form for posting a job under a company.
 	@GetMapping("/post-company")
 	public String postCompany(@RequestParam("companyId") int companyId, Model theModel) {
 		Company theCompany = companyService.getCompanyById(companyId);
@@ -103,6 +115,7 @@ public class UserController {
 		return "post-company";
 	}
 
+	// Display a paginated list of user applications.
 	@GetMapping("/list-user")
 	public String listUser(@RequestParam(name = "page", defaultValue = "1") int currentPage, Model theModel) {
 		User theUser = getUser();

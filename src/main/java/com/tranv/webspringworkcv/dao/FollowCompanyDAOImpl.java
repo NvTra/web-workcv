@@ -1,6 +1,5 @@
 package com.tranv.webspringworkcv.dao;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -8,7 +7,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.tranv.webspringworkcv.entity.Company;
 import com.tranv.webspringworkcv.entity.User;
@@ -17,6 +15,8 @@ import com.tranv.webspringworkcv.service.UserService;
 
 @Repository
 public class FollowCompanyDAOImpl implements FollowCompanyDAO {
+	// DAO handles operations related to the Follow Company object
+
 	@Autowired
 	private SessionFactory sessionFactory;
 	@Autowired
@@ -25,6 +25,7 @@ public class FollowCompanyDAOImpl implements FollowCompanyDAO {
 	@Autowired
 	private CompanyService companyService;
 
+	// Follow a company by associating it with a user.
 	@Override
 	public void followCompany(int userId, int companyId) {
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -35,6 +36,7 @@ public class FollowCompanyDAOImpl implements FollowCompanyDAO {
 		currentSession.merge(theUser);
 	}
 
+	// Unfollow a company by disassociating it from a user.
 	@Override
 	public void unFollowCompany(int userId, int companyId) {
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -45,6 +47,7 @@ public class FollowCompanyDAOImpl implements FollowCompanyDAO {
 		currentSession.merge(theUser);
 	}
 
+	// Retrieve the list of companies followed by the user with the given ID
 	@Override
 	public List<Company> listCompanyFollow(int userId) {
 		Session currentSession = sessionFactory.getCurrentSession();

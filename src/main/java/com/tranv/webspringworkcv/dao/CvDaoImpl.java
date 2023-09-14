@@ -10,12 +10,13 @@ import org.springframework.stereotype.Repository;
 
 import com.tranv.webspringworkcv.entity.Cv;
 
-
 @Repository
 public class CvDaoImpl implements CvDAO {
+	// DAO handles operations related to the Cv object
 	@Autowired
 	private SessionFactory sessionFactory;
 
+	// Retrieve all CVs from the database
 	@Override
 	public List<Cv> getListCvs() {
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -24,6 +25,7 @@ public class CvDaoImpl implements CvDAO {
 		return cvs;
 	}
 
+	// Retrieve a specific CV from the database based on the given ID
 	@Override
 	public Cv getCvById(int theId) {
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -31,13 +33,14 @@ public class CvDaoImpl implements CvDAO {
 		return cv;
 	}
 
+	// Save or update the CV object in the database
 	@Override
 	public void saveCv(Cv theCv) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		currentSession.saveOrUpdate(theCv);
 	}
 
-
+	// Delete the CV with the given ID from the database
 	@Override
 	public void deleteCv(int theId) {
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -46,6 +49,7 @@ public class CvDaoImpl implements CvDAO {
 		theQuery.executeUpdate();
 	}
 
+	// Retrieve the CV associated with the given User ID
 	@Override
 	public Cv getCvByUserId(int theId) {
 		Session currentSession = sessionFactory.getCurrentSession();

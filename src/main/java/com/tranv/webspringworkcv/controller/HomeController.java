@@ -1,6 +1,5 @@
 package com.tranv.webspringworkcv.controller;
 
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,30 +38,40 @@ public class HomeController {
 	@Autowired
 	private CvService cvService;
 
+	// Handle the request to show the home page.
 	@GetMapping("/")
 	public String showHome(HttpServletRequest request, Model theModel) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String email = authentication.getName();
 		User theUser = userService.findByEmail(email);
 		theModel.addAttribute("theUser", theUser);
+		if (theUser != null) {
+			Cv cv = cvService.getCvByUserId(theUser.getId());
+			theModel.addAttribute("userCv", cv);
+		}
 		request.setAttribute("msg_register_success", "done");
 		List<Category> categories = categoryService.getTop4Categorys();
 		theModel.addAttribute("categories", categories);
 		List<Recruitment> recruitments = recruitmentService.getResultRecruitmentBySalary();
 		theModel.addAttribute("recruitments", recruitments);
+		List<Company> companies = companyService.getCompanyTop();
+		theModel.addAttribute("companies", companies);
 		return "home";
 	}
 
+	// Handle the request to show the login page.
 	@GetMapping("/login")
 	public String login() {
 		return "login";
 	}
 
+	// Handle the request to show the access denied page.
 	@GetMapping("/access-denied")
 	public String accessDeniel() {
 		return "access-denied";
 	}
 
+	// Handle the request to show the user profile page.
 	@GetMapping("/detail")
 	public String detail(Model theModel) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

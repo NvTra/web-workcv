@@ -14,11 +14,14 @@ import com.tranv.webspringworkcv.service.RoleService;
 
 @Repository
 public class UserDaoImpl implements UserDAO {
+	
+	// DAO handles operations related to the User object
 	@Autowired
 	private SessionFactory sessionFactory;
 	@Autowired
 	private RoleService roleService;
 
+	// Method to get a list of all users from the database
 	@Override
 	public List<User> getListUsers() {
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -27,6 +30,7 @@ public class UserDaoImpl implements UserDAO {
 		return users;
 	}
 
+	// Method to get information about a user based on ID
 	@Override
 	public User getUserById(int theId) {
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -34,6 +38,7 @@ public class UserDaoImpl implements UserDAO {
 		return theUser;
 	}
 
+	// Method to save user to database
 	@Override
 	public void saveUser(User theUser) {
 		Role role = roleService.getRolebyRoleId(theUser.getRole().getId());
@@ -46,6 +51,7 @@ public class UserDaoImpl implements UserDAO {
 
 	}
 
+	// Method to update a user based on ID
 	@Override
 	public void update(User theUser) {
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -53,6 +59,7 @@ public class UserDaoImpl implements UserDAO {
 
 	}
 
+	// Method to delete a user based on ID
 	@Override
 	public void deleteUser(int theId) {
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -62,9 +69,9 @@ public class UserDaoImpl implements UserDAO {
 
 	}
 
+	// Method to get information about a user based on email
 	@Override
 	public User findByEmail(String email) {
-
 		Session currentSession = sessionFactory.getCurrentSession();
 		Query<User> theQuery = currentSession.createQuery("from User where email = :email", User.class);
 		theQuery.setParameter("email", email);
@@ -72,13 +79,12 @@ public class UserDaoImpl implements UserDAO {
 		return user;
 	}
 
+	// Method to unlock a user based on ID
 	@Override
 	public User lockUser(int theId) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		User theUser = currentSession.get(User.class, theId);
-
 		theUser.setStatus(1);
-
 		currentSession.update(theUser);
 		return theUser;
 	}

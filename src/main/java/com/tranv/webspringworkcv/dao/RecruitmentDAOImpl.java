@@ -16,11 +16,14 @@ import com.tranv.webspringworkcv.service.CategoryService;
 
 @Repository
 public class RecruitmentDAOImpl implements RecruitmentDAO {
+	// DAO handles operations related to the Recruitment object
+
 	@Autowired
 	private SessionFactory sessionFactory;
 	@Autowired
 	CategoryService categoryService;
 
+	// This method returns a list of Recruitment objects from the database
 	@Override
 	public List<Recruitment> getListRecruitments() {
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -29,6 +32,7 @@ public class RecruitmentDAOImpl implements RecruitmentDAO {
 		return recruitments;
 	}
 
+	// Get a recruitment by its ID.
 	@Override
 	public Recruitment getRecruitmentById(int theId) {
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -36,10 +40,12 @@ public class RecruitmentDAOImpl implements RecruitmentDAO {
 		return recruitment;
 	}
 
+	// Save a recruitment.
 	@Override
 	public void saveRecruitment(Recruitment theRecruitment) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Category theCategory = categoryService.getCategoryById(theRecruitment.getCategory().getId());
+		theCategory.addNumberChoose();
 		theRecruitment.setCategory(theCategory);
 		theRecruitment.setStatus(1);
 		SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -47,6 +53,7 @@ public class RecruitmentDAOImpl implements RecruitmentDAO {
 		currentSession.save(theRecruitment);
 	}
 
+	// Update a recruitment.
 	@Override
 	public void update(Recruitment theRecruitment) {
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -54,6 +61,7 @@ public class RecruitmentDAOImpl implements RecruitmentDAO {
 
 	}
 
+	// Delete a recruitment by its ID.
 	@Override
 	public void deleteRecruitment(int theId) {
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -62,6 +70,7 @@ public class RecruitmentDAOImpl implements RecruitmentDAO {
 		theQuery.executeUpdate();
 	}
 
+	// Get a list of recruitments sorted by salary, creation date, and type.
 	@Override
 	public List<Recruitment> getResultRecruitmentByCompany(int theId) {
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -72,18 +81,18 @@ public class RecruitmentDAOImpl implements RecruitmentDAO {
 		return recruitments;
 	}
 
-
+	// This method returns a list of Recruitment by salary objects from the database
 	@Override
 	public List<Recruitment> getResultRecruitmentBySalary() {
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query<Recruitment> theQuery = currentSession.createQuery("SELECT r FROM Recruitment r ORDER BY r.salary DESC",
-				Recruitment.class);
+		Query<Recruitment> theQuery = currentSession.createQuery(
+				"SELECT r FROM Recruitment r ORDER BY r.createdAt DESC, r.type ASC, r.salary DESC", Recruitment.class);
 		theQuery.setMaxResults(5);
 		List<Recruitment> recruitments = theQuery.getResultList();
 		return recruitments;
 	}
 
-	// method search Recruitment by condition
+	// Search recruitments by a given title.
 	@Override
 	public List<Recruitment> getResultRecruitment(String searchTerm) {
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -95,6 +104,7 @@ public class RecruitmentDAOImpl implements RecruitmentDAO {
 		return recruitments;
 	}
 
+	// Search recruitments by a given address.
 	@Override
 	public List<Recruitment> getResultAdress(String searchTerm) {
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -106,6 +116,7 @@ public class RecruitmentDAOImpl implements RecruitmentDAO {
 		return recruitments;
 	}
 
+	// Search recruitments by a given company.
 	@Override
 	public List<Recruitment> getResultCompany(String searchTerm) {
 		Session currentSession = sessionFactory.getCurrentSession();

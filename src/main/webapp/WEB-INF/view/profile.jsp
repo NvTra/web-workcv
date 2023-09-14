@@ -110,7 +110,7 @@
 						href="${pageContext.request.contextPath }/" class="nav-link">Trang
 							chủ</a></li>
 					<security:authorize access="hasRole('EMPLOYER')">
-						<li class="'nav-item"><a
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath }/recruitment/list-post"
 							class="nav-link">Công việc</a></li>
 						<li class="nav-item"><a
@@ -121,13 +121,10 @@
 					<c:if test="${not empty pageContext.request.remoteUser}">
 
 						<security:authorize access="hasRole('EMPLOYER')">
-							<security:authentication property="principal" var="user" />
 
-							<c:set var="sessionId" value="${pageContext.session.id}" />
-							<c:set var="username"
-								value="${pageContext.request.userPrincipal.name}" />
-							<li class="nav-item dropdown"><a style="color: white;"
-								class="nav-link dropdown-toggle" href="#"
+							<li class="nav-item dropdown"
+								style="position: relative !important;"><a
+								style="color: white;" class="nav-link dropdown-toggle" href="#"
 								id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
 								aria-expanded="false"> Đăng tuyển</a>
 
@@ -139,6 +136,9 @@
 										href="${pageContext.request.contextPath }/recruitment/list-post">Danh
 											sách bài đăng</a></li>
 									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/recruitment/post">Đăng
+											Tuyến</a></li>
+									<li><a class="dropdown-item"
 										href="<c:url value='/logout' />">Đăng xuất</a></li>
 
 								</ul></li>
@@ -146,6 +146,9 @@
 						</security:authorize>
 
 						<security:authorize access="hasRole('CANDIDATE')">
+							<li class="nav-item"><a
+								href="${pageContext.request.contextPath }/recruitment/list-apply-job"
+								class="nav-link">Công việc</a></li>
 							<li class="nav-item dropdown"><a style="color: white;"
 								class="nav-link dropdown-toggle" href="#"
 								id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
@@ -174,8 +177,9 @@
 
 					<li><c:if test="${empty pageContext.request.remoteUser}">
 
-							<li class="nav-item cta cta-colored"><a
-								href="<c:url value='/showFormLogin' />" class="nav-link">Đăng
+							<li class="nav-item"><a
+								href="<c:url value='/showFormLogin' />"
+								class="nav-link btn btn-warning" style="color: white;">Đăng
 									nhập</a></li>
 						</c:if></li>
 
@@ -183,6 +187,7 @@
 			</div>
 		</div>
 	</nav>
+	<!-- END nav -->
 
 
 

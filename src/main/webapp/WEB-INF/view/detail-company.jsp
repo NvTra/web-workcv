@@ -84,12 +84,21 @@
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/static/js/google-map.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/static/js/main.js"></script>
+
 <script
 	src="https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/static/js/main.js"></script>
 </head>
+
 <body>
 
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -103,7 +112,7 @@
 						href="${pageContext.request.contextPath }/" class="nav-link">Trang
 							chủ</a></li>
 					<security:authorize access="hasRole('EMPLOYER')">
-						<li class="'nav-item"><a
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath }/recruitment/list-post"
 							class="nav-link">Công việc</a></li>
 						<li class="nav-item"><a
@@ -114,25 +123,23 @@
 					<c:if test="${not empty pageContext.request.remoteUser}">
 
 						<security:authorize access="hasRole('EMPLOYER')">
-							<security:authentication property="principal" var="user" />
 
-							<c:set var="sessionId" value="${pageContext.session.id}" />
-							<c:set var="username"
-								value="${pageContext.request.userPrincipal.name}" />
-							<li class="nav-item dropdown"><a style="color: white;"
-								class="nav-link dropdown-toggle" href="#"
+							<li class="nav-item dropdown"
+								style="position: relative !important;"><a
+								style="color: white;" class="nav-link dropdown-toggle" href="#"
 								id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
 								aria-expanded="false"> Đăng tuyển</a>
 
-								<ul class="dropdown-menu"
+								<ul style="left: -85px !important" class="dropdown-menu"
 									aria-labelledby="navbarDropdownMenuLink">
 									<li><a class="dropdown-item"
 										href="${pageContext.request.contextPath }/detail">Hồ Sơ</a></li>
-
 									<li><a class="dropdown-item"
 										href="${pageContext.request.contextPath }/recruitment/list-post">Danh
 											sách bài đăng</a></li>
-
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/recruitment/post">Đăng
+											Tuyến</a></li>
 									<li><a class="dropdown-item"
 										href="<c:url value='/logout' />">Đăng xuất</a></li>
 
@@ -141,18 +148,28 @@
 						</security:authorize>
 
 						<security:authorize access="hasRole('CANDIDATE')">
+							<li class="nav-item"><a
+								href="${pageContext.request.contextPath }/recruitment/list-apply-job"
+								class="nav-link">Công việc</a></li>
 							<li class="nav-item dropdown"><a style="color: white;"
 								class="nav-link dropdown-toggle" href="#"
 								id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
 								aria-expanded="false"> Hồ sơ</a>
 
-								<ul class="dropdown-menu"
+								<ul style="left: -140px !important" class="dropdown-menu"
 									aria-labelledby="navbarDropdownMenuLink">
 
 									<li><a class="dropdown-item"
 										href="${pageContext.request.contextPath }/detail">Hồ sơ</a></li>
-									<li><a class="dropdown-item" href="/user/get-list-apply">Công
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/recruitment/list-apply-job">Công
 											việc đã ứng tuyển</a></li>
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/job/list-save-job">Công
+											việc đã lưu</a></li>
+									<li><a class="dropdown-item"
+										href="${pageContext.request.contextPath }/company/list-follow-company">Công
+											ty đã theo dõi</a></li>
 									<li><a class="dropdown-item"
 										href="<c:url value='/logout' />">Đăng xuất</a></li>
 								</ul></li>
@@ -162,8 +179,9 @@
 
 					<li><c:if test="${empty pageContext.request.remoteUser}">
 
-							<li class="nav-item cta cta-colored"><a
-								href="<c:url value='/showFormLogin' />" class="nav-link">Đăng
+							<li class="nav-item"><a
+								href="<c:url value='/showFormLogin' />"
+								class="nav-link btn btn-warning" style="color: white;">Đăng
 									nhập</a></li>
 						</c:if></li>
 
@@ -374,8 +392,10 @@
 				</div>
 			</div>
 		</div>
-	</footer>
 
 	</footer>
+	<script
+		src="${pageContext.request.contextPath}/resources/static/js/main.js"></script>
+
 </body>
 </html>

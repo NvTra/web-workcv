@@ -11,10 +11,12 @@ import com.tranv.webspringworkcv.entity.ApplyPost;
 
 @Service
 public class ApplyPostServiceImpl implements ApplyPostService {
+	// Service handles operations related to the ApplyPost object
 
 	@Autowired
 	private ApplyPostDAO applyPostDAO;
 
+	// Save or update the ApplyPost object in the database
 	@Override
 	@Transactional
 	public void saveOrUpdateApplyPost(ApplyPost applyPost) {
@@ -22,6 +24,7 @@ public class ApplyPostServiceImpl implements ApplyPostService {
 
 	}
 
+	// Method to get a list of ApplyPosts associated with the Recruitment ID
 	@Override
 	@Transactional
 	public List<ApplyPost> listApplyPostByRecruitmentId(int theId) {
@@ -29,6 +32,7 @@ public class ApplyPostServiceImpl implements ApplyPostService {
 
 	}
 
+	// Method confirm that the company has approved the job for the applicant
 	@Override
 	@Transactional
 	public void confirmPost(int theId) {
@@ -36,18 +40,21 @@ public class ApplyPostServiceImpl implements ApplyPostService {
 
 	}
 
+	// Method to get list of ApplyPosts associated with the Company ID
 	@Override
 	@Transactional
 	public ApplyPost getApplyPostbyId(int theId) {
 		return applyPostDAO.getApplyPostbyId(theId);
 	}
 
+	// Method to get list of ApplyPosts associated with the Company ID
 	@Override
 	@Transactional
 	public List<ApplyPost> listApplyPostsByCompany(int companyId) {
 		return applyPostDAO.listApplyPostsByCompany(companyId);
 	}
 
+	// Method to get list of ApplyPosts associated with the User ID
 	@Override
 	@Transactional
 	public List<ApplyPost> listApplyPostsByUser(int theId) {
